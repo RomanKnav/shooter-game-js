@@ -8,7 +8,7 @@ export default class InputHandler {
   constructor(entity, canvas) {
     // constructor(entity) {
     // why doesn't this work as "this.keys"?
-    this.canvas = canvas;
+    this.canvas = canvas;   // we use canvas when working with mouse coords (at bottom of class)
 
     let keys = {"space": false, "d": false, "w": false, "s": false, "a": false};
     

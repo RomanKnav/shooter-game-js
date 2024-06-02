@@ -15,8 +15,6 @@ import Grenade from "./grenade.js";
 var canvas = document.getElementById("canvas1");
 // var cxt = canvas.getContext("2d", { alpha: false });
 var cxt = canvas.getContext("2d");
-canvas.style.width=canvas.getBoundingClientRect().width;//actual width of canvas
-canvas.style.height=canvas.getBoundingClientRect().height;//actual height of canvas
 // canvas.style.background_image = url("src/assets/images/background/background-concept.png");
 
 // let currentBackground = "url(src/assets/images/background/background-working2.png)";
@@ -40,7 +38,7 @@ var cxt2 = canvas2.getContext("2d");
 // TEXTWALL FONT DEFINED IN TEXTWALL.JS
 /* TIPS FOR OPTIMIZATION:
     1. use integers instead of floating-points
-    2. use MULTIPLE canvases3
+    2. use MULTIPLE canvases
     3. recycle objects instead of deleting them
     4. no TEXT
 */
@@ -824,6 +822,7 @@ function handleState() {
                 playSound(sfx.crowd);
             };
 
+            // wtf is going on here? draw the "disabled tips" while tutorial taking place
             if (Object.keys(tutRounds).includes(currentRound.toString()) && tutorial === true) {
                 disableButton.draw(cxt);
                 mouseCollision(shooter.mouse, disableButton, () => {
@@ -859,6 +858,7 @@ function handleState() {
 
             break;
         
+        // what state is this?
         case "WIN": 
             musicToggler();
             if (tutorial) disableButton.draw(cxt);
@@ -1537,5 +1537,4 @@ function animate() {
     window.requestAnimationFrame(animate);
 }
 
-// animate();
-window.requestAnimationFrame(animate);
+animate();
