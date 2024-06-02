@@ -1,0 +1,19 @@
+{
+  "name": "shooter-game",
+  "version": "1.0.0",
+  "description": "code for Sheephunt: War Crimes",
+  "main": "index.html",
+  "scripts": {
+    "test": "src/script.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/KavemanKorps/shooter-game-js.git"
+  },
+  "author": "Roman Navarro",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/KavemanKorps/shooter-game-js/issues"
+  },
+  "homepage": "https://github.com/KavemanKorps/shooter-game-js#readme"
+}
