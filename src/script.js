@@ -1060,11 +1060,9 @@ function handleShooter() {
         // THIS IS NECESSARY:
         if (shooter.secondNade == false) {
             nadeQueue.push(new Grenade(canvas.width / 2, shooter, canvas));
-            // shooter.bloop.play();
             playSound(sfx.bloop);
         } else {
             nadeQueue.push(new Grenade(canvas.width / 1.2, shooter, canvas));
-            //shooter.bloop.play();
             playSound(sfx.bloop);
         }
     
@@ -1520,6 +1518,7 @@ function animate() {
     cxt2.fillStyle = "transparent";
     cxt2.fillRect(0, 0, canvas2.width, canvas2.height);
     // dont want it redrawing the floor over and over again
+    // what's handleShooter? shit relating to nades and states. No input handling.
     handleShooter();
     handleSnack();
     handleState();
