@@ -444,7 +444,7 @@ let enemyQueue = [];
 let tutorial = true;
 
 // ENEMY SHOOTING STUFF:
-// possible glitch fix: add "id" property. "distance" is distance AWAY from shooter.
+// possible glitch fix: add "id" property. "distance" is distance AWAY from shooter. DONE
 // NO MORE THAN 4 ENEMIES SHOULD BE SHOOTING.
 let baddiePositions = {
     "1": {"inPos": false, "distance": 50, "type": "ground"}, 
@@ -764,6 +764,7 @@ function handleState() {
             shooter.init = true;
             shooter.disabled = false;
             // bossText.draw(cxt);
+            // so button immediately disapears when in another state?
             startButton.draw(cxt);
 
             if (score >= winningScore) {
@@ -812,15 +813,10 @@ function handleState() {
             shooter2.disabled = false;
 
             if (finalRound == true) {
-
                 if (enemiesLeft <= 150) currentSpeed = 6;
                 if (enemiesLeft <= 100) currentSpeed = 7;
                 if (enemiesLeft <= 50) currentSpeed = 8;
             }
-
-            if (specialRound == true) {
-                playSound(sfx.crowd);
-            };
 
             // wtf is going on here? draw the "disabled tips" while tutorial taking place
             if (Object.keys(tutRounds).includes(currentRound.toString()) && tutorial === true) {
@@ -903,7 +899,6 @@ function handleState() {
             break;
 
         case "SPECIAL":
-            // currentBackground = "url(src/assets/images/background/background-working3.png)";
             musicToggler();
             specialRound = true;
             if (!showSpecialText) {
@@ -1496,7 +1491,6 @@ function mouseCollision(first, second, callback) {
     ) {
         second.stroke = "red";
         if (first.clicked) {
-            //state = nextState;
             callback();
         }
     } else {
@@ -1514,10 +1508,14 @@ function animate() {
     cxt.fillStyle = "transparent";
     cxt.fillRect(0, 0, canvas.width, canvas.height);
 
+    // this canvas has the background:
     cxt2.clearRect(0, 0, canvas2.width, canvas2.height);
     cxt2.fillStyle = "transparent";
     cxt2.fillRect(0, 0, canvas2.width, canvas2.height);
     // dont want it redrawing the floor over and over again
+
+    // DO ANT OF THESE HANDLE IMAGE DISPLAYING? Yes, handleShooter uses shooter.draw(cxt2);
+
     // what's handleShooter? shit relating to nades and states. No input handling.
     handleShooter();
     handleSnack();
@@ -1529,8 +1527,6 @@ function animate() {
 
     if ((state == "RUNNING" || state == "LOSE") && frame <= 100) frame++;
     else frame = 0;
-
-    console.log(shooter.timer);
 
     //setTimeout(animate, 5); // <<< Game runs much slower with this in conjunction with animate() VVV
     window.requestAnimationFrame(animate);

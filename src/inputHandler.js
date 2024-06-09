@@ -1,22 +1,23 @@
 let flammen = new Audio();
 flammen.src = "src/assets/sounds/flammen2.mp3";
 
-// TODO: while shooting straight, pressing d+w makes bullets shoot up instead of diagnal,
-// yet, pressing w+d does make it diagnal.    --DONE. Simply had to move if statement to bottom of cases.
-
 export default class InputHandler {
   constructor(entity, canvas) {
     // constructor(entity) {
     // why doesn't this work as "this.keys"?
     this.canvas = canvas;   // we use canvas when working with mouse coords (at bottom of class)
 
+    // what this? 
     let keys = {"space": false, "d": false, "w": false, "s": false, "a": false};
     
     document.addEventListener("keydown", (event) => {
       // TODO: try using if statements instead.
       if (!entity.disabled) {
         // what this do? sets respective keys value to true. "key" is a built-in property of "event" lol
+        // won't it add more key-value pairs to object? Yes.
         keys[event.key] = true;
+
+        console.log(JSON.stringify(keys));
         
         switch (event.key) {
           // this is just for SHOOTING, not look direction
@@ -142,6 +143,19 @@ export default class InputHandler {
       entity.mouse.y = e.y - canvasPosition.top;
     });
     this.canvas.addEventListener("mouseleave", function () {
+      entity.mouse.x = undefined;
+      entity.mouse.y = undefined;
+    });
+
+    // TOUCH INPUT:
+    this.canvas.addEventListener("touchstart", function (e) {
+      entity.mouse.clicked = true;
+      let touch = e.touches[0];
+      entity.mouse.x = touch.clientX - canvasPosition.left;
+      entity.mouse.y = touch.clientY - canvasPosition.top;
+    });
+    this.canvas.addEventListener("touchend", function () {
+      entity.mouse.clicked = false;
       entity.mouse.x = undefined;
       entity.mouse.y = undefined;
     });
