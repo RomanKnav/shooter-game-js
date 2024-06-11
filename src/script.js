@@ -1306,6 +1306,8 @@ function handleEnemy() {
     for (let i = 0; i < enemyQueue.length; i++) {
         let current = enemyQueue[i];
 
+        console.log(current.framework);
+
         if (!shooter.duck) current.bulletLimit = shooter.x + shooter.width;
         else {
             // WHEN DUCKING:

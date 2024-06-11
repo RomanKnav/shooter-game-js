@@ -1,14 +1,13 @@
-import Projectile from "./projectile.js";
-
 // SHIT TONNA IMAGES TO PRELOAD HERE:
 import { imagePreloader } from '/src/imagePreloader.js';
+import Projectile from "./projectile.js";
 
 // is it really wise to have this here?
 // will this run EVERY TIME a new enemy object is created?
 const enemyImages = [
-  "src/assets/images/civy/new-frames/spritesheet.png", 
-  "src/assets/images/civy/new-frames/spritesheet2.png",
-  "src/assets/images/dog/dog-frames/spritesheet.png",
+  "src/assets/images/civy/new-frames/civysheet.png", 
+  "src/assets/images/civy/new-frames/civysheet2.png",
+  "src/assets/images/dog/dog-frames/dogsheet.png",
   "src/assets/images/maggot/spritesheet/maggotsheet.png",
   "src/assets/images/assault-pig/pig-walk-clear/pigFrames.png",
   "src/assets/images/assault-pig/pig-stand-clear.png",
@@ -16,16 +15,21 @@ const enemyImages = [
   "src/assets/images/pig-plane-clear.png",
   "src/assets/images/bomber/bomber-clear.png",
   "src/assets/images/bomber/bomber-fire.png",
-  "src/assets/images/enemy-sheep/girl-frames/clears/spritesheet.png",
+  "src/assets/images/enemy-sheep/girl-frames/clears/girlsheet.png",
   "src/assets/images/enemy-sheep/girl-sheep-clear.png"
 ];
 
-// imagePreloader(enemyImages, () => {
-//   console.log('All enemy images preloaded!');
-//   // Start the game or perform other actions
-// });
+const enemyPreloaded = {};
 
-
+window.onload = function() {
+  imagePreloader(enemyImages, enemyPreloaded, () => {
+      for (const enemy in enemyPreloaded) {
+          console.log(`${enemy}`, "successfully loaded!");
+      }
+      console.log('*********All enemy images preloaded!************');
+      console.log(enemyPreloaded);
+  });
+};
 
 // OVERHAUL SPEED FUNCTIONALITY:
 export default class Enemy {
@@ -63,8 +67,6 @@ export default class Enemy {
 
       // ENEMY GUN:
       this.projectiles = [];
-      // this.fireRate = 200;
-      // this.fireRate = 150;
       this.fireRate = 100;
       this.shooting = false;
       this.timer = 0;
@@ -109,8 +111,15 @@ export default class Enemy {
         round 9: crazy round
         round 10: boss fight. Sheep introduced. More civies. */
 
-      this.static = new Image;
-      this.framework = new Image;
+      // this.static = new Image;
+      // this.framework = new Image;
+
+      // instead of this.image, we have this
+      // these are IMAGE OBJECTS:
+      this.static;
+      this.framework;
+      // are these being properly set? NOPE. They remain as "undefined".
+
 
       // first 3 images in sprite are 42x35, second 3 are 42x36
       this.width = 42;
@@ -127,14 +136,20 @@ export default class Enemy {
       this.statica = false          // determine if enemy is static throughout (plane, bomber)
       this.animation = false;
 
-      this.civy_frameworks = ["src/assets/images/civy/new-frames/spritesheet.png", 
-                              "src/assets/images/civy/new-frames/spritesheet2.png"];
+      // this.civy_frameworks = ["src/assets/images/civy/new-frames/civysheet.png", 
+      //                         "src/assets/images/civy/new-frames/civysheet2.png"];
+
+      // this.civy_frames = this.civy_frameworks[Math.floor(Math.random() * 2)];
+      // this.dog_frames = "src/assets/images/dog/dog-frames/dogsheet.png";
+      // this.civy_type;
+
+      // these aren't paths, they're straight up image objects:
+      this.civy_frameworks = [enemyPreloaded["civysheet"], enemyPreloaded["civysheet2"]];
 
       this.civy_frames = this.civy_frameworks[Math.floor(Math.random() * 2)];
-      this.dog_frames = "src/assets/images/dog/dog-frames/spritesheet.png";
+      this.dog_frames = enemyPreloaded["dogsheet"];
       this.civy_type;
       
-      // this.civy_type = "crawl";
     }
 
     update() {
@@ -184,7 +199,7 @@ export default class Enemy {
             this.spriteWidth = 52;
             this.spriteHeight = 30;
 
-            this.framework.src = this.dog_frames;
+            this.framework = this.dog_frames;
           }
           else {
             this.width = 60;
@@ -192,7 +207,8 @@ export default class Enemy {
             this.spriteWidth = 60;
             this.spriteHeight = 30;
             this.maxFrame = 3;
-            this.framework.src = "src/assets/images/maggot/spritesheet/maggotsheet.png";
+            // this.framework.src = "src/assets/images/maggot/spritesheet/maggotsheet.png";
+            this.framework = enemyPreloaded["maggotsheet"];
           }
           break;
 
@@ -210,12 +226,17 @@ export default class Enemy {
             this.spriteHeight = 41;
             // this.framework.src = "src/assets/images/civy/new-frames/spritesheet2.png";
             // this.framework.src = this.civy_frameworks[Math.floor(Math.random() * 2)];
-            this.framework.src = this.civy_frames;
+            this.framework = this.civy_frames;
           }
-          else this.framework.src = "src/assets/images/assault-pig/pig-walk-clear/pigFrames.png";
+          // else this.framework.src = "src/assets/images/assault-pig/pig-walk-clear/pigFrames.png";
 
-          if (!this.animation) this.static.src = "src/assets/images/assault-pig/pig-stand-clear.png";
-          else this.static.src = "src/assets/images/assault-pig/pig-stand-fire.png";
+          // if (!this.animation) this.static.src = "src/assets/images/assault-pig/pig-stand-clear.png";
+          // else this.static.src = "src/assets/images/assault-pig/pig-stand-fire.png";
+
+          else this.framework = enemyPreloaded["pigFrames"];
+
+          if (!this.animation) this.static = enemyPreloaded["pig-stand-clear"];
+          else this.static = enemyPreloaded["pig-stand-fire"];
 
           break;
 
@@ -224,7 +245,7 @@ export default class Enemy {
           this.bulletY = this.height - 23; 
           this.statica = true;
           this.sound = "shotty";
-          this.static.src = "src/assets/images/pig-plane-clear.png";
+          this.static = enemyPreloaded["pig-plane-clear.png"];
           // framework.src not given shit here.
 
           this.fireRate = 100;
@@ -246,8 +267,8 @@ export default class Enemy {
           this.width = 90;
           this.height = 90;
           this.statica = true;
-          if (!this.inPosition) this.static.src = "src/assets/images/bomber/bomber-clear.png";
-          else this.static.src = "src/assets/images/bomber/bomber-fire.png";
+          if (!this.inPosition) this.static = enemyPreloaded["bomber-clear"];
+          else this.static = enemyPreloaded["bomber-fire"];
           break;
 
         case "sheep":
@@ -260,8 +281,8 @@ export default class Enemy {
           this.spriteHeight = 58;
           this.frameSpeed = 5; 
           this.maxFrame = 5;
-          this.framework.src = "src/assets/images/enemy-sheep/girl-frames/clears/spritesheet.png";
-          this.static.src = "src/assets/images/enemy-sheep/girl-sheep-clear.png";
+          this.framework = enemyPreloaded["girlsheet"];
+          this.static = enemyPreloaded["girl-sheep-clear"];
           break;  
       }
 
@@ -289,10 +310,7 @@ export default class Enemy {
     }
 
     draw(context) {
-      // context.imageSmoothingEnabled = false;
 
-      // NEW SHIT:  
-      // this.statica is air and bomber (don't have animation)
       if (this.statica == false) {
 
         if (!this.inPosition || (this.type == "crawl" && this.inPosition)) {
