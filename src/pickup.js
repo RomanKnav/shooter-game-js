@@ -1,3 +1,17 @@
+import { imagePreloader } from '/src/imagePreloader.js';
+
+// KEEP IN MIND: NEED TO PRELOAD SOUND EFFECTS TOO
+
+const pickupImages = [
+    "src/assets/images/pickups/clears/aidConcept copy.png",
+    "src/assets/images/pickups/clears/wall copy.png",
+    "src/assets/images/pickups/clears/grenade copy.png",
+    "src/assets/images/pickups/clears/flammen copy.png",
+    "src/assets/images/pickups/clears/rifle copy.png"
+];
+
+const pickupPreloaded = {};
+
 export default class Pickup {
     constructor(x, y, round) {
 
@@ -87,7 +101,6 @@ export default class Pickup {
         //  SOUND TO PLAY WHEN PICKED UP:
         switch (this.type) {
             case "flammen":
-                // this.sound = this.flammenReload;
                 this.sound = this.sfx.flammenReload;
                 this.image.src = "src/assets/images/pickups/clears/flammen copy.png";
                 break;

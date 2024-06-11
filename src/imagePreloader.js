@@ -11,46 +11,33 @@
    ChatGPT has satisfied my questions.
 */
 
-export function preloadImages(imageUrls, callback) {
+// takes image url array, dict to store preloaded images in, and callback func:
+export function imagePreloader(imageUrls, dict, callback) {
     let loadedImages = 0;
-
-    // what's this array? it stores IMAGE objects.
-    // It'll end up looking like this: [img, img, img, img, img, img, img, img, img]
-    const imagesArray = [];
   
-    for (let i = 0; i < imageUrls.length; i++) {
-        // this.image = new Image();
-        // this.image.src = "src/assets/images/pickups/clears/grenade copy.png";
-    
-        // here's where image objects created:
-        // I've never seen shit added to arrays like this (like a dictionary):
-        imagesArray[i] = new Image();
-        imagesArray[i].src = imageUrls[i];
-    
-        imagesArray[i].onerror = () => {
-            console.error(`Failed to load image, lmfao: ${imageUrls[i]}`);
-            loadedImages++;
-        };
+    // create new image obj for each URL:
+    imageUrls.forEach((url) => {
+        const image = new Image();
+        image.src = url;
 
-        imagesArray[i].onload = () => {
+        // if image loaded successfully:
+        image.onload = () => {
             loadedImages++;
+            // If all images are loaded, call the callback:
             if (loadedImages === imageUrls.length && callback) {
                 callback();
-                console.log(imagesArray);
             }
         };
-    }
-}
-  
-  // Example usage
-  const imagesToPreload = [
-    'https://example.com/image1.jpg',
-    'https://example.com/image2.jpg',
-    'https://example.com/image3.jpg'
-  ];
-  
-//   preloadImages(imagesToPreload, () => {
-//     console.log('All images preloaded!');
-//     console.log();
-//   });
-  
+
+        // Increment the loadedImages counter even if an image fails to load.
+        image.onerror = () => {
+            console.error(`Failed to load image: ${url}`);
+            loadedImages++;
+        };
+
+        // gets name to set as key (word that comes after last "/" and before last "."):
+        const name = url.substring(url.lastIndexOf('/') + 1, url.lastIndexOf('.'));
+        // key: name, value: image object:
+        dict[name] = image;   
+    });
+};

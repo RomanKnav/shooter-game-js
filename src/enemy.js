@@ -1,7 +1,7 @@
 import Projectile from "./projectile.js";
 
 // SHIT TONNA IMAGES TO PRELOAD HERE:
-import { preloadImages } from '/src/imagePreloader.js';
+import { imagePreloader } from '/src/imagePreloader.js';
 
 // is it really wise to have this here?
 // will this run EVERY TIME a new enemy object is created?
@@ -20,10 +20,10 @@ const enemyImages = [
   "src/assets/images/enemy-sheep/girl-sheep-clear.png"
 ];
 
-preloadImages(enemyImages, () => {
-  console.log('All enemy images preloaded!');
-  // Start the game or perform other actions
-});
+// imagePreloader(enemyImages, () => {
+//   console.log('All enemy images preloaded!');
+//   // Start the game or perform other actions
+// });
 
 
 
