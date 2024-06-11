@@ -721,7 +721,7 @@ function handleState() {
             loadingText.draw(cxt);
             
             let girly = new Enemy(canvas.width, currentSpeed, currentRound, 15);
-            girly.type = "sheep";
+            girly.type = "bomber";
             if (enemyQueue.length < 1) enemyQueue.push(girly);
             handleEnemy();
             if (enemyQueue.length < 1) pushEnemy();
