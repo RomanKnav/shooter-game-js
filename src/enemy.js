@@ -1,5 +1,32 @@
 import Projectile from "./projectile.js";
 
+// SHIT TONNA IMAGES TO PRELOAD HERE:
+import { preloadImages } from '/src/imagePreloader.js';
+
+// is it really wise to have this here?
+// will this run EVERY TIME a new enemy object is created?
+const enemyImages = [
+  "src/assets/images/civy/new-frames/spritesheet.png", 
+  "src/assets/images/civy/new-frames/spritesheet2.png",
+  "src/assets/images/dog/dog-frames/spritesheet.png",
+  "src/assets/images/maggot/spritesheet/maggotsheet.png",
+  "src/assets/images/assault-pig/pig-walk-clear/pigFrames.png",
+  "src/assets/images/assault-pig/pig-stand-clear.png",
+  "src/assets/images/assault-pig/pig-stand-fire.png",
+  "src/assets/images/pig-plane-clear.png",
+  "src/assets/images/bomber/bomber-clear.png",
+  "src/assets/images/bomber/bomber-fire.png",
+  "src/assets/images/enemy-sheep/girl-frames/clears/spritesheet.png",
+  "src/assets/images/enemy-sheep/girl-sheep-clear.png"
+];
+
+preloadImages(enemyImages, () => {
+  console.log('All enemy images preloaded!');
+  // Start the game or perform other actions
+});
+
+
+
 // OVERHAUL SPEED FUNCTIONALITY:
 export default class Enemy {
     // what's the speed parameter for again? to increase speed globally as rounds progress :)
@@ -157,8 +184,7 @@ export default class Enemy {
             this.spriteWidth = 52;
             this.spriteHeight = 30;
 
-            // this.framework.src = this.dog_frames;
-            this.framework.src = "src/assets/images/dog/dog-frames/spritesheet.png";
+            this.framework.src = this.dog_frames;
           }
           else {
             this.width = 60;

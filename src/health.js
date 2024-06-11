@@ -7,7 +7,7 @@ export default class Health {
         this.number = 3;
         this.type = type;
         this.image = new Image();
-        this.image.src = "src/assets/images/pickups/clears/grenade copy.png";;
+        this.image.src = "src/assets/images/pickups/clears/grenade copy.png";
     }
     update() {
         if (this.hurt) {
