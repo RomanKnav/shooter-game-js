@@ -1,6 +1,8 @@
 import { imagePreloader } from '/src/imagePreloader.js';
 
-const images = [
+// by this point, "ready" is already populated with img object values.
+
+export const images = [
     // HEALTH ICONS/PICKUPS
     "src/assets/images/pickups/clears/aidConcept.png",
     "src/assets/images/pickups/clears/wall.png",
@@ -64,30 +66,46 @@ const images = [
     "src/assets/images/sprites/exp2FirstFramesPixel.png",
 ];
 
-// this will look like: 
-// {aidConcept: img, wall: img, grenade: img, flammen: img, rifle: img, ...}
+export const ready = {};    // image objects added here in readyImages.js
+// by the time the func below finishes, ready will be populated.
 
-// this dict should not be used UNTIL window finishes loading:
-export const ready = {};
 
 window.onload = function() {
-
     // what're args again? array, dict, callback for error/success handling:
     imagePreloader(images, ready, () => {
-        for (const image in images) {
-            const name = images[image].substring(images[image].lastIndexOf('/') + 1, 
-                         images[image].lastIndexOf('.'));
-
+        for (const name in ready) {
+            // const name = images[image].substring(images[image].lastIndexOf('/') + 1, 
+            //              images[image].lastIndexOf('.'));
             console.log(`${name}`, "successfully loaded!");
         }
         console.log('*********ALL the images have been preloaded!************');
         console.log("number of images: " + (images.length).toString());
-
-        // console.log(ready);
     });
 };
 
 // FIRST VICTIM: health.js
+// the way window.onload works, this code will execute BEFORE the above code ^^^
+// let ego = ready["grenade"];
+// console.log("lol");
+// console.log(ready);
 
 
-  
+/* 
+CHATGPT (readyImages.js):
+
+// THIS FUNC RETURNS A FUCKING PROMISE OBJECT.
+export function preloadImages() {
+    return new Promise((resolve, reject) => {
+        window.onload = function() {
+            imagePreloader(images, ready, () => {
+                for (const name in ready) {
+                    console.log(`${name} successfully loaded!`);
+                }
+                console.log('*********ALL the images have been preloaded!************');
+                console.log("number of images: " + images.length.toString());
+                resolve();
+            });
+        };
+    });
+}
+*/

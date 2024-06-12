@@ -1,16 +1,3 @@
-// FILE SHAT OUT BY CHATGPT:
-
-/* given an array of urls and a callback function to call once all images are loaded.
-   what exactly does this func return? How do I use imagesArray?
-
-   It doesn't return anything. It's a UTILITY function.
-
-   It is designed as a utility function to preload images and execute a callback 
-   function once all images are loaded or attempted to load.
-
-   ChatGPT has satisfied my questions.
-*/
-
 // takes image url array, dict to store preloaded images in, and callback func:
 export function imagePreloader(imageUrls, dict, callback) {
     let loadedImages = 0;
@@ -45,3 +32,6 @@ export function imagePreloader(imageUrls, dict, callback) {
         };  
     });
 };
+
+// looks good here. This is just the func. No actual preloading done here.
+// That's done in readyImages.js.

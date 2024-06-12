@@ -6,6 +6,9 @@ const aid = ready["aidConcept"];
 const wall = ready["wall"];
 const grenade = ready["grenade"];
 
+// ITS FUCKING EMPTY!!!!
+console.log(ready);
+
 // this will literally look like: {aidConcept: img, wall: img, grenade: img}
 // const healthPreloaded = {};
 
