@@ -1,30 +1,7 @@
 import Projectile from "./projectile.js";
 
 // SHIT TONNA IMAGES TO PRELOAD HERE:
-import { imagePreloader } from '/src/imagePreloader.js';
-
-// is it really wise to have this here?
-// will this run EVERY TIME a new enemy object is created?
-const enemyImages = [
-  "src/assets/images/civy/new-frames/spritesheet.png", 
-  "src/assets/images/civy/new-frames/spritesheet2.png",
-  "src/assets/images/dog/dog-frames/spritesheet.png",
-  "src/assets/images/maggot/spritesheet/maggotsheet.png",
-  "src/assets/images/assault-pig/pig-walk-clear/pigFrames.png",
-  "src/assets/images/assault-pig/pig-stand-clear.png",
-  "src/assets/images/assault-pig/pig-stand-fire.png",
-  "src/assets/images/pig-plane-clear.png",
-  "src/assets/images/bomber/bomber-clear.png",
-  "src/assets/images/bomber/bomber-fire.png",
-  "src/assets/images/enemy-sheep/girl-frames/clears/spritesheet.png",
-  "src/assets/images/enemy-sheep/girl-sheep-clear.png"
-];
-
-// imagePreloader(enemyImages, () => {
-//   console.log('All enemy images preloaded!');
-//   // Start the game or perform other actions
-// });
-
+import { preloadedImages } from './imagePreloader.js';
 
 
 // OVERHAUL SPEED FUNCTIONALITY:
@@ -109,8 +86,11 @@ export default class Enemy {
         round 9: crazy round
         round 10: boss fight. Sheep introduced. More civies. */
 
-      this.static = new Image;
-      this.framework = new Image;
+      // this.static = new Image;
+      // this.framework = new Image;
+
+      this.static;
+      this.framework;
 
       // first 3 images in sprite are 42x35, second 3 are 42x36
       this.width = 42;
@@ -127,11 +107,14 @@ export default class Enemy {
       this.statica = false          // determine if enemy is static throughout (plane, bomber)
       this.animation = false;
 
-      this.civy_frameworks = ["src/assets/images/civy/new-frames/spritesheet.png", 
-                              "src/assets/images/civy/new-frames/spritesheet2.png"];
+      // this.civy_frameworks = ["src/assets/images/civy/new-frames/civysheet.png", 
+      //                         "src/assets/images/civy/new-frames/civysheet2.png"];
+
+      this.civy_frameworks = [preloadedImages["civysheet"], preloadedImages["civysheet2"]];
+
 
       this.civy_frames = this.civy_frameworks[Math.floor(Math.random() * 2)];
-      this.dog_frames = "src/assets/images/dog/dog-frames/spritesheet.png";
+      this.dog_frames = "src/assets/images/dog/dog-frames/dogsheet.png";
       this.civy_type;
       
       // this.civy_type = "crawl";
@@ -260,7 +243,7 @@ export default class Enemy {
           this.spriteHeight = 58;
           this.frameSpeed = 5; 
           this.maxFrame = 5;
-          this.framework.src = "src/assets/images/enemy-sheep/girl-frames/clears/spritesheet.png";
+          this.framework.src = "src/assets/images/enemy-sheep/girl-frames/clears/girlsheet.png";
           this.static.src = "src/assets/images/enemy-sheep/girl-sheep-clear.png";
           break;  
       }

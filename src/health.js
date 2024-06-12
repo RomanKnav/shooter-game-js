@@ -1,27 +1,13 @@
-import { ready } from '/src/readyImages.js';
+import { preloadedImages } from './imagePreloader.js';
 
-// "ready" is a dict. These are the actual image objects:
-// as of RN, these are UNDEFINED:
-const aid = ready["aidConcept"];
-const wall = ready["wall"];
-const grenade = ready["grenade"];
+const aid = preloadedImages["aidConcept"];
+const wall = preloadedImages["wall"];
+const grenade = preloadedImages["grenade"];
 
 // ITS FUCKING EMPTY!!!!
-console.log(ready);
-
-// this will literally look like: {aidConcept: img, wall: img, grenade: img}
-// const healthPreloaded = {};
-
-// this should go up here, BEFORE images are used in the class:
-// window.onload = function() {
-//     imagePreloader(healthImages, healthPreloaded, () => {
-//         for (const health in healthPreloaded) {
-//             console.log(`${health}`, "successfully loaded!");
-//         }
-//         console.log('*********All health images preloaded!************');
-//         console.log(healthPreloaded);
-//     });
-// };
+// console.log(ready);
+// NO LONGER FUCKING EMPTY:
+console.log(preloadedImages);
 
 // this class defines a fucking ROW of items.
 export default class Health {
