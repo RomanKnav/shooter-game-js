@@ -1,5 +1,7 @@
 // would be super useful if I can import "flora" in here.
 
+import { preloadedImages } from './imagePreloader.js';
+
 import Projectile from "./projectile.js";
 var canvas = document.getElementById("canvas1");
 
@@ -71,43 +73,46 @@ export default class Shooter {
 
         // IMAGES:
         // 44×40
-        this.grenade_stand = new Image();
-        this.grenade_stand.src = "src/assets/images/CLEARS/nade/nade_stand.png";
+        this.grenade_stand = preloadedImages["nade_stand"];
+        // this.grenade_stand = new Image();
+        // this.grenade_stand.src = "src/assets/images/CLEARS/nade/nade_stand.png";
 
-        this.grenade_crouch = new Image();
-        this.grenade_crouch.src = "src/assets/images/CLEARS/nade/sheep-nade-crouch.png";
+        this.grenade_crouch = preloadedImages["sheep-nade-crouch"];
+        // this.grenade_crouch = new Image();
+        // this.grenade_crouch.src = "src/assets/images/CLEARS/nade/sheep-nade-crouch.png";
 
         this.dead_warren = new Image();
         this.dead_warren.src = "src/assets/images/CLEARS/dead-warren/dead-warren-clear.png";
 
         // FIX THIS CRAP:
-        this.pistol_stand = new Image();
-        this.pistol_stand.src = "src/assets/images/CLEARS/pistol/sheep-pistol-clear-elevate.png";
+        this.pistol_stand = preloadedImages["sheep-pistol-clear-elevate"];
+        // this.pistol_stand = new Image();
+        // this.pistol_stand.src = "src/assets/images/CLEARS/pistol/sheep-pistol-clear-elevate.png";
         
         // 43x36, diagnal
         // FIRE: 43×40
-        this.pistol_stand_up = new Image();
-        this.pistol_stand_up.src = "src/assets/images/CLEARS/pistol/sheep-pistol-lookup-clear.png";
+        this.pistol_stand_up = preloadedImages["sheep-pistol-lookup-clear"];
+        // this.pistol_stand_up.src = "src/assets/images/CLEARS/pistol/sheep-pistol-lookup-clear.png";
 
         // 44x36
         // FIRE: 44x36
-        this.pistol_stand_top = new Image();
-        this.pistol_stand_top.src = "src/assets/images/CLEARS/pistol/sheep-pistol-top-clear.png";
+        this.pistol_stand_top = preloadedImages["sheep-pistol-top-clear"];
+        // this.pistol_stand_top.src = "src/assets/images/CLEARS/pistol/sheep-pistol-top-clear.png";
 
         // 50x28
         // FIRE: 50×28
-        this.pistol_crouch = new Image();
-        this.pistol_crouch.src = "src/assets/images/CLEARS/pistol/sheep-pistol-crouch-clear-new.png";
+        this.pistol_crouch = preloadedImages["sheep-pistol-crouch-clear-new"];
+        // this.pistol_crouch.src = "src/assets/images/CLEARS/pistol/sheep-pistol-crouch-clear-new.png";
 
         // 49x30
         // FIRE: 49x34
-        this.pistol_crouch_up = new Image();
-        this.pistol_crouch_up.src = "src/assets/images/CLEARS/pistol/sheep-pistol-lookup-crouch-clear.png";
+        this.pistol_crouch_up = preloadedImages["sheep-pistol-lookup-crouch-clear"];
+        // this.pistol_crouch_up.src = "src/assets/images/CLEARS/pistol/sheep-pistol-lookup-crouch-clear.png";
 
         // 50x30
         // FIRE: 50×33
-        this.pistol_crouch_top = new Image();
-        this.pistol_crouch_top.src = "src/assets/images/CLEARS/pistol/sheep-pistol-crouch-top-clear.png";
+        this.pistol_crouch_top = preloadedImages["sheep-pistol-crouch-top-clear"];
+        // this.pistol_crouch_top.src = "src/assets/images/CLEARS/pistol/sheep-pistol-crouch-top-clear.png";
 
         //rifle:
         // 44x40

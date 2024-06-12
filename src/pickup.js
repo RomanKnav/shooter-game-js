@@ -1,16 +1,6 @@
-import { imagePreloader } from '/src/imagePreloader.js';
+import { preloadedImages } from './imagePreloader.js';
 
 // KEEP IN MIND: NEED TO PRELOAD SOUND EFFECTS TOO
-
-const pickupImages = [
-    "src/assets/images/pickups/clears/aidConcept copy.png",
-    "src/assets/images/pickups/clears/wall copy.png",
-    "src/assets/images/pickups/clears/grenade copy.png",
-    "src/assets/images/pickups/clears/flammen copy.png",
-    "src/assets/images/pickups/clears/rifle copy.png"
-];
-
-const pickupPreloaded = {};
 
 export default class Pickup {
     constructor(x, y, round) {
@@ -80,6 +70,7 @@ export default class Pickup {
         this.type;
 
         this.image = new Image();
+        // this.image;
     }
 
     // if not current respective weapon round, should default to aid pickup
@@ -102,23 +93,28 @@ export default class Pickup {
         switch (this.type) {
             case "flammen":
                 this.sound = this.sfx.flammenReload;
-                this.image.src = "src/assets/images/pickups/clears/flammen copy.png";
+                // this.image.src = "src/assets/images/pickups/clears/flammen copy.png";
+                this.image = preloadedImages["flammen"];
                 break;
             case "ar":
                 this.sound = this.sfx.arReload;
-                this.image.src = "src/assets/images/pickups/clears/rifle copy.png";
+                // this.image.src = "src/assets/images/pickups/clears/rifle copy.png";
+                this.image = preloadedImages["rifle"];
                 break;
             case "grenade":
                 this.sound = this.sfx.nadePin;
-                this.image.src = "src/assets/images/pickups/clears/grenade copy.png";
+                // this.image.src = "src/assets/images/pickups/clears/grenade copy.png";
+                this.image = preloadedImages["grenade"];
                 break;
             case "health":
                 this.sound = this.sfx.health;
-                this.image.src = "src/assets/images/pickups/clears/aidConcept copy.png";
+                // this.image.src = "src/assets/images/pickups/clears/aidConcept copy.png";
+                this.image = preloadedImages["aidConcept"];
                 break;
             case "wall":
                 this.sound = this.sfx.wall;
-                this.image.src = "src/assets/images/pickups/clears/wall copy.png";
+                // this.image.src = "src/assets/images/pickups/clears/wall copy.png";
+                this.image = preloadedImages["wall"];
                 break;
         }
     }

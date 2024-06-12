@@ -1,3 +1,5 @@
+// honestly, I don't see how this actually helps
+
 // takes image url array, dict to store preloaded images in, and callback func:
 function imagePreloader(imageUrls) {
     const preloadedImages = {};

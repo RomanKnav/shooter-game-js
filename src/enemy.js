@@ -3,6 +3,8 @@ import Projectile from "./projectile.js";
 // SHIT TONNA IMAGES TO PRELOAD HERE:
 import { preloadedImages } from './imagePreloader.js';
 
+console.log(preloadedImages);
+
 
 // OVERHAUL SPEED FUNCTIONALITY:
 export default class Enemy {
@@ -86,11 +88,12 @@ export default class Enemy {
         round 9: crazy round
         round 10: boss fight. Sheep introduced. More civies. */
 
-      // this.static = new Image;
-      // this.framework = new Image;
+      // THE ISSUE I AM HAVING LIES HERE:
+      this.static = new Image;
+      this.framework = new Image;
 
-      this.static;
-      this.framework;
+      // this.static;
+      // this.framework;
 
       // first 3 images in sprite are 42x35, second 3 are 42x36
       this.width = 42;
@@ -107,17 +110,15 @@ export default class Enemy {
       this.statica = false          // determine if enemy is static throughout (plane, bomber)
       this.animation = false;
 
-      // this.civy_frameworks = ["src/assets/images/civy/new-frames/civysheet.png", 
-      //                         "src/assets/images/civy/new-frames/civysheet2.png"];
+      this.civy_frameworks = ["src/assets/images/civy/new-frames/civysheet.png", 
+                              "src/assets/images/civy/new-frames/civysheet2.png"];
 
-      this.civy_frameworks = [preloadedImages["civysheet"], preloadedImages["civysheet2"]];
+      // this.civy_frameworks = [preloadedImages["civysheet"], preloadedImages["civysheet2"]];
 
 
       this.civy_frames = this.civy_frameworks[Math.floor(Math.random() * 2)];
       this.dog_frames = "src/assets/images/dog/dog-frames/dogsheet.png";
-      this.civy_type;
-      
-      // this.civy_type = "crawl";
+      // this.dog_frames = preloadedImages["dogsheet"]
     }
 
     update() {
@@ -193,12 +194,18 @@ export default class Enemy {
             this.spriteHeight = 41;
             // this.framework.src = "src/assets/images/civy/new-frames/spritesheet2.png";
             // this.framework.src = this.civy_frameworks[Math.floor(Math.random() * 2)];
-            this.framework.src = this.civy_frames;
+            // this.framework.src = this.civy_frames;
+            this.framework = preloadedImages["civysheet"];
           }
-          else this.framework.src = "src/assets/images/assault-pig/pig-walk-clear/pigFrames.png";
+          // else this.framework.src = "src/assets/images/assault-pig/pig-walk-clear/pigFrames.png";
+          else this.framework = preloadedImages["pigFrames"];
 
-          if (!this.animation) this.static.src = "src/assets/images/assault-pig/pig-stand-clear.png";
-          else this.static.src = "src/assets/images/assault-pig/pig-stand-fire.png";
+          // FIRE IMAGE DOESN'T SHOW IN NEWGROUNDS:
+          // if (!this.animation) this.static.src = "src/assets/images/assault-pig/pig-stand-clear.png";
+          // else this.static.src = "src/assets/images/assault-pig/pig-stand-fire.png";
+
+          if (!this.animation) this.static = preloadedImages["pig-stand-clear"];
+          else this.static = preloadedImages["pig-stand-fire"];
 
           break;
 
@@ -207,8 +214,8 @@ export default class Enemy {
           this.bulletY = this.height - 23; 
           this.statica = true;
           this.sound = "shotty";
-          this.static.src = "src/assets/images/pig-plane-clear.png";
-          // framework.src not given shit here.
+          // this.static.src = "src/assets/images/pig-plane-clear.png";
+          this.static = preloadedImages["pig-plane-clear"];
 
           this.fireRate = 100;
           this.health = 1;
@@ -229,8 +236,14 @@ export default class Enemy {
           this.width = 90;
           this.height = 90;
           this.statica = true;
-          if (!this.inPosition) this.static.src = "src/assets/images/bomber/bomber-clear.png";
-          else this.static.src = "src/assets/images/bomber/bomber-fire.png";
+          if (!this.inPosition) {
+            // this.static.src = "src/assets/images/bomber/bomber-clear.png";
+            this.static = preloadedImages["bomber-clear"];
+          }
+          else {
+            // this.static.src = "src/assets/images/bomber/bomber-fire.png";
+            this.static = preloadedImages["bomber-fire"];
+          }
           break;
 
         case "sheep":
@@ -243,8 +256,11 @@ export default class Enemy {
           this.spriteHeight = 58;
           this.frameSpeed = 5; 
           this.maxFrame = 5;
-          this.framework.src = "src/assets/images/enemy-sheep/girl-frames/clears/girlsheet.png";
-          this.static.src = "src/assets/images/enemy-sheep/girl-sheep-clear.png";
+          // this.framework.src = "src/assets/images/enemy-sheep/girl-frames/clears/girlsheet.png";
+          // this.static.src = "src/assets/images/enemy-sheep/girl-sheep-clear.png";
+
+          this.framework = preloadedImages["girlsheet"];
+          this.static = preloadedImages["girl-sheep-clear"];
           break;  
       }
 

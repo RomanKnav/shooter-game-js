@@ -1,3 +1,5 @@
+import { preloadedImages } from './imagePreloader.js';
+
 // want to make two spots where grenade can land. 
 // cannot change x here for second grenade. Must do that in script.
 export default class Grenade {
@@ -23,7 +25,8 @@ export default class Grenade {
         this.bloop.src = "src/assets/sounds/q009/glauncher.ogg";
 
         this.image = new Image();
-        this.image.src = "src/assets/images/sprites/exp2FirstFramesPixel.png";
+        // this.image.src = "src/assets/images/sprites/exp2FirstFramesPixel.png";
+        this.image = preloadedImages["exp2FirstFramesPixel"];
 
         // EXPLOSION ANIMATION CRAP:
         this.frama = 0;

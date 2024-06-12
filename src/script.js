@@ -11,6 +11,8 @@ import TextWall from "./textWall.js";
 import Health from "./health.js";
 import Grenade from "./grenade.js";
 
+import { preloadedImages } from './imagePreloader.js';
+
 // canvas stuff (OLD):
 var canvas = document.getElementById("canvas1");
 // var cxt = canvas.getContext("2d", { alpha: false });
@@ -20,7 +22,9 @@ var cxt = canvas.getContext("2d");
 // let currentBackground = "url(src/assets/images/background/background-working2.png)";
 // document.getElementById('canvas2').style.backgroundImage=currentBackground;
 
-document.getElementById('canvas2').style.backgroundImage="url(src/assets/images/background/background-working2.png)"; // specify the image path here
+let background = preloadedImages["background-working3"];    // this is an Image object.
+document.getElementById('canvas2').style.backgroundImage=`url(${background.src})`; // specify the image path here
+// document.getElementById('canvas2').style.backgroundImage="url(src/assets/images/background/background-working2.png)"; // specify the image path here
 
 // STRICTLY FOR BULLETS:
 var bullet_canvas = document.getElementById("bullet-canvas");
