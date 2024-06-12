@@ -3,7 +3,7 @@ import Projectile from "./projectile.js";
 // SHIT TONNA IMAGES TO PRELOAD HERE:
 import { preloadedImages } from './imagePreloader.js';
 
-console.log(preloadedImages);
+// console.log(preloadedImages);
 
 
 // OVERHAUL SPEED FUNCTIONALITY:

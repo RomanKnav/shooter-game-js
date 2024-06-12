@@ -1,5 +1,4 @@
 // 'use strict';
-
 // MODULES:
 import Floor from "./floor.js";  
 import Shooter from "./shooter.js";
@@ -12,6 +11,9 @@ import Health from "./health.js";
 import Grenade from "./grenade.js";
 
 import { preloadedImages } from './imagePreloader.js';
+
+window.onload = () => {
+console.log("ALL ASSETS LOADED");
 
 // canvas stuff (OLD):
 var canvas = document.getElementById("canvas1");
@@ -721,15 +723,15 @@ function handleState() {
             mouseCollision(shooter.mouse, playButton, () => state = "INTRO");
             break;
 
+        // THE VERY FIRST STATE THAT APPEARS.
         case "LOADING":
             loadingText.draw(cxt);
-            
+                
             let girly = new Enemy(canvas.width, currentSpeed, currentRound, 15);
             girly.type = "bomber";
             if (enemyQueue.length < 1) enemyQueue.push(girly);
             handleEnemy();
             if (enemyQueue.length < 1) pushEnemy();
-
 
             setTimeout(() => {
                 // showLoading = false;
@@ -740,6 +742,7 @@ function handleState() {
             }, loadingTime);
 
             if (showPlay) state = "PLAY";
+
             break;
 
         // GLITCH SOMEWHERE IN INTRO:
@@ -1539,3 +1542,4 @@ function animate() {
 }
 
 animate();
+};
