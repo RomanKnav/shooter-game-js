@@ -15,18 +15,15 @@ import { preloadedImages } from './imagePreloader.js';
 window.onload = () => {
 console.log("ALL ASSETS LOADED");
 
-// canvas stuff (OLD):
+// for static shit (background and floor, which don't require any updating)
+var canvas0 = document.getElementById("canvas0");
+
 var canvas = document.getElementById("canvas1");
 // var cxt = canvas.getContext("2d", { alpha: false });
 var cxt = canvas.getContext("2d");
-// canvas.style.background_image = url("src/assets/images/background/background-concept.png");
-
-// let currentBackground = "url(src/assets/images/background/background-working2.png)";
-// document.getElementById('canvas2').style.backgroundImage=currentBackground;
 
 let background = preloadedImages["background-working3"];    // this is an Image object.
-document.getElementById('canvas2').style.backgroundImage=`url(${background.src})`; // specify the image path here
-// document.getElementById('canvas2').style.backgroundImage="url(src/assets/images/background/background-working2.png)"; // specify the image path here
+document.getElementById('canvas0').style.backgroundImage=`url(${background.src})`; // specify the image path here
 
 // STRICTLY FOR BULLETS:
 var bullet_canvas = document.getElementById("bullet-canvas");
@@ -37,8 +34,6 @@ bullet_canvas.style.height=bullet_canvas.getBoundingClientRect().height;//actual
 // FOR STATICS:
 var canvas2 = document.getElementById("canvas2");
 var cxt2 = canvas2.getContext("2d");
-// canvas2.style.width=canvas2.getBoundingClientRect().width;//actual width of canvas
-// canvas2.style.height=canvas2.getBoundingClientRect().height;//actual height of canvas
 
 // PORT: http://127.0.0.1:5500/
 // TEXTWALL FONT DEFINED IN TEXTWALL.JS
@@ -307,7 +302,8 @@ let enemiesLeft = roundCounts[0];
 let secondShooter = false;
 
 // objects
-const flora = new Floor(canvas);
+// flora, drawn on static canvas:
+const flora = new Floor(canvas0);
 // const shooter = new Shooter(100, flora.y - 34);
 const shooter = new Shooter(100);
 
@@ -376,7 +372,6 @@ const tt2 = new Button(canvas.width / 2.5, canvas.height / 3, 100, "Use WASD to 
 const tt3 = new Button(canvas.width / 2.5, canvas.height / 3, 100, "hold S to crouch", false);
 const tt7 = new Button(canvas.width / 2.5, canvas.height / 3, 100, "press E to throw a grenade.", false);
 const tt7_2 = new Button(canvas.width / 2.5, canvas.height / 2.5, 100, "Press E twice quickly for a barrage", false);
-const tt8 = new Button(canvas.width / 2.5, canvas.height / 2.5, 100, "Press Q to drop current weapon", false);
 
 // rounds w/ tut text: 1-6
 let tutRounds = {1: [tt1], 2: [tt2], 3: [tt3], 4: [tt7, tt7_2]};
@@ -786,7 +781,7 @@ function handleState() {
 
         // this state is only for the boss text:
         case "BOSS":
-            document.getElementById('canvas2').style.backgroundImage="url(src/assets/images/background/background-working3.png)";
+            // document.getElementById('canvas2').style.backgroundImage="url(src/assets/images/background/background-working3.png)";
             musicToggler();
             finalRound = true;
             bossText.draw(cxt);
@@ -1510,20 +1505,12 @@ function mouseCollision(first, second, callback) {
 // FUNCTION TO GET ALL OUR OBJECTS UP AND RUNNING
 function animate() {
     bullet_cxt.clearRect(0, 0, bullet_canvas.width, bullet_canvas.height);
-    bullet_cxt.fillStyle = "transparent";
-    bullet_cxt.fillRect(0, 0, bullet_canvas.width, bullet_canvas.height);
 
+    // what's this canvas have? for enemies and text
     cxt.clearRect(0, 0, canvas.width, canvas.height);
-    cxt.fillStyle = "transparent";
-    cxt.fillRect(0, 0, canvas.width, canvas.height);
 
-    // this canvas has the background:
+    // was this? ui, shooter, pickups
     cxt2.clearRect(0, 0, canvas2.width, canvas2.height);
-    cxt2.fillStyle = "transparent";
-    cxt2.fillRect(0, 0, canvas2.width, canvas2.height);
-    // dont want it redrawing the floor over and over again
-
-    // DO ANT OF THESE HANDLE IMAGE DISPLAYING? Yes, handleShooter uses shooter.draw(cxt2);
 
     // what's handleShooter? shit relating to nades and states. No input handling.
     handleShooter();
@@ -1531,15 +1518,14 @@ function animate() {
     handleState();
     handleStatus();
     handleProjectile(enemyQueue);
-    // if (!shooter.dead) handleNade(enemyQueue);
     handleNade(enemyQueue);
 
     if ((state == "RUNNING" || state == "LOSE") && frame <= 100) frame++;
     else frame = 0;
 
-    //setTimeout(animate, 5); // <<< Game runs much slower with this in conjunction with animate() VVV
     window.requestAnimationFrame(animate);
 }
 
-animate();
-};
+window.requestAnimationFrame(animate);  // yes, everyone else seems to use this twice.
+
+};  // remember: this is for the window.onload at the very top of file.
