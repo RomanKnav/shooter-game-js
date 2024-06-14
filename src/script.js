@@ -434,10 +434,13 @@ let playerHealth = new Health(30, "health");
 let wallHealth = new Health(60, "wall");
 let grenades = new Health(90, "nade");
 
-// TODO: USE SECONDS INSTEAD OF FRAMES:
-// let randomIntervals = [1, 3, 5, 8, 11]; // intervals in seconds
-let randomIntervals = [0.2, 0.5]; // intervals in seconds
+// OLD FRAME SHIT:
+// let frame = 0;
+// let randomFrames = [10, 30, 50, 80, 110,];
 
+// TODO: USE SECONDS INSTEAD OF FRAMES:
+let elapsedTime = 0; // TOTAL elapsed time (since starting game)
+let randomIntervals = [0.2, 0.5]; // intervals in seconds
 
 let enemySpeed = 15;
 let enemyQueue = [];
@@ -470,7 +473,7 @@ let snackQueue = [];
 let nadeQueue = [];
 
 // let state = "MENU";
-let state = "LOADING";
+let state = "PLAY";
 
 let loadingTime = [4000, 5000][Math.floor(Math.random() * 2)];
 
@@ -574,6 +577,7 @@ var music = {
 
 function playSound(sound) {
     if (!sound.playing()) {
+        // if (sound.paused) {
         sound.play();
     } 
 }
@@ -671,8 +675,6 @@ function greatReset() {
 
     // RESET MUSIC:
     music.hit_back.stop();
-    // UNCOMMENT:
-    // playSound(music.dramatic);
 };
 
 function endRound() {
@@ -694,15 +696,21 @@ function endRound() {
     }
 }
 
+// the issue is that the music track is being played MULTIPLE TIMES:
 function musicToggler() {
     // 10
     if (!finalRound) {
+        // toggleMusic is initially: false.
         if (!shooter.toggleMusic) {
+            // this simply plays a soud IF IT IS NOT ALREADY PLAYING:
             playSound(music.dramatic);
+            // music.dramatic.play();       with this it sounds worst.
+            // shooter.toggleMusic = true;
         } else music.dramatic.pause();
     } 
     else {
-        music.dramatic.stop();
+        // music.dramatic.stop();
+        music.dramatic.pause();
         if (!shooter.toggleMusic) {
             playSound(music.hit_back);
         } else music.hit_back.pause();
@@ -744,6 +752,7 @@ function handleState(elapsedTime) {
 
         // GLITCH SOMEWHERE IN INTRO:
         case "INTRO":
+            // REMEMBER: this simply allows us to toggle music on/off:
             musicToggler();
         
             startText.draw(cxt);
@@ -752,11 +761,7 @@ function handleState(elapsedTime) {
             mouseCollision(shooter.mouse, skipButton, () => state = "MENU");
 
             setTimeout(() => {
-                // what's up with this again?
-                showMenu = true;
-                // if (score >= winningScore) {
-                //     cremate();
-                // }
+                showMenu = true;    // show start button after 30 seconds
             }, 30000);
 
             if (showMenu) state = "MENU";
@@ -1026,7 +1031,7 @@ function cremate() {
         roundCounts.splice(0, 1);
         enemyCount = enemiesLeft = roundCounts[0];
         winningScore += enemyCount * 10;
-        frame = 0;
+        // frame = 0;
         resetBaddies();
     }
     
@@ -1311,8 +1316,6 @@ function handleEnemy() {
     for (let i = 0; i < enemyQueue.length; i++) {
         let current = enemyQueue[i];
 
-        // console.log(current.framework);
-
         if (!shooter.duck) current.bulletLimit = shooter.x + shooter.width;
         else {
             // WHEN DUCKING:
@@ -1396,7 +1399,8 @@ function handleEnemy() {
                     current.inPosition = true;
             }
 
-            if (current.type == "crawl" && current.shooting && frame % 50) {
+            // if (current.type == "crawl" && current.shooting && frame % 50) {
+            if (current.type == "crawl" && current.shooting && elapsedTime % 50) {
                 playSound(sfx.growl);
             }
         }
@@ -1508,7 +1512,6 @@ function mouseCollision(first, second, callback) {
 
 // FUNCTION TO GET ALL OUR OBJECTS UP AND RUNNING
 let lastTime = 0;
-let elapsedTime = 0; // TOTAL elapsed time (since starting game)
 
 function animate(timestamp) {
 
