@@ -436,8 +436,12 @@ let grenades = new Health(90, "nade");
 
 // variables
 let frame = 0;
-// let randomFrames = [50, 80, 110, 150];
-let randomFrames = [10, 30, 50, 80, 110,];
+// wtf is this? determines at what frame % to spawn enemies.
+let randomFrames = [10, 30, 50, 80, 110];
+
+// TODO: USE SECONDS INSTEAD OF FRAMES:
+let randomIntervals = [1, 3, 5, 8, 11]; // intervals in seconds
+
 
 let enemySpeed = 15;
 let enemyQueue = [];
@@ -709,7 +713,8 @@ function musicToggler() {
     }
 }
 
-function handleState() {
+// elapsedTime for use in pushEnemy():
+function handleState(elapsedTime) {
     switch(state) {
         // INITIAL BLACK SCREEN:
         case "PLAY":
@@ -726,7 +731,8 @@ function handleState() {
             girly.type = "bomber";
             if (enemyQueue.length < 1) enemyQueue.push(girly);
             handleEnemy();
-            if (enemyQueue.length < 1) pushEnemy();
+            // if (enemyQueue.length < 1) pushEnemy();
+            if (enemyQueue.length < 1) pushEnemy(elapsedTime);
 
             setTimeout(() => {
                 // showLoading = false;
@@ -847,7 +853,8 @@ function handleState() {
             if (startRound) {
                 showNextRound = false;
                 handleEnemy();
-                pushEnemy();
+                // pushEnemy();
+                pushEnemy(elapsedTime);
             }
 
             if (playerHealth.number <= 0 || wallHealth.number <= 0) {
@@ -1400,18 +1407,66 @@ function handleEnemy() {
     }
 }
 
-function pushEnemy() {
-    // so, if frame == 50 and I get randomFrames[0] (50), enemy gets pushed to queue.
+// OLD FRAME-DEPENDENT SHIT:
+// function pushEnemy() {
+//     // so, if frame == 50 and I get randomFrames[0] (50), enemy gets pushed to queue.
 
-    // RANDOMFRAMES determines distances between enemies
-    if (frame % randomFrames[Math.floor(Math.random() * randomFrames.length)] === 0) {
+//     // RANDOMFRAMES determines distances between enemies
+//     if (frame % randomFrames[Math.floor(Math.random() * randomFrames.length)] === 0) {
 
-        // if (state = "LOADING") enemyQueue.push(new Enemy(-50, -currentSpeed, currentRound, enemySpeed, "loading"));
+//         // if (state = "LOADING") enemyQueue.push(new Enemy(-50, -currentSpeed, currentRound, enemySpeed, "loading"));
+
+//         if (specialRound == true && enemiesLeft <= 0) {
+//             specialRound = false;
+//             endSpecRound = true;
+//             // state = "NATURAL";
+//         }
+        
+//         if (enemyCount > 0) {   
+//             if (!specialRound) {
+//                 // DO NOT REVERT. NEED TO MAKE WAY FOR DIFFERENT SPEEDS:
+//                 enemyQueue.push(new Enemy(canvas.width, currentSpeed, currentRound, enemySpeed));
+//                 enemyCount--;  
+
+//                 // SPAWN CIVIES IN LATTER PART OF FINAL ROUND:
+//                 if (finalRound && enemyCount % 3 == 0 && (enemyCount < 20 && enemyCount > 10)) {
+//                     enemyQueue.push(new Enemy(-42, -currentSpeed, currentRound, enemySpeed));
+//                     enemyCount--; 
+//                 }
+//             }  
+//             else {
+//                 // CIVIES SPAWNED HERE IN SPECIAL ROUND:
+//                 // DOESN'T ACTUALLY SPAWN CIVIES. Just normal enemies at coord -50 lol:
+//                 // REMEMBER: enemyCount only refers to num. of enemies to push to array :)
+//                 if (!endSpecRound) {
+//                     enemyQueue.push(new Enemy(-42, -currentSpeed, currentRound, enemySpeed));
+//                     enemyCount--; 
+//                 }
+//             }
+//         } 
+
+//         else if (enemiesLeft <= 0) {
+//             specialRound = false;
+//             state = "WIN";
+//         }
+
+//         // attempt to stop win breaks from not showing up (that is, from being skipped):
+//         // else if ([1, 2, 3].includes(currentRound) && enemiesLeft <= 0) state = "WIN";
+//     }
+// }
+
+let nextSpawnTime = 0; // time to spawn the next enemy
+
+// BOTH INSTANCES OF pushEnemy used in handleState.
+function pushEnemy(elapsedTime) {
+
+    if (elapsedTime >= nextSpawnTime) {
+
+        nextSpawnTime = elapsedTime + randomIntervals[Math.floor(Math.random() * randomIntervals.length)];
 
         if (specialRound == true && enemiesLeft <= 0) {
             specialRound = false;
             endSpecRound = true;
-            // state = "NATURAL";
         }
         
         if (enemyCount > 0) {   
@@ -1430,7 +1485,6 @@ function pushEnemy() {
                 // CIVIES SPAWNED HERE IN SPECIAL ROUND:
                 // DOESN'T ACTUALLY SPAWN CIVIES. Just normal enemies at coord -50 lol:
                 // REMEMBER: enemyCount only refers to num. of enemies to push to array :)
-                // if (enemyCount > 0) {
                 if (!endSpecRound) {
                     enemyQueue.push(new Enemy(-42, -currentSpeed, currentRound, enemySpeed));
                     enemyCount--; 
@@ -1443,10 +1497,12 @@ function pushEnemy() {
             state = "WIN";
         }
 
-        // attempt to stop win breaks from not showing up:
-        else if ([1, 2, 3].includes(currentRound) && enemiesLeft <= 0) state = "WIN";
-    }
+        // attempt to stop win breaks from not showing up (that is, from being skipped):
+        // else if ([1, 2, 3].includes(currentRound) && enemiesLeft <= 0) state = "WIN";
+    };
 }
+
+
 
 function nadeCollision(nade, orc) {
     if (
@@ -1503,7 +1559,21 @@ function mouseCollision(first, second, callback) {
 }
 
 // FUNCTION TO GET ALL OUR OBJECTS UP AND RUNNING
-function animate() {
+let lastTime = 0;
+let elapsedTime = 0; // TOTAL elapsed time (since starting game)
+
+function animate(timestamp) {
+
+    if (!lastTime) lastTime = timestamp; // delta time is the difference in time from current frame to last one.
+
+    let deltaTime = (timestamp - lastTime) / 1000; // Convert to seconds
+    lastTime = timestamp;
+
+    // normalize deltaTime across all monitors (at expensive of objects moving slower)
+    if (deltaTime > 0.01) {
+        deltaTime = deltaTime - 0.01;
+    }
+
     bullet_cxt.clearRect(0, 0, bullet_canvas.width, bullet_canvas.height);
 
     // what's this canvas have? for enemies and text
@@ -1520,6 +1590,7 @@ function animate() {
     handleProjectile(enemyQueue);
     handleNade(enemyQueue);
 
+    /* what actually uses these frames? used exclusively in script.js. */
     if ((state == "RUNNING" || state == "LOSE") && frame <= 100) frame++;
     else frame = 0;
 
