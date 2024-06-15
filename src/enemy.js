@@ -247,7 +247,7 @@ export default class Enemy {
           break;
 
         case "sheep":
-          // this.sound = "laser-gun";
+          this.sound = "laser-gun";
           this.openFire = 150;
           this.fireRate = 15;
           this.width = 70;
