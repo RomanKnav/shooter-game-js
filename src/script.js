@@ -558,7 +558,8 @@ user explicitly interacts with the page. To work around this, add a "play" butto
 var music = {
     dramatic: new Howl({
         src: [
-        "src/assets/music/prey's stand.mp3"
+        // "src/assets/music/prey's stand.mp3"
+        "src/assets/music/astro_race.mp3"
         ], 
         loop: true,
         volume: 5.5,
