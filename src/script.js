@@ -434,13 +434,10 @@ let playerHealth = new Health(30, "health");
 let wallHealth = new Health(60, "wall");
 let grenades = new Health(90, "nade");
 
-// OLD FRAME SHIT:
-// let frame = 0;
-// let randomFrames = [10, 30, 50, 80, 110,];
-
 // TODO: USE SECONDS INSTEAD OF FRAMES:
+// let randomIntervals = [1, 3, 5, 8, 11]; // intervals in seconds
 let randomIntervals = [0.2, 0.5]; // intervals in seconds
-// let randomIntervals = [1, 2]; // intervals in seconds
+
 
 let enemySpeed = 15;
 let enemyQueue = [];
@@ -563,7 +560,7 @@ var music = {
         src: [
         "src/assets/music/prey's stand.mp3"
         ], 
-        loop: true,     // no issue here.
+        loop: true,
         volume: 5.5,
     }),
     hit_back: new Howl({
@@ -576,9 +573,7 @@ var music = {
 };
 
 function playSound(sound) {
-    // sound.currentTime = 0;
     if (!sound.playing()) {
-        // if (sound.paused) {
         sound.play();
     } 
 }
@@ -676,6 +671,8 @@ function greatReset() {
 
     // RESET MUSIC:
     music.hit_back.stop();
+    // UNCOMMENT:
+    // playSound(music.dramatic);
 };
 
 function endRound() {
@@ -697,7 +694,6 @@ function endRound() {
     }
 }
 
-// the issue is that the music track is being played MULTIPLE TIMES:
 function musicToggler() {
     // 10
     if (!finalRound) {
@@ -714,8 +710,7 @@ function musicToggler() {
 }
 
 // elapsedTime for use in pushEnemy():
-// function handleState(elapsedTime) {
-function handleState() {
+function handleState(elapsedTime) {
     switch(state) {
         // INITIAL BLACK SCREEN:
         case "PLAY":
@@ -730,9 +725,10 @@ function handleState() {
                 
             let girly = new Enemy(canvas.width, currentSpeed, currentRound, 15);
             girly.type = "bomber";
-            // girly.type = "sheep";
             if (enemyQueue.length < 1) enemyQueue.push(girly);
             handleEnemy();
+            // if (enemyQueue.length < 1) pushEnemy();
+            if (enemyQueue.length < 1) pushEnemy(elapsedTime);
 
             setTimeout(() => {
                 // showLoading = false;
@@ -748,7 +744,6 @@ function handleState() {
 
         // GLITCH SOMEWHERE IN INTRO:
         case "INTRO":
-            // REMEMBER: this simply allows us to toggle music on/off:
             musicToggler();
         
             startText.draw(cxt);
@@ -757,7 +752,11 @@ function handleState() {
             mouseCollision(shooter.mouse, skipButton, () => state = "MENU");
 
             setTimeout(() => {
-                showMenu = true;    // show start button after 30 seconds
+                // what's up with this again?
+                showMenu = true;
+                // if (score >= winningScore) {
+                //     cremate();
+                // }
             }, 30000);
 
             if (showMenu) state = "MENU";
@@ -784,6 +783,7 @@ function handleState() {
 
         // this state is only for the boss text:
         case "BOSS":
+            // document.getElementById('canvas2').style.backgroundImage="url(src/assets/images/background/background-working3.png)";
             musicToggler();
             finalRound = true;
             bossText.draw(cxt);
@@ -849,6 +849,7 @@ function handleState() {
             if (startRound) {
                 showNextRound = false;
                 handleEnemy();
+                // pushEnemy();
                 pushEnemy(elapsedTime);
             }
 
@@ -1025,7 +1026,7 @@ function cremate() {
         roundCounts.splice(0, 1);
         enemyCount = enemiesLeft = roundCounts[0];
         winningScore += enemyCount * 10;
-        // frame = 0;
+        frame = 0;
         resetBaddies();
     }
     
@@ -1395,117 +1396,21 @@ function handleEnemy() {
                     current.inPosition = true;
             }
 
-            // if (current.type == "crawl" && current.shooting && time % 50) {
-            //     playSound(sfx.growl);
-            // }
+            if (current.type == "crawl" && current.shooting && frame % 50) {
+                playSound(sfx.growl);
+            }
         }
     }
 }
 
-// function handleEnemy2(time) {
-//     for (let i = 0; i < enemyQueue.length; i++) {
-//         let current = enemyQueue[i];
-
-//         // console.log(current.framework);
-
-//         if (!shooter.duck) current.bulletLimit = shooter.x + shooter.width;
-//         else {
-//             // WHEN DUCKING:
-//             if (current.type == "ground" || current.type == "crawl") current.bulletLimit = 0
-//             else if (current.type == "air") current.bulletLimit = shooter.x + shooter.width / 2;
-//         }
-
-//         // HERE'S HOW WE DISCRIMINATE CIVIES:
-//         if (current.speed < 0) current.isCivie = true;
-
-//         // ALL enemies given civie status on specialRound
-//         if (specialRound) current.isCivie = true;
-
-//         if (state != "LOSE") handleEnemyProjectiles(current);
-
-//         // DETERMINE ENEMY Y AXIS BASED ON THEIR TYPE
-//         if (current.type == "ground" || current.type == "crawl" || current.type == "sheep") {
-//             current.y = flora.y - current.height;
-//             current.angle = "back";
-//             if (current.type == "sheep" && current.duck == true) current.angle = "down-back";
-//         } else if (current.type == "air") {
-//             current.y = flora.y - 150;
-//             current.angle = "down-diagnal";
-//         } else {
-//             // BOMBER:
-//             current.y = flora.y - 190;
-//             current.angle = "straight-down";
-//         }
-
-//         // FIX THIS CRAP --DONE. Takes into account both regular and special rounds:
-//         // delete enemies if they are off-canvas:
-//         if ((current.x + current.width >= 0) && (current.x <= canvas.width + 50)) {
-//         // REVISION: don't force player to kill civilians
-//             current.draw(cxt);
-//             current.update(); 
-
-//         } else {
-//             current.dead = true;
-//             // UNCOMMENT:
-//             if (!current.isCivie) wallHealth.number--;
-//         }
-
-//         if (current.dead) {
-//             enemyQueue.splice(i, 1);
-//             score += 10;
-//             if (enemiesLeft > 0) enemiesLeft--;
-//         }
-
-//         // this.angle = "back";
-//         if (current.type == "sheep" && current.inPosition == true && shooter.duck) {
-//             current.duck = true;
-//             current.angle = "down-back"
-//         } else {
-//             current.duck = false;
-//             current.angle = "back";
-//         }
-
-//         if (current.type == "bomber" && current.inPosition == true) {
-//             current.renderBeam(cxt);
-//             if (!current.dead && current.timer >= current.openFire) playSound(sfx.rayBeam);
-//             // else sfx.rayBeam.stop();
-//         };
-
-//         // FIX THIS CRAP ASAP:  --DONE
-//         // FIX THIS STUPID GLITCH   --DONE
-//         for (let i = 1; i <= Object.keys(baddiePositions).length; i++) {   
-//             // this is the distance applicable to enemy (50, 150, 250, 180 (aerial))
-//             let trueDistance = shooter.x + shooter.width + baddiePositions[i.toString()]["distance"];
-//             if (!baddiePositions[i.toString()]["inPos"] &&
-//                 // what was my thought process behind this? If orc is within "true" distance, set "inPos" to true
-//                 (current.x <= trueDistance && current.x >= trueDistance - 10) && 
-//                 // (current.x <= trueDistance &&
-//                 // current.x > trueDistance - shooter.width)  &&
-//                 current.type == baddiePositions[i.toString()]["type"] && 
-//                 !specialRound &&
-//                 current.speed > 0) {
-//                     // enemy stops moving at shooting (enemy class logic)
-//                     current.shooting = true; 
-//                     baddiePositions[i.toString()]["inPos"] = true;
-//                     current.position = i.toString();
-//                     current.inPosition = true;
-//             }
-
-//             if (current.type == "crawl" && current.shooting && time % 50) {
-//                 playSound(sfx.growl);
-//             }
-//         }
-//     }
-// }
-
 let nextSpawnTime = 0; // time to spawn the next enemy
 
 // BOTH INSTANCES OF pushEnemy used in handleState.
-function pushEnemy(time) {
+function pushEnemy(elapsedTime) {
 
-    if (time >= nextSpawnTime) {
+    if (elapsedTime >= nextSpawnTime) {
 
-        nextSpawnTime = time + randomIntervals[Math.floor(Math.random() * randomIntervals.length)];
+        nextSpawnTime = elapsedTime + randomIntervals[Math.floor(Math.random() * randomIntervals.length)];
 
         if (specialRound == true && enemiesLeft <= 0) {
             specialRound = false;
@@ -1608,11 +1513,12 @@ let elapsedTime = 0; // TOTAL elapsed time (since starting game)
 function animate(timestamp) {
 
     if (!lastTime) lastTime = timestamp; // delta time is the difference in time from current frame to last one.
-    // // NONE of this causes earrape.
+
     let deltaTime = (timestamp - lastTime) / 1000; // Convert to seconds
     lastTime = timestamp;
 
     elapsedTime += deltaTime;
+
     // normalize deltaTime across all monitors (at expensive of objects moving slower)
     if (deltaTime > 0.01) {
         deltaTime = deltaTime - 0.01;
@@ -1629,19 +1535,16 @@ function animate(timestamp) {
     // what's handleShooter? shit relating to nades and states. No input handling.
     handleShooter();
     handleSnack();
-    // handleState();
     handleState(elapsedTime);
     handleStatus();
     handleProjectile(enemyQueue);
     handleNade(enemyQueue);
 
-    // if ((state == "RUNNING" || state == "LOSE") && frame <= 100) frame++;
-    // else frame = 0;
+    // console.log(deltaTime);
 
     window.requestAnimationFrame(animate);
 }
 
 window.requestAnimationFrame(animate);  // yes, everyone else seems to use this twice.
-// animate();
 
 };  // remember: this is for the window.onload at the very top of file.
