@@ -469,12 +469,15 @@ let currentSpeed = 1.5;
 let snackQueue = [];
 let nadeQueue = [];
 
-// let state = "MENU";
-let state = "LOADING";
+let state = "MENU";
+// let state = "LOADING";
 
 let loadingTime = [4000, 5000][Math.floor(Math.random() * 2)];
 
 // FUNCTIONS:
+
+/* Howler accepts multiple versions of the same audio! (automatically 
+selects the best one for the current web browser */
 var sfx = {
     yelp: new Howl({
         src: [
@@ -484,8 +487,6 @@ var sfx = {
         volume: 6,
     }),
     growl: new Howl({
-      /* accepts multiple versions of the same audio! (automatically selects the best one for the 
-      current web browser */
       src: [
         "src/assets/sounds/paco.flac",
       ],
@@ -581,9 +582,7 @@ var music = {
 
 // this seems to have stopped the shitty ass audio:
 let soundLastPlayed = 0;
-const soundCooldown = 100000; 
-// Cooldown in milliseconds. This doesn't mean song will play again every 100 seconds.
-// IDK how it works, but it does, so I don't give a shit. 
+const soundCooldown = 100000; // 100 second "cooldown"
 
 function playSound(sound) {
     const now = Date.now();
@@ -1117,6 +1116,8 @@ function handleNade(arr) {
             current.draw(cxt);
             current.update();
 
+            // why is this used? with playSound it doesn't work.
+            // No, this does NOT use howler, just the raw sound:
             current.sound.play();
             // playSound(sfx.boom);
 
@@ -1412,8 +1413,13 @@ function handleEnemy() {
             }
 
             // there should be no problem with using frame here if it comes to it.
-            if (current.type == "crawl" && current.shooting && frame % 50) {
-                playSound(sfx.growl);
+            // if (current.type == "crawl" && current.shooting) {
+            //     playSound(sfx.growl);
+            // }
+
+            if (current.type == "crawl" && current.shooting) {
+                // playSound(sfx.growl);
+                current.growl.play();
             }
         }
     }
@@ -1524,7 +1530,7 @@ function mouseCollision(first, second, callback) {
 
 // FUNCTION TO GET ALL OUR OBJECTS UP AND RUNNING
 let lastTime = 0;
-let elapsedTime = 0; // TOTAL elapsed time (since starting game)
+let elapsedTime = 0; // TOTAL elapsed time in SUPER precise seconds (since starting game)
 
 function animate(timestamp) {
 
@@ -1556,7 +1562,7 @@ function animate(timestamp) {
     handleProjectile(enemyQueue);
     handleNade(enemyQueue);
 
-    // console.log(soundArr);
+    // console.log(elapsedTime % 1 == true);
 
     window.requestAnimationFrame(animate);
 }

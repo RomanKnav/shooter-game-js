@@ -115,10 +115,12 @@ export default class Enemy {
 
       // this.civy_frameworks = [preloadedImages["civysheet"], preloadedImages["civysheet2"]];
 
-
       this.civy_frames = this.civy_frameworks[Math.floor(Math.random() * 2)];
       this.dog_frames = "src/assets/images/dog/dog-frames/dogsheet.png";
       // this.dog_frames = preloadedImages["dogsheet"]
+
+      // FOR CRAWL ENEMY ONLY:
+      this.growl = "src/assets/sounds/paco.flac";
     }
 
     update() {
