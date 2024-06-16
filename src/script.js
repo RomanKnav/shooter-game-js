@@ -573,10 +573,24 @@ var music = {
     }),
 };
 
+// function playSound(sound) {
+//     if (!sound.playing()) {
+//         sound.play();
+//     } 
+// }
+
+// this seems to have stopped the shitty ass audio:
+let soundLastPlayed = 0;
+const soundCooldown = 100000; 
+// Cooldown in milliseconds. This doesn't mean song will play again every 100 seconds.
+// IDK how it works, but it does, so I don't give a shit. 
+
 function playSound(sound) {
-    if (!sound.playing()) {
+    const now = Date.now();
+    if (now - soundLastPlayed > soundCooldown) {
         sound.play();
-    } 
+        soundLastPlayed = now;
+    }
 }
 
 // stupid timer vars:
@@ -1397,6 +1411,7 @@ function handleEnemy() {
                     current.inPosition = true;
             }
 
+            // there should be no problem with using frame here if it comes to it.
             if (current.type == "crawl" && current.shooting && frame % 50) {
                 playSound(sfx.growl);
             }
@@ -1541,7 +1556,7 @@ function animate(timestamp) {
     handleProjectile(enemyQueue);
     handleNade(enemyQueue);
 
-    // console.log(deltaTime);
+    // console.log(soundArr);
 
     window.requestAnimationFrame(animate);
 }
