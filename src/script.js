@@ -471,7 +471,6 @@ let baddiePositions = {
 
 // ENEMY ACTUAL MOVING SPEED:
 let currentSpeed = 1.5;
-// let currentSpeed = 5;
 
 // DROPPED PICKUPS:
 let snackQueue = [];
@@ -1338,6 +1337,7 @@ function handleSnack() {
     }
 }
 
+// handleEnemy is used in MANY areas, so deltaTime must be  global.
 function handleEnemy() {
     for (let i = 0; i < enemyQueue.length; i++) {
         let current = enemyQueue[i];
@@ -1378,8 +1378,7 @@ function handleEnemy() {
         if ((current.x + current.width >= 0) && (current.x <= canvas.width + 50)) {
         // REVISION: don't force player to kill civilians
             current.draw(cxt);
-            // current.update(); 
-            current.update(elapsedTime); 
+            current.update(elapsedTime, deltaGlobal); 
         } else {
             current.dead = true;
             // UNCOMMENT:
@@ -1547,6 +1546,7 @@ function mouseCollision(first, second, callback) {
 // FUNCTION TO GET ALL OUR OBJECTS UP AND RUNNING
 let lastTime = 0;
 let elapsedTime = 0; // TOTAL elapsed time in SUPER precise seconds (since starting game)
+let deltaGlobal = 0;    // yes, identical to deltaTime.
 
 // what's difference between elapsedTime and timestamp?
 // timestamp is just elapsedTime but in MILLISECONDS.
@@ -1555,6 +1555,7 @@ function animate(timestamp) {
     if (!lastTime) lastTime = timestamp; // delta time is the difference in time from current frame to last one.
 
     let deltaTime = (timestamp - lastTime) / 1000; // Convert to seconds
+    deltaGlobal = deltaTime;
     lastTime = timestamp;
 
     elapsedTime += deltaTime;
@@ -1583,7 +1584,7 @@ function animate(timestamp) {
     handleNade(enemyQueue);
 
     // console.log(elapsedTime % 1 == true);
-    // console.log(timestamp);
+    // console.log(deltaTime, deltaGlobal);
 
     window.requestAnimationFrame(animate);
 }
