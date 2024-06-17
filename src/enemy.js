@@ -11,12 +11,13 @@ export default class Enemy {
     // what's the speed parameter for again? to increase speed globally as rounds progress :)
     // instead of "frameSpeed", need to pass in elapsedTime:
     // constructor(x, speed, round, frameSpeed) {
-    constructor(x, speed, round, enemySpeed) {
+    constructor(x, speed, round, frameSpeed) {
       // NEW SHIT:
       // cxt
+
+      // cycles through frames 0-100 and back:
       this.frama = 0;
       this.speed = speed;
-      this.enemySpeed = enemySpeed;
 
       this.x = x;
       this.y;
@@ -109,14 +110,15 @@ export default class Enemy {
       this.spriteHeight = 35;
       this.minFrame = 0;
       this.maxFrame = 5;
+
+      /* wtf is pigFrame? determines speed of animations (the lower the faster
+      frameSpeed initially set as 15 in script. */
       this.pigFrame = frameSpeed;   // to increase as rounds progress.
-      this.statica = false          // determine if enemy is static throughout (plane, bomber)
+      this.statica = false;          // determine if enemy is static throughout (plane, bomber)
       this.animation = false;
 
       this.civy_frameworks = ["src/assets/images/civy/new-frames/civysheet.png", 
                               "src/assets/images/civy/new-frames/civysheet2.png"];
-
-      // this.civy_frameworks = [preloadedImages["civysheet"], preloadedImages["civysheet2"]];
 
       this.civy_frames = this.civy_frameworks[Math.floor(Math.random() * 2)];
       this.dog_frames = "src/assets/images/dog/dog-frames/dogsheet.png";
@@ -127,34 +129,68 @@ export default class Enemy {
       this.growl.src = "src/assets/sounds/paco.flac";
 
       // NEW DELTATIME SHIT:
+      this.frameTime = 0;
       this.lastFrameTime = 0;
+      this.frameInterval = 100;
     }
+
+    /* here's shit used in script: 
+
+      let lastTime = 0;
+      let elapsedTime = 0; // TOTAL elapsed time in SUPER precise seconds (since starting game)
+
+      function animate(timestamp) {
+
+          if (!lastTime) lastTime = timestamp; // delta time is the difference in time from current frame to last one.
+
+          let deltaTime = (timestamp - lastTime) / 1000; // Convert to seconds
+          lastTime = timestamp;
+
+          elapsedTime += deltaTime;
+
+          // normalize deltaTime across all monitors (at expensive of objects moving slower)
+          if (deltaTime > 0.01) {
+              // deltaTime = deltaTime - 0.01;
+              deltaTime = deltaTime - 0.0084;     
+              // this makes both mediums MUCH closer in terms of deltaTime.
+          }
+      }
+    */
 
     update(elapsedTime) {
 
+      if (elapsedTime - this.lastFrameTime >= this.frameInterval) {
+          this.lastFrameTime = elapsedTime;
+          if (this.frameX < this.maxFrame) {
+              this.frameX++;
+          } else {
+              this.frameX = this.minFrame;
+          }
+      }
+
       // FRAME SHIT
       // the same kind of frame shit used in script is used here:
-      if (this.frama <= 100) this.frama++;
-      else this.frama = 0;
 
-      if (this.frama % this.pigFrame === 0 && this.pigFrame > 0) {
-        if (this.frameX < this.maxFrame)
-          this.frameX++;
-        else this.frameX = this.minFrame;
-      }
+      // if (this.frama <= 100) this.frama++;
+      // else this.frama = 0;
+
+      // if (this.frama % this.pigFrame === 0 && this.pigFrame > 0) {
+      //   if (this.frameX < this.maxFrame)
+      //     this.frameX++;
+      //   else this.frameX = this.minFrame;
+      // }
 
       if (this.isCivie == true) {
         if (this.typeNum <= this.dogOdds) this.type = "crawl"
         else this.type = "ground";
       }
       else {
-        // HEIRARCHY CRAP:
+        // SPAWN HEIRARCHY CRAP:
         // 0-2
         if (this.typeNum <= this.bossOdds) {
           if (this.round < 6 && this.round > 0) this.type = "ground";
           else if (this.round >= 6 && this.round < 10) this.type = "bomber";
           else this.type = this.bossType;   // <- if round 10
-          // else if (this.round == 10 || )
         }
         // 3-6
         else if (this.typeNum <= this.crawlOdds && (this.round >= 3)) {
@@ -203,18 +239,12 @@ export default class Enemy {
             this.maxFrame = 4;
             this.spriteWidth = 63;
             this.spriteHeight = 41;
-            // this.framework.src = "src/assets/images/civy/new-frames/spritesheet2.png";
-            // this.framework.src = this.civy_frameworks[Math.floor(Math.random() * 2)];
-            // this.framework.src = this.civy_frames;
             this.framework = preloadedImages["civysheet"];
           }
           // else this.framework.src = "src/assets/images/assault-pig/pig-walk-clear/pigFrames.png";
           else this.framework = preloadedImages["pigFrames"];
 
           // FIRE IMAGE DOESN'T SHOW IN NEWGROUNDS:
-          // if (!this.animation) this.static.src = "src/assets/images/assault-pig/pig-stand-clear.png";
-          // else this.static.src = "src/assets/images/assault-pig/pig-stand-fire.png";
-
           if (!this.animation) this.static = preloadedImages["pig-stand-clear"];
           else this.static = preloadedImages["pig-stand-fire"];
 
@@ -267,8 +297,6 @@ export default class Enemy {
           this.spriteHeight = 58;
           this.frameSpeed = 5; 
           this.maxFrame = 5;
-          // this.framework.src = "src/assets/images/enemy-sheep/girl-frames/clears/girlsheet.png";
-          // this.static.src = "src/assets/images/enemy-sheep/girl-sheep-clear.png";
 
           this.framework = preloadedImages["girlsheet"];
           this.static = preloadedImages["girl-sheep-clear"];
@@ -276,7 +304,6 @@ export default class Enemy {
       }
 
       // THIS WORKS
-      // THIS CRAP IS SOLEY FOR AUDIO LOOOL:
       if (!this.shooting) {
         this.x -= this.speed;
       } else {
@@ -344,7 +371,7 @@ export default class Enemy {
       // context.fillText(`${this.type}`, this.x + (this.width / 2), this.y - 10);
     } // projectiles
 
-    // GOOD
+    // GOOD. Determine delay before UFO beam is drawn:
     renderBeam(context) {
       if (this.timer >= this.openFire) {
         context.beginPath();

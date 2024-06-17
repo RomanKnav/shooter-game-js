@@ -445,6 +445,8 @@ let grenades = new Health(90, "nade");
 let randomIntervals = [0.2, 0.5]; // intervals in seconds
 
 
+// UPDATE ENEMY ANIMATION ONCE EVERY 15 FRAMES. As this decreases in cremate(),
+// the animations move faster.
 let enemySpeed = 15;
 let enemyQueue = [];
 
@@ -1378,7 +1380,8 @@ function handleEnemy() {
         if ((current.x + current.width >= 0) && (current.x <= canvas.width + 50)) {
         // REVISION: don't force player to kill civilians
             current.draw(cxt);
-            current.update(); 
+            // current.update(); 
+            current.update(elapsedTime); 
 
         } else {
             current.dead = true;
@@ -1548,6 +1551,7 @@ function mouseCollision(first, second, callback) {
 let lastTime = 0;
 let elapsedTime = 0; // TOTAL elapsed time in SUPER precise seconds (since starting game)
 
+// what's difference between elapsedTime and timestamp?
 function animate(timestamp) {
 
     if (!lastTime) lastTime = timestamp; // delta time is the difference in time from current frame to last one.
@@ -1581,7 +1585,7 @@ function animate(timestamp) {
     handleNade(enemyQueue);
 
     // console.log(elapsedTime % 1 == true);
-    // console.log(deltaTime);
+    console.log(timestamp);
 
     window.requestAnimationFrame(animate);
 }
