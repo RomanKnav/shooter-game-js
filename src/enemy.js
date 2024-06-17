@@ -9,12 +9,14 @@ import { preloadedImages } from './imagePreloader.js';
 // OVERHAUL SPEED FUNCTIONALITY:
 export default class Enemy {
     // what's the speed parameter for again? to increase speed globally as rounds progress :)
-    // TO PASS IN NEW FRAMA ARGUMENT GLOBALLY: -CANT DO THAT, IT DOESN'T UPDATE.
-    constructor(x, speed, round, frameSpeed) {
+    // instead of "frameSpeed", need to pass in elapsedTime:
+    // constructor(x, speed, round, frameSpeed) {
+    constructor(x, speed, round, enemySpeed) {
       // NEW SHIT:
       // cxt
       this.frama = 0;
       this.speed = speed;
+      this.enemySpeed = enemySpeed;
 
       this.x = x;
       this.y;
@@ -100,8 +102,9 @@ export default class Enemy {
       this.height = 35;
       this.pickupY= 50;
 
+      // wtf is this again? used to move through the different frames in spritesheet
       this.frameX = 0;
-      this.frameY = 0;
+
       this.spriteWidth = 42;
       this.spriteHeight = 35;
       this.minFrame = 0;
@@ -122,10 +125,15 @@ export default class Enemy {
       // FOR CRAWL ENEMY ONLY:
       this.growl = new Audio();
       this.growl.src = "src/assets/sounds/paco.flac";
+
+      // NEW DELTATIME SHIT:
+      this.lastFrameTime = 0;
     }
 
-    update() {
+    update(elapsedTime) {
+
       // FRAME SHIT
+      // the same kind of frame shit used in script is used here:
       if (this.frama <= 100) this.frama++;
       else this.frama = 0;
 

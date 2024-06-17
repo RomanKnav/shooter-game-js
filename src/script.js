@@ -790,7 +790,9 @@ function handleState(elapsedTime) {
         case "MENU": 
             currentRound = 0;
             shooter.init = true;
-            shooter.disabled = false;
+            // shooter.disabled = false;
+            shooter.disabled = true;
+
             // bossText.draw(cxt);
             // so button immediately disapears when in another state?
             startButton.draw(cxt);
@@ -1557,7 +1559,9 @@ function animate(timestamp) {
 
     // normalize deltaTime across all monitors (at expensive of objects moving slower)
     if (deltaTime > 0.01) {
-        deltaTime = deltaTime - 0.01;
+        // deltaTime = deltaTime - 0.01;
+        deltaTime = deltaTime - 0.0084;     
+        // this makes both mediums MUCH closer in terms of deltaTime.
     }
 
     bullet_cxt.clearRect(0, 0, bullet_canvas.width, bullet_canvas.height);
@@ -1577,6 +1581,7 @@ function animate(timestamp) {
     handleNade(enemyQueue);
 
     // console.log(elapsedTime % 1 == true);
+    // console.log(deltaTime);
 
     window.requestAnimationFrame(animate);
 }

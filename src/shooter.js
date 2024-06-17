@@ -390,9 +390,6 @@ export default class Shooter {
             }
         };
 
-        this.frameX = 0;
-        this.frameY = 0;
-
         this.spriteWidth = 50;
         this.spriteHeight = 28;
         this.minFrame = 0;
