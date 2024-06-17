@@ -120,7 +120,8 @@ export default class Enemy {
       // this.dog_frames = preloadedImages["dogsheet"]
 
       // FOR CRAWL ENEMY ONLY:
-      this.growl = "src/assets/sounds/paco.flac";
+      this.growl = new Audio();
+      this.growl.src = "src/assets/sounds/paco.flac";
     }
 
     update() {

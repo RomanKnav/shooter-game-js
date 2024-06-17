@@ -288,6 +288,7 @@ let roundCounts = [6, 10];
 // single, triple, two shooters, ar hoarde (grounds and a few airs), grenade hoarde, civies (pows)
 
 // NEW SCORE STUFF:
+// CANNOT REMOVE ENTIRE: score determines when to cremate stats.
 let score = 0;
 let winningScore = 30;
 // let currentRound = 1;
@@ -342,10 +343,15 @@ const healthText = new Button(canvas.width / 2.5, canvas.height / 2.7, 100, "You
 const wallText = new Button(canvas.width / 2.5, canvas.height / 2.7, 100, "Too many enemies have broken through.", false);
 
 // UI
-const enemyText = new Button(canvas.width / 2.45, 0, 100, enemiesLeft, false);
-const roundText = new Button(canvas.width / 3, 0, 100, `${currentRound}/10`, false);
-const scoreText = new Button(canvas.width / 2, 0, 100, score, false);
-const ammoText = new Button(canvas.width - 100, 0, 100, shooter.specialAmmo, false);
+// at left
+// const roundText = new Button(canvas.width / 3, 0, 100, `${currentRound}/10`, false);
+const roundText = new Button(canvas.width / 2.45, 0, 100, `${currentRound}/10`, false);
+// at right
+// const enemyText = new Button(canvas.width / 2.45, 0, 100, enemiesLeft, false);
+const enemyText = new Button(canvas.width / 2.10, 0, 100, enemiesLeft, false);
+
+// const scoreText = new Button(canvas.width / 2, 0, 100, score, false);
+// const ammoText = new Button(canvas.width - 100, 0, 100, shooter.specialAmmo, false);
 
 const specialText = new Button(canvas.width / 2.5, canvas.height / 3, 100, "SPECIAL ROUND", false);
 const specialText2 = new Button(canvas.width / 2.5, canvas.height / 3, 100, "MASSACRE THE CIVILIANS", false);
@@ -470,7 +476,7 @@ let snackQueue = [];
 let nadeQueue = [];
 
 let state = "MENU";
-// let state = "LOADING";
+// let state = "SPECIAL";
 
 let loadingTime = [4000, 5000][Math.floor(Math.random() * 2)];
 
@@ -592,6 +598,12 @@ function playSound(sound) {
     }
 }
 
+function playSound2(sound) {
+    if (!sound.playing()) {
+        sound.play();
+    } 
+}
+
 // stupid timer vars:
 let showPlay = false
 let specialRound = false;
@@ -614,12 +626,13 @@ function handleStatus() {
         enemyText.text = enemiesLeft;
         enemyText.draw(cxt2);
         roundText.draw(cxt2);
-        scoreText.draw(cxt2);
+        // scoreText.draw(cxt2);
        
-        if (shooter.weapon != "pistol") {
-            ammoText.draw(cxt2);
-            ammoText.text = shooter.specialAmmo;
-        }
+        // removed to save on memory!
+        // if (shooter.weapon != "pistol") {
+        //     ammoText.draw(cxt2);
+        //     ammoText.text = shooter.specialAmmo;
+        // }
 
         playerHealth.draw(cxt2);
         wallHealth.draw(cxt2);
@@ -641,7 +654,7 @@ function greatReset() {
     currentSpeed = 1.5;
     enemySpeed = 15;
     score = 0;
-    scoreText.text = score;
+    // scoreText.text = score;
     enemyCount = enemiesLeft = roundCounts[0];
     enemyQueue = [];
 
@@ -685,8 +698,6 @@ function greatReset() {
 
     // RESET MUSIC:
     music.hit_back.stop();
-    // UNCOMMENT:
-    // playSound(music.dramatic);
 };
 
 function endRound() {
@@ -700,7 +711,6 @@ function endRound() {
         nextText.draw(cxt);
         setTimeout(() => {
             state = "RUNNING";
-            // if (score >= winningScore) {
             if (enemiesLeft <= 0) { 
                 cremate();
             }
@@ -836,6 +846,10 @@ function handleState(elapsedTime) {
                 if (enemiesLeft <= 50) currentSpeed = 8;
             }
 
+            if (specialRound == true) {
+                playSound2(sfx.crowd);
+            };
+
             // wtf is going on here? draw the "disabled tips" while tutorial taking place
             if (Object.keys(tutRounds).includes(currentRound.toString()) && tutorial === true) {
                 disableButton.draw(cxt);
@@ -917,6 +931,7 @@ function handleState(elapsedTime) {
             mouseCollision(shooter.mouse, playAgainButton2, () => state = "MENU");  
             break;
 
+        // MASSACRE ROUND HERE.
         case "SPECIAL":
             musicToggler();
             specialRound = true;
@@ -928,9 +943,7 @@ function handleState(elapsedTime) {
             } else { 
                 specialText2.draw(cxt);
                 setTimeout(() => {
-                    // state = "RUNNING";
                     if (score >= winningScore) {
-                        // if (state != "RUNNING") 
                         cremate();
                     }
                     state = "RUNNING";
@@ -1218,7 +1231,7 @@ function handleProjectile(arr) {
 
             if (currentEnemy.isCivie && currentEnemy.type == "crawl" 
             && (currentEnemy.x > current.x - 30 && currentEnemy.x < current.x + 30 && 
-                current.y >= currentEnemy.y)) playSound(sfx.yelp);
+                current.y >= currentEnemy.y)) playSound2(sfx.yelp);
 
             if (arr[j] && projectiles[i] && collision(projectiles[i], arr[j])) {
 
@@ -1233,7 +1246,7 @@ function handleProjectile(arr) {
 
                 if (currentEnemy.health <= 0) {
                     score += 10;
-                    scoreText.text = score;
+                    // scoreText.text = score;
 
                     if (currentEnemy.pickup && currentRound >= 3) {
                         snackQueue.push(new Pickup(currentEnemy.x, flora.y - 150, currentRound));
@@ -1420,6 +1433,7 @@ function handleEnemy() {
             if (current.type == "crawl" && current.shooting) {
                 // playSound(sfx.growl);
                 current.growl.play();
+                // current.sound.play();
             }
         }
     }
