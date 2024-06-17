@@ -131,7 +131,7 @@ export default class Enemy {
       // NEW DELTATIME SHIT:
       this.frameTime = 0;
       this.lastFrameTime = 0;
-      this.frameInterval = 100;
+      this.frameInterval = 0.13; // in milli/seconds?
     }
 
     /* here's shit used in script: 
@@ -158,7 +158,6 @@ export default class Enemy {
     */
 
     update(elapsedTime) {
-
       if (elapsedTime - this.lastFrameTime >= this.frameInterval) {
           this.lastFrameTime = elapsedTime;
           if (this.frameX < this.maxFrame) {

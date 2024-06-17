@@ -1049,7 +1049,6 @@ function handleState(elapsedTime) {
 // increment stuff to make next round slightly harder:
 function cremate() {
     // really hope this fixes civy glitch
-
     if (enemiesLeft <= 0 || enemiesLeft > 10) {
         enemySpeed--;
         currentRound++;
@@ -1057,7 +1056,6 @@ function cremate() {
         roundCounts.splice(0, 1);
         enemyCount = enemiesLeft = roundCounts[0];
         winningScore += enemyCount * 10;
-        frame = 0;
         resetBaddies();
     }
     
@@ -1382,7 +1380,6 @@ function handleEnemy() {
             current.draw(cxt);
             // current.update(); 
             current.update(elapsedTime); 
-
         } else {
             current.dead = true;
             // UNCOMMENT:
@@ -1552,6 +1549,7 @@ let lastTime = 0;
 let elapsedTime = 0; // TOTAL elapsed time in SUPER precise seconds (since starting game)
 
 // what's difference between elapsedTime and timestamp?
+// timestamp is just elapsedTime but in MILLISECONDS.
 function animate(timestamp) {
 
     if (!lastTime) lastTime = timestamp; // delta time is the difference in time from current frame to last one.
@@ -1585,7 +1583,7 @@ function animate(timestamp) {
     handleNade(enemyQueue);
 
     // console.log(elapsedTime % 1 == true);
-    console.log(timestamp);
+    // console.log(timestamp);
 
     window.requestAnimationFrame(animate);
 }
