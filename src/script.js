@@ -469,7 +469,7 @@ let baddiePositions = {
     "8": {"inPos": false, "distance": 200, "type": "sheep"},
 };
 
-// ENEMY SPEED:
+// ENEMY ACTUAL MOVING SPEED:
 let currentSpeed = 1.5;
 // let currentSpeed = 5;
 

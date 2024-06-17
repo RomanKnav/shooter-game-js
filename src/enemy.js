@@ -11,6 +11,8 @@ export default class Enemy {
     // what's the speed parameter for again? to increase speed globally as rounds progress :)
     // instead of "frameSpeed", need to pass in elapsedTime:
     // constructor(x, speed, round, frameSpeed) {
+
+    // (actual) speed is initially 1.5, increases by 0.4 every round:
     constructor(x, speed, round, frameSpeed) {
       // NEW SHIT:
       // cxt
@@ -302,7 +304,8 @@ export default class Enemy {
           break;  
       }
 
-      // THIS WORKS
+      // THIS WORKS. this.shooting is true when enemies get in position.
+      // TODO: to create universal speed, I believe all I have to do is multiply this by deltaTime:
       if (!this.shooting) {
         this.x -= this.speed;
       } else {
