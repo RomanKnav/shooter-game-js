@@ -1070,9 +1070,9 @@ function handleShooter() {
 
     if ((state != "MENU" || state != "LOSE")) {
         // if (state != "LOSE" ) {
-        shooter.update(cxt2, elapsedTime);
+        shooter.update(cxt2, deltaGlobal);
         if (secondShooter) {
-            shooter2.update(cxt2, elapsedTime);
+            shooter2.update(cxt2, deltaGlobal);
         }
     }
 
@@ -1552,6 +1552,7 @@ let deltaGlobal = 0;    // yes, identical to deltaTime.
 
 // what's difference between elapsedTime and timestamp?
 // timestamp is just elapsedTime but in MILLISECONDS.
+// remember: deltaTime is the time difference between each frame and the one before it.
 function animate(timestamp) {
 
     if (!lastTime) lastTime = timestamp; // delta time is the difference in time from current frame to last one.
@@ -1565,7 +1566,7 @@ function animate(timestamp) {
     // normalize deltaTime across all monitors (at expensive of objects moving slower)
     if (deltaTime > 0.01) {
         // deltaTime = deltaTime - 0.01;
-        deltaTime = deltaTime - 0.0084;     
+        deltaTime = deltaGlobal = deltaTime - 0.0084;     
         // this makes both mediums MUCH closer in terms of deltaTime.
     }
 
@@ -1586,7 +1587,7 @@ function animate(timestamp) {
     handleNade(enemyQueue);
 
     // console.log(elapsedTime % 1 == true);
-    // console.log(deltaTime, deltaGlobal);
+    // console.log(deltaGlobal, deltaTime);
 
     window.requestAnimationFrame(animate);
 }

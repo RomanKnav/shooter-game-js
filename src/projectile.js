@@ -84,6 +84,8 @@ export default class Projectile {
     this.randomY_duck = [1.1, 1.2, 1.3, 1.4];
 
     this.bulletLimit;
+
+    this.movement;
   }
 
   playSound(sound) {
@@ -94,12 +96,13 @@ export default class Projectile {
   
   // ONLY SPEED of bullet should be affected, not push-rate.
   update(deltaTime) {
-    const movement = this.speed * deltaTime * 7;
+    const movement = 3 * (Math.floor(this.speed * deltaTime * 30));
 
     console.log(movement);
 
     switch (this.weapon) {
       case "pistol":
+        // this.speed *= movement;
         this.playSound(this.sfx.pistol);
         break;
 
@@ -134,7 +137,9 @@ export default class Projectile {
     switch (this.direction) {
       case "straight":
         // this.x += this.speed;
-        this.x += this.speed * movement;
+        // this.x += this.speed * movement;
+        this.x += movement;
+
         // this.y += this.speed; <- yup, this works
         break
 
