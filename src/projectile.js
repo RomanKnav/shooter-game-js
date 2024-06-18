@@ -1,7 +1,7 @@
 // BULLETS
 export default class Projectile {
   // "dead" used as determinant for playing sounds
-  constructor(x, y, direction, weapon, dead, isSecond) {
+  constructor(x, y, direction, weapon, dead, isSecond, ) {
     this.isSecond = isSecond;
 
     // NEW HOWLER CRAP (sound fx "bucket"):
@@ -90,13 +90,20 @@ export default class Projectile {
     }
   }
   
-  update() {
+  update(deltaTime) {
+    const movement = this.speed * deltaTime * 7;
+
+    console.log(movement);
+
     switch (this.weapon) {
       case "pistol":
         this.playSound(this.sfx.pistol);
         break;
+
+      // FOR GROUND FORCES:
       case "shotty":
-        this.size = 3;
+        this.speed = 15;
+        // this.size = 3;
         if (!this.dead) {
           this.playSound(this.sfx.shotty);
         } else {
@@ -123,7 +130,8 @@ export default class Projectile {
     // DIRECTION TO SHOOT IN:
     switch (this.direction) {
       case "straight":
-        this.x += this.speed;
+        // this.x += this.speed;
+        this.x += this.speed * movement;
         // this.y += this.speed; <- yup, this works
         break
 

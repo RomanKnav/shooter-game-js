@@ -306,7 +306,6 @@ let secondShooter = false;
 // objects
 // flora, drawn on static canvas:
 const flora = new Floor(canvas0);
-// const shooter = new Shooter(100, flora.y - 34);
 const shooter = new Shooter(100);
 
 
@@ -316,7 +315,6 @@ const shooter2 = new Shooter(0 - shooter.width, flora.y - 34);
 shooter2.isSecond = true;
 //shooter2.weapon = shooter.weapon;
 
-// const shooter = new Shooter(100, flora.y - 50);
 // BRILLIANT IDEA: inputHandler doesn't need to take in these args. Use the ones from shooter.
 new InputHandler(shooter, canvas);
 new InputHandler(shooter2, canvas);
@@ -908,8 +906,8 @@ function handleState(elapsedTime) {
             // SPEC ROUND SHOULD BE 5. 
             // enemy speed on final round is 5.1.
 
-            // let specRounds = {4: "SPECIAL", 6: "NATURAL", 7: "RELIEF", 9: "BOSS", 10: "END"};
-            let specRounds = {1: "SPECIAL", 6: "NATURAL", 7: "RELIEF", 8: "BOSS", 10: "END"};
+            let specRounds = {4: "SPECIAL", 6: "NATURAL", 7: "RELIEF", 9: "BOSS", 10: "END"};
+            // let specRounds = {1: "SPECIAL", 6: "NATURAL", 7: "RELIEF", 8: "BOSS", 10: "END"};
 
             if (Object.keys(specRounds).includes(currentRound.toString())) {
                 state = specRounds[currentRound];
@@ -1072,9 +1070,9 @@ function handleShooter() {
 
     if ((state != "MENU" || state != "LOSE")) {
         // if (state != "LOSE" ) {
-        shooter.update(cxt2);
+        shooter.update(cxt2, elapsedTime);
         if (secondShooter) {
-            shooter2.update(cxt2);
+            shooter2.update(cxt2, elapsedTime);
         }
     }
 
@@ -1164,6 +1162,7 @@ function handleNade(arr) {
     }
 };
 
+// where this used?
 function handleEnemyProjectiles(orc) {
     // this NEVER exceeds more than one object.
     let projes = orc.projectiles;
@@ -1177,7 +1176,7 @@ function handleEnemyProjectiles(orc) {
         // what's bulletLimit? either the player or 0.
         if (current.x > orc.bulletLimit) {
         // if (current.x > 150) {
-            current.update();
+            current.update(deltaGlobal);
             current.draw(cxt);
         }
         else {
@@ -1214,7 +1213,7 @@ function handleProjectile(arr) {
             if (current.x < canvas.width - 100 && (state == "RUNNING" || state == "WIN" 
             || state == "QUIET" || state == "TUTORIAL" || state == "MENU")) {
                 
-                current.update();
+                current.update(deltaGlobal);
                 current.draw(bullet_cxt);
                 // current.draw(cxt2);
                 // current.draw(cxt);

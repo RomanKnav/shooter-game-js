@@ -37,6 +37,8 @@ export default class Shooter {
         it automatically decrements until it is empty :) */
         this.projectiles = [];
         this.shooting = false;
+
+        // DETERMINES FIRERATE:
         this.timer = 0;
 
         // used in input handler:
@@ -419,7 +421,7 @@ export default class Shooter {
         // context.fillText(`${this.weapon}`, this.x + (this.width / 2), this.y - 100);
     }
 
-    update(context) { 
+    update(context, elapsedTime) { 
         this.y = canvas.height - (canvas.height * (1/4)) - this.height;
 
         switch (this.angle) {
@@ -459,7 +461,7 @@ export default class Shooter {
                 this.bulletX = 23;
                 // this.y = canvas.height - (canvas.height * (1/4)) - this.height;
                 break;
-s
+
             // 50x28
             // FIRE: 50×28
             case "down":
@@ -540,7 +542,10 @@ s
             // 201 standing 
             // 232 down
             
-            if (this.timer % this.fireRate === 0  || this.timer == 1) {
+            if (this.timer == 1) {
+            // if (this.timer % this.fireRate === 0  || this.timer == 1) {
+            // if (elapsedTime % this.fireRate === 0  || this.timer == 1) {
+            // if (elapsedTime % this.fireRate === 0) {
                 this.projectiles.push(new Projectile(this.x + this.bulletX, this.y + this.bulletY, this.angle, this.weapon, this.delete, false));
                 if (this.secondStream == true) {
                     this.projectiles.push(new Projectile(this.secondX, this.y + this.bulletY, this.angle, this.weapon, this.delete, true));

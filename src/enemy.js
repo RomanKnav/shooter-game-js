@@ -49,8 +49,10 @@ export default class Enemy {
       this.projectiles = [];
       // this.fireRate = 200;
       // this.fireRate = 150;
-      this.fireRate = 100;
+
       this.shooting = false;
+
+      // THIS TIMER DETERMINES FIRERATE:s
       this.timer = 0;
       this.angle = "back";
 
@@ -61,7 +63,7 @@ export default class Enemy {
 
       this.beaming = false;
       this.beamHeight = 150;
-      this.openFire = 100;
+
       this.beamActive = false;
 
       // ODDS CRAP:
@@ -119,6 +121,7 @@ export default class Enemy {
       this.statica = false;          // determine if enemy is static throughout (plane, bomber)
       this.animation = false;
 
+      // YES, both paths are correct.
       // this.civy_frameworks = ["src/assets/images/civy/new-frames/spritesheet.png", 
       //                         "src/assets/images/civy/new-frames/spritesheet2.png"];
 
@@ -126,15 +129,14 @@ export default class Enemy {
       // this.dog_frames = "src/assets/images/dog/dog-frames/spritesheet.png";
       // this.civy_type;
 
-      // YES, both paths are correct.
       // THIS needs to change to use preloaded images:
       this.civy_frameworks2 = ["src/assets/images/civy/new-frames/civysheet.png", 
                               "src/assets/images/civy/new-frames/civysheet2.png"];
 
-      // these indices are good:                      
+      // these indices are good:
+      // ISSUE LIES HERE:                      
       this.civy_frameworks = [preloadedImages["civysheet"], preloadedImages["civysheet2"]];                                                                
       this.civy_frames = this.civy_frameworks[Math.floor(Math.random() * 2)];
-
 
       this.dog_frames = preloadedImages["dogsheet"];
       this.civy_type;
@@ -147,30 +149,12 @@ export default class Enemy {
       this.frameTime = 0;
       this.lastFrameTime = 0;
       this.frameInterval = 0.13; // in milli/seconds?
+
+      this.openFire = 100;
+      this.fireRate = 100;
+      // this.openFire = 5;
+      // this.fireRate = 5;
     }
-
-    /* here's shit used in script: 
-
-      let lastTime = 0;
-      let elapsedTime = 0; // TOTAL elapsed time in SUPER precise seconds (since starting game)
-
-      function animate(timestamp) {
-
-          if (!lastTime) lastTime = timestamp; // delta time is the difference in time from current frame to last one.
-
-          let deltaTime = (timestamp - lastTime) / 1000; // Convert to seconds
-          lastTime = timestamp;
-
-          elapsedTime += deltaTime;
-
-          // normalize deltaTime across all monitors (at expensive of objects moving slower)
-          if (deltaTime > 0.01) {
-              // deltaTime = deltaTime - 0.01;
-              deltaTime = deltaTime - 0.0084;     
-              // this makes both mediums MUCH closer in terms of deltaTime.
-          }
-      }
-    */
 
     update(elapsedTime, deltaTime) {
       // determine speed of frames:
@@ -182,6 +166,16 @@ export default class Enemy {
               this.frameX = this.minFrame;
           }
       }
+
+      // NEW
+      if (this.timer >= this.openFire && this.timer % this.fireRate === 0) { 
+      // if (this.timer % this.fireRate === 0) { 
+      // if (elapsedTime >= this.openFire && Math.floor(elapsedTime) % this.fireRate == 0) { 
+        this.projectiles.push(new Projectile(this.x + this.bulletX, this.y + this.bulletY, this.angle, this.sound, this.dead, "shotty"));
+        if (this.type == "bomber") {
+          this.beamActive = true;
+        }
+      } 
 
       // FRAME SHIT
       // the same kind of frame shit used in script is used here:
@@ -264,7 +258,7 @@ export default class Enemy {
             this.spriteWidth = 63;
             this.spriteHeight = 41;
             // this.framework = preloadedImages["civysheet2"];
-            this.framework.src = this.civy_frames;
+            this.framework = this.civy_frames;
           }
           // else this.framework.src = "src/assets/images/assault-pig/pig-walk-clear/pigFrames.png";
           else this.framework = preloadedImages["pigFrames"];
@@ -291,13 +285,15 @@ export default class Enemy {
           // this.speed = 4;
           // this.speed = movement;
           // this.x -= movement;
+          this.x -= movement;
 
           // THIS IS IN REVERSE LOOOL BUT THAT'S THE WAY IT WORKS (HTMS)
           if (this.isCivie) {
-            // this.speed = -4;
-            this.speed = -movement;
+            this.speed = -4;
+            // this.speed = -movement;
           }
-          else this.speed = movement;
+          // else this.speed = movement;
+          this.speed = 4;
           break;
         
         // OPENFIRE BY DEFAULT IS 
@@ -340,16 +336,15 @@ export default class Enemy {
         this.x -= movement;
       } else {
         this.speed = 0;
+
+        // NOT MENTIONED ANYWHERE, BUT TIMER IS FRAME-BASED:
+        // elapsedTime updates MUCH slower than timer.
         this.timer++;
 
-        // NEW
-        if (this.timer >= this.openFire && this.timer % this.fireRate === 0) { 
-          this.projectiles.push(new Projectile(this.x + this.bulletX, this.y + this.bulletY, this.angle, this.sound, this.dead, "shotty"));
-          if (this.type == "bomber") {
-            this.beamActive = true;
-          }
-        } 
+        // console.log(Math.floor(elapsedTime), this.timer);
 
+        // this.openFire = 2;
+        // this.fireRate = 2;
       }
 
       if (this.pickupNum <= this.pickupOdds && this.round >= 3) {
