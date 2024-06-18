@@ -421,7 +421,7 @@ export default class Shooter {
         // context.fillText(`${this.weapon}`, this.x + (this.width / 2), this.y - 100);
     }
 
-    update(context, elapsedTime) { 
+    update(context) { 
         this.y = canvas.height - (canvas.height * (1/4)) - this.height;
 
         switch (this.angle) {
@@ -541,8 +541,11 @@ export default class Shooter {
 
             // 201 standing 
             // 232 down
+
+            // DELTATIME SHIT NEEDS TO BE IMPLEMENTED HERE (pushing projectiles):
             
-            if (this.timer == 1) {
+            if (this.timer % this.fireRate === 0  || this.timer == 1) {
+            // that 1st part is needed to make automatic fire possible:
             // if (this.timer % this.fireRate === 0  || this.timer == 1) {
             // if (elapsedTime % this.fireRate === 0  || this.timer == 1) {
             // if (elapsedTime % this.fireRate === 0) {

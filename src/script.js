@@ -667,7 +667,7 @@ function greatReset() {
 
     // second shooter gets this hard-coded crap:
     shooter.weapon = "pistol";
-    shooter.fireRate = 0;
+    shooter.fireRate = 0;       // THIS MAKES PISTOL SEMI AUTO:
     shooter.specialAmmo = 0;
     
     shooter.secondStream = false;
@@ -1290,6 +1290,8 @@ function handleProjectile(arr) {
                 if (shooter.weapon != "flammen") {
                     if (snack.type == "ar") {
                         shooter.weapon = "ar";
+
+                        // AUTOMATIC FIRERATE
                         shooter.fireRate = 15;
                         shooter.specialAmmo = 50;
                     } 

@@ -1,4 +1,6 @@
 // BULLETS
+
+// NOTHING TO DO WITH FIRERATE HERE:
 export default class Projectile {
   // "dead" used as determinant for playing sounds
   constructor(x, y, direction, weapon, dead, isSecond, ) {
@@ -90,6 +92,7 @@ export default class Projectile {
     }
   }
   
+  // ONLY SPEED of bullet should be affected, not push-rate.
   update(deltaTime) {
     const movement = this.speed * deltaTime * 7;
 
@@ -112,7 +115,7 @@ export default class Projectile {
         break;
       case "ar":
         this.size = 2;
-        this.speed = 12;
+        // this.speed = 12;
         this.playSound(this.sfx.ar);
         break;
 

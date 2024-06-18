@@ -167,6 +167,8 @@ export default class Enemy {
           }
       }
 
+      // this.timer += deltaTime;
+
       // NEW
       if (this.timer >= this.openFire && this.timer % this.fireRate === 0) { 
       // if (this.timer % this.fireRate === 0) { 
@@ -339,6 +341,7 @@ export default class Enemy {
 
         // NOT MENTIONED ANYWHERE, BUT TIMER IS FRAME-BASED:
         // elapsedTime updates MUCH slower than timer.
+        
         this.timer++;
 
         // console.log(Math.floor(elapsedTime), this.timer);
