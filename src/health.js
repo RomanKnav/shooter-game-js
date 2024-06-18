@@ -5,8 +5,6 @@ const aid = preloadedImages["aidConcept"];
 const wall = preloadedImages["wall"];
 const grenade = preloadedImages["grenade"];
 
-// console.log(grenade);
-
 // ITS FUCKING EMPTY!!!!
 // console.log(ready);
 // NO LONGER FUCKING EMPTY:

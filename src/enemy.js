@@ -119,12 +119,25 @@ export default class Enemy {
       this.statica = false;          // determine if enemy is static throughout (plane, bomber)
       this.animation = false;
 
-      this.civy_frameworks = ["src/assets/images/civy/new-frames/civysheet.png", 
+      // this.civy_frameworks = ["src/assets/images/civy/new-frames/spritesheet.png", 
+      //                         "src/assets/images/civy/new-frames/spritesheet2.png"];
+
+      // this.civy_frames = this.civy_frameworks[Math.floor(Math.random() * 2)];
+      // this.dog_frames = "src/assets/images/dog/dog-frames/spritesheet.png";
+      // this.civy_type;
+
+      // YES, both paths are correct.
+      // THIS needs to change to use preloaded images:
+      this.civy_frameworks2 = ["src/assets/images/civy/new-frames/civysheet.png", 
                               "src/assets/images/civy/new-frames/civysheet2.png"];
 
+      // these indices are good:                      
+      this.civy_frameworks = [preloadedImages["civysheet"], preloadedImages["civysheet2"]];                                                                
       this.civy_frames = this.civy_frameworks[Math.floor(Math.random() * 2)];
-      this.dog_frames = "src/assets/images/dog/dog-frames/dogsheet.png";
-      // this.dog_frames = preloadedImages["dogsheet"]
+
+
+      this.dog_frames = preloadedImages["dogsheet"];
+      this.civy_type;
 
       // FOR CRAWL ENEMY ONLY:
       this.growl = new Audio();
@@ -221,7 +234,8 @@ export default class Enemy {
             this.spriteWidth = 52;
             this.spriteHeight = 30;
 
-            this.framework.src = this.dog_frames;
+            // this.framework.src = this.dog_frames;
+            this.framework = preloadedImages["dogsheet"];
           }
           else {
             this.width = 60;
@@ -229,7 +243,11 @@ export default class Enemy {
             this.spriteWidth = 60;
             this.spriteHeight = 30;
             this.maxFrame = 3;
-            this.framework.src = "src/assets/images/maggot/spritesheet/maggotsheet.png";
+
+            // this SHOULD BE PRELOADED:
+            // this.framework.src = "src/assets/images/maggot/spritesheet/maggotsheet.png";
+            // this.framework.src = preloadedImages["maggotsheet"];
+            this.framework = preloadedImages["maggotsheet"];
           }
           break;
 
@@ -245,7 +263,8 @@ export default class Enemy {
             this.maxFrame = 4;
             this.spriteWidth = 63;
             this.spriteHeight = 41;
-            this.framework = preloadedImages["civysheet"];
+            // this.framework = preloadedImages["civysheet2"];
+            this.framework.src = this.civy_frames;
           }
           // else this.framework.src = "src/assets/images/assault-pig/pig-walk-clear/pigFrames.png";
           else this.framework = preloadedImages["pigFrames"];
@@ -278,7 +297,7 @@ export default class Enemy {
             // this.speed = -4;
             this.speed = -movement;
           }
-          else this.speed = 5;
+          else this.speed = movement;
           break;
         
         // OPENFIRE BY DEFAULT IS 

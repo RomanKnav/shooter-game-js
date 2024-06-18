@@ -14,6 +14,7 @@ import { preloadedImages } from './imagePreloader.js';
 
 window.onload = () => {
 console.log("ALL ASSETS LOADED");
+console.log(preloadedImages);
 
 // for static shit (background and floor, which don't require any updating)
 var canvas0 = document.getElementById("canvas0");
@@ -907,8 +908,8 @@ function handleState(elapsedTime) {
             // SPEC ROUND SHOULD BE 5. 
             // enemy speed on final round is 5.1.
 
-            let specRounds = {4: "SPECIAL", 6: "NATURAL", 7: "RELIEF", 9: "BOSS", 10: "END"};
-            // let specRounds = {1: "SPECIAL", 6: "NATURAL", 7: "RELIEF", 8: "BOSS", 10: "END"};
+            // let specRounds = {4: "SPECIAL", 6: "NATURAL", 7: "RELIEF", 9: "BOSS", 10: "END"};
+            let specRounds = {1: "SPECIAL", 6: "NATURAL", 7: "RELIEF", 8: "BOSS", 10: "END"};
 
             if (Object.keys(specRounds).includes(currentRound.toString())) {
                 state = specRounds[currentRound];
