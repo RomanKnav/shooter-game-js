@@ -670,8 +670,13 @@ function greatReset() {
     // shooter.fireRate = 0;       // THIS MAKES PISTOL SEMI AUTO:
     // shooter.specialAmmo = 0;
 
-    shooter.weapon = "ar";
-    shooter.fireRate = 15;       // THIS MAKES PISTOL SEMI AUTO:
+    // shooter.weapon = "flammen";
+    // shooter.fireRate = 3;
+
+    // if (slowAssMonitor) {
+    //     shooter.fireRate = 8;
+    // } else shooter.fireRate = 15;  
+
     shooter.specialAmmo = 100;
     
     shooter.secondStream = false;
@@ -1296,18 +1301,34 @@ function handleProjectile(arr) {
                         shooter.weapon = "ar";
 
                         // AUTOMATIC FIRERATE
-                        shooter.fireRate = 15;
+
+                        if (slowAssMonitor) {
+                            shooter.fireRate = 8;
+                        } else shooter.fireRate = 15;  
+
                         shooter.specialAmmo = 50;
+
+                        // shooter.fireRate = 15;
+                        // shooter.specialAmmo = 50;
                     } 
                     else if (snack.type == "flammen") {
                         shooter.weapon = "flammen";
-                        shooter.fireRate = 10;
+                        if (slowAssMonitor) {
+                            shooter.fireRate = 3;
+                        } else shooter.fireRate = 10;  
+
+                        // shooter.fireRate = 10;
                         shooter.specialAmmo = 45;
                     }
                 } 
                 else if (shooter.weapon == "flammen" && snack.type == "flammen") {
                     shooter.weapon = "flammen";
-                    shooter.fireRate = 10;
+
+                    if (slowAssMonitor) {
+                        shooter.fireRate = 3;
+                    } else shooter.fireRate = 10;  
+
+                    // shooter.fireRate = 10;
                     shooter.specialAmmo = 45;
                 }
                 snackQueue.splice(l, 1);
@@ -1556,6 +1577,11 @@ let lastTime = 0;
 let elapsedTime = 0; // TOTAL elapsed time in SUPER precise seconds (since starting game)
 let deltaGlobal = 0;    // yes, identical to deltaTime.
 
+let slowAssMonitor = false;
+
+let arRate = 15;
+let flammenRate = 10;
+
 // what's difference between elapsedTime and timestamp?
 // timestamp is just elapsedTime but in MILLISECONDS.
 // remember: deltaTime is the time difference between each frame and the one before it.
@@ -1570,9 +1596,11 @@ function animate(timestamp) {
     elapsedTime += deltaTime;
 
     // normalize deltaTime across all monitors (at expensive of objects moving slower)
+    // if (slowAssMonitor) 
     if (deltaTime > 0.01) {
         // deltaTime = deltaTime - 0.01;
-        deltaTime = deltaGlobal = deltaTime - 0.0084;     
+        deltaTime = deltaGlobal = deltaTime - 0.0084; 
+        slowAssMonitor = true;  // I'm pretty sure this'll just update it indefinitely.  
         // this makes both mediums MUCH closer in terms of deltaTime.
     }
 
@@ -1594,6 +1622,7 @@ function animate(timestamp) {
 
     // console.log(elapsedTime % 1 == true);
     // console.log(deltaGlobal, deltaTime);
+    console.log(slowAssMonitor, arRate);
 
     window.requestAnimationFrame(animate);
 }

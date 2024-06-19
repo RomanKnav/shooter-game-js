@@ -295,7 +295,8 @@ export default class Shooter {
                     "fire": this.pistol_crouch_up_fire, 
                     "width": 49,
                     "height": 30  
-                }, "ar": {
+                }, 
+                "ar": {
                     "idle": this.rifle_crouch_up, 
                     "fire": this.rifle_crouch_up_fire,
                     "width": 49,
@@ -338,8 +339,6 @@ export default class Shooter {
                 "ar": {
                     "idle": this.rifle_crouch, 
                     "fire": this.rifle_crouch_fire,
-                    // "width": 50,
-                    // "height": 31
                     "width": 50,
                     "height": 29
                 },
@@ -540,6 +539,8 @@ export default class Shooter {
 
             // DELTATIME SHIT NEEDS TO BE IMPLEMENTED HERE (pushing projectiles):
             
+            // FIRERATE FOR RIFLE IS 15. FOR FLAMMEN IT'S TEN.
+            // At 60 hertz, this value will have to be lowered.
             if (this.timer % this.fireRate === 0  || this.timer == 1) {
             // that 1st part is needed to make automatic fire possible:
             // if (this.timer % this.fireRate === 0  || this.timer == 1) {

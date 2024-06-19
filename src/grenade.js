@@ -53,7 +53,8 @@ export default class Grenade {
         );  
     }
 
-    update() {
+    // JUST FOR THE EXPLOSION FRAMES:
+    update(elapsedTime, deltaTime) {
         if (this.frama <= 100) this.frama++;
         else this.frama = 0;
 
@@ -64,6 +65,17 @@ export default class Grenade {
             } else this.boomFrameX = this.minFrame;
         }
         // only updates the frames you shithead 
+
+
+        // NEW DELTATIME SHIT:
+        if (elapsedTime - this.lastFrameTime >= this.frameInterval) {
+            this.lastFrameTime = elapsedTime;
+            if (this.frameX < this.maxFrame) {
+                this.frameX++;
+            } else {
+                this.frameX = this.minFrame;
+            }
+        }
     }
 
     // draws the nade itself

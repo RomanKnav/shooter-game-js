@@ -157,7 +157,7 @@ export default class Enemy {
     }
 
     update(elapsedTime, deltaTime) {
-      // determine speed of frames:
+      // determine speed of FRAMES:
       if (elapsedTime - this.lastFrameTime >= this.frameInterval) {
           this.lastFrameTime = elapsedTime;
           if (this.frameX < this.maxFrame) {
@@ -284,12 +284,8 @@ export default class Enemy {
 
           // THIS IS IN REVERSE LOOOL BUT THAT'S THE WAY IT WORKS (HTMS)
           if (this.isCivie) {
-            this.speed = -4;
-            // this.speed = -movement;
+            this.speed = -5;
           }
-          // else this.speed = movement;
-          // this.speed = movement;
-          // this.speed = 4;
           break;
         
         // OPENFIRE BY DEFAULT IS 
