@@ -430,7 +430,7 @@ const credText = new TextWall(
     `, Math.floor(canvas.height / 10), canvas);
 
 // const loadingText = new TextWall(`\n\n\n\n\nLoading`, canvas.height / 5);
-const loadingText = new TextWall(`Loading`, Math.floor(canvas.height / 3), canvas);
+const loadingText = new TextWall(`Loading...`, Math.floor(canvas.height / 3), canvas);
 
 const playText = new TextWall(``, Math.floor(canvas.height / 5), canvas);
 
@@ -475,10 +475,10 @@ let currentSpeed = 1.5;
 let snackQueue = [];
 let nadeQueue = [];
 
-let state = "MENU";
-// let state = "SPECIAL";
+// let state = "MENU";
+let state = "LOADING";
 
-let loadingTime = [4000, 5000][Math.floor(Math.random() * 2)];
+let loadingTime = [5000, 6000][Math.floor(Math.random() * 2)];
 
 // FUNCTIONS:
 
@@ -565,8 +565,8 @@ user explicitly interacts with the page. To work around this, add a "play" butto
 var music = {
     dramatic: new Howl({
         src: [
-        // "src/assets/music/prey's stand.mp3"
-        "src/assets/music/astro_race.mp3"
+        "src/assets/music/prey's stand.mp3"
+        // "src/assets/music/astro_race.mp3"
         ], 
         loop: true,
         volume: 5.5,
@@ -1121,7 +1121,7 @@ function handleNade(arr) {
 
         if (current.dudY > 0) {
             current.drawDud(cxt);
-            current.updateDud();
+            current.updateDud(deltaGlobal);
         }
 
         if (!current.bloopPlayed) {
@@ -1136,7 +1136,7 @@ function handleNade(arr) {
         // current.ready = true;
         if (current.ready) {
             current.draw(cxt);
-            current.update();
+            current.update(elapsedTime);
 
             // why is this used? with playSound it doesn't work.
             // No, this does NOT use howler, just the raw sound:

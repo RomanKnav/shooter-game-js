@@ -36,6 +36,43 @@ export default class Grenade {
         this.boomSpriteWidth = 64;
         this.boomHeight = this.boomSpriteHeight * 4;
         this.boomWidth = this.boomSpriteWidth * 4;
+
+        // DELTATIME SHIT:
+        this.frameTime = 0;
+        this.lastFrameTime = 0;
+        this.frameInterval = 0.13; // in milli/seconds?
+    }
+
+    // JUST FOR THE EXPLOSION FRAMES:
+    update(elapsedTime) {
+        // if (this.frama <= 100) this.frama++;
+        // else this.frama = 0;
+
+        // if (this.frama % 15 === 0) {
+        //     if (this.boomFrameX < this.boomMaxFrame) {
+        //     this.boomFrameX++;
+        //     } else this.boomFrameX = this.minFrame;
+        // }
+        // only updates the frames you shithead 
+
+        // NEW DELTATIME SHIT (what determines the speed?)
+        if (elapsedTime - this.lastFrameTime >= this.frameInterval) {
+            this.lastFrameTime = elapsedTime;
+            if (this.boomFrameX < this.boomMaxFrame) {
+                this.boomFrameX++;
+            } else {
+                this.boomFrameX = this.minFrame;
+            }
+        }
+
+        // if (elapsedTime - this.lastFrameTime >= this.frameInterval) {
+        //     this.lastFrameTime = elapsedTime;
+        //     if (this.frameX < this.maxFrame) {
+        //         this.frameX++;
+        //     } else {
+        //         this.frameX = this.minFrame;
+        //     }
+        // }
     }
 
     // draws the explosion
@@ -53,31 +90,6 @@ export default class Grenade {
         );  
     }
 
-    // JUST FOR THE EXPLOSION FRAMES:
-    update(elapsedTime, deltaTime) {
-        if (this.frama <= 100) this.frama++;
-        else this.frama = 0;
-
-        if (this.frama % 15 === 0) {
-            if (this.boomFrameX < this.boomMaxFrame) {
-            this.boomFrameX++;
-            this.boomAnimation += 1;
-            } else this.boomFrameX = this.minFrame;
-        }
-        // only updates the frames you shithead 
-
-
-        // NEW DELTATIME SHIT:
-        if (elapsedTime - this.lastFrameTime >= this.frameInterval) {
-            this.lastFrameTime = elapsedTime;
-            if (this.frameX < this.maxFrame) {
-                this.frameX++;
-            } else {
-                this.frameX = this.minFrame;
-            }
-        }
-    }
-
     // draws the nade itself
     drawDud(context) {
         context.beginPath();
@@ -85,10 +97,13 @@ export default class Grenade {
         context.fill();
         context.closePath();
     }
-    updateDud() {
+    updateDud(deltaTime) {
+        const movement = 8 * (deltaTime * 250);
         if (this.dudY > 0) {
-            this.dudY -= 10;
-            this.dudX -= 10;
+            // this.dudY -= 10;
+            // this.dudX -= 10;
+            this.dudY -= movement;
+            this.dudX -= movement;
         }
     }
 }

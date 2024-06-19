@@ -83,8 +83,9 @@ export default class Shooter {
         // this.grenade_crouch = new Image();
         // this.grenade_crouch.src = "src/assets/images/CLEARS/nade/sheep-nade-crouch.png";
 
-        this.dead_warren = new Image();
-        this.dead_warren.src = "src/assets/images/CLEARS/dead-warren/dead-warren-clear.png";
+        this.dead_warren = preloadedImages["dead-warren-clear"];
+        // this.dead_warren = new Image();
+        // this.dead_warren.src = "src/assets/images/CLEARS/dead-warren/dead-warren-clear.png";
 
         // FIX THIS CRAP:
         this.pistol_stand = preloadedImages["sheep-pistol-clear-elevate"];
