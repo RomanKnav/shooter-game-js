@@ -189,7 +189,7 @@ export default class Enemy {
 
       // since deltaTime is more constant, I'd like to use that instead.
       // const movement = this.speed * elapsedTime / 2;
-      const movement = this.speed * deltaTime * 100;
+      const movement = this.speed * deltaTime * 250;
 
       if (this.isCivie == true) {
         if (this.typeNum <= this.dogOdds) this.type = "crawl"
@@ -280,9 +280,6 @@ export default class Enemy {
           this.width = 70;
           this.height = 70;
 
-          // this.speed = 4;
-          // this.speed = movement;
-          // this.x -= movement;
           this.x -= movement;
 
           // THIS IS IN REVERSE LOOOL BUT THAT'S THE WAY IT WORKS (HTMS)
@@ -291,7 +288,8 @@ export default class Enemy {
             // this.speed = -movement;
           }
           // else this.speed = movement;
-          this.speed = 4;
+          // this.speed = movement;
+          // this.speed = 4;
           break;
         
         // OPENFIRE BY DEFAULT IS 
@@ -330,7 +328,6 @@ export default class Enemy {
       // THIS WORKS. this.shooting is true when enemies get in position.
       // TODO: to create universal speed, I believe all I have to do is multiply this by deltaTime:
       if (!this.shooting) {
-        // this.x -= this.speed;
         this.x -= movement;
       } else {
         this.speed = 0;

@@ -96,9 +96,9 @@ export default class Projectile {
   
   // ONLY SPEED of bullet should be affected, not push-rate.
   update(deltaTime) {
-    const movement = 3 * (Math.floor(this.speed * deltaTime * 30));
+    const movement = 10 * (Math.floor(this.speed * deltaTime * 30));
 
-    console.log(movement);
+    // console.log(movement);
 
     switch (this.weapon) {
       case "pistol":
@@ -146,42 +146,57 @@ export default class Projectile {
       case "up":
       case "down-up":   
         this.x += 0;
-        this.y -= this.speed;
+        // this.y -= this.speed;
+        this.y -= movement;
         break;
       
       case "diagnal":
-        this.x += this.speed;
-        this.y -= this.speed / this.randomY[Math.floor(Math.random() * this.randomY.length)];
+        // this.x += this.speed;
+        // this.y -= this.speed / this.randomY[Math.floor(Math.random() * this.randomY.length)];
+        this.x += movement;
+        this.y -= movement / this.randomY[Math.floor(Math.random() * this.randomY.length)];
+        
         break;
       
       case "diagnal-duck":
-        this.x += this.speed;
-        this.y -= this.speed / this.randomY_duck[Math.floor(Math.random() * this.randomY_duck.length)];
+        // this.x += this.speed;
+        // this.y -= this.speed / this.randomY_duck[Math.floor(Math.random() * this.randomY_duck.length)];
+        this.x += movement;
+        this.y -= movement / this.randomY[Math.floor(Math.random() * this.randomY.length)];
         break;
 
       case "down":
-        this.x += this.speed;
+        // this.x += this.speed;
+        this.x += movement;
         break;
 
       case "back":
       case "down-back":
-        this.x -= this.speed;
+        // this.x -= this.speed;
+        this.x -= movement;
         break;
       
       case "diagnal-back":
-        this.x -= this.speed + 1;
-        this.y -= this.speed * 2  
+        // this.x -= this.speed + 1;
+        // this.y -= this.speed * 2  
+
+        this.x -= movement + 1;
+        this.y -= movement * 2  
         break;
 
       // THIS IS FOR AIR ENEMIES:
       case "down-diagnal":
-        this.x -= this.speed / 1.3;
-        this.y += this.speed / 3;
+        // this.x -= this.speed / 1.3;
+        // this.y += this.speed / 3;
+
+        this.x -= movement / 1.3;
+        this.y += movement / 3;
         break;
 
       // FOR BOMBERS:
       case "straight-down":
-        this.y += this.speed;
+        // this.y += this.speed;
+        this.y += movement;
         break;  
     }
   }

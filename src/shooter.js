@@ -47,7 +47,7 @@ export default class Shooter {
 
         this.angle = "straight";
 
-        // pistol, ar, and flamethrower
+        // pistol, ar, and flamethrower. Firerate for rifle? 15
         this.weapon = "pistol";
         this.fireRate = 0;
         this.specialAmmo = 0;
@@ -421,7 +421,7 @@ export default class Shooter {
         // context.fillText(`${this.weapon}`, this.x + (this.width / 2), this.y - 100);
     }
 
-    update(context, deltaTime) { 
+    update(context) { 
         this.y = canvas.height - (canvas.height * (1/4)) - this.height;
 
         switch (this.angle) {

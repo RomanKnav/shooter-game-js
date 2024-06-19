@@ -666,9 +666,13 @@ function greatReset() {
     currentRound = 1;
 
     // second shooter gets this hard-coded crap:
-    shooter.weapon = "pistol";
-    shooter.fireRate = 0;       // THIS MAKES PISTOL SEMI AUTO:
-    shooter.specialAmmo = 0;
+    // shooter.weapon = "pistol";
+    // shooter.fireRate = 0;       // THIS MAKES PISTOL SEMI AUTO:
+    // shooter.specialAmmo = 0;
+
+    shooter.weapon = "ar";
+    shooter.fireRate = 15;       // THIS MAKES PISTOL SEMI AUTO:
+    shooter.specialAmmo = 100;
     
     shooter.secondStream = false;
     secondShooter = false;
@@ -1459,6 +1463,8 @@ function pushEnemy(elapsedTime) {
         if (enemyCount > 0) {   
             if (!specialRound) {
                 // DO NOT REVERT. NEED TO MAKE WAY FOR DIFFERENT SPEEDS:
+                // NORMAL ENEMY SPAWNS:
+                // currentSpeed is ACTUAL SPEED. EnemySpeed is for the frames:
                 enemyQueue.push(new Enemy(canvas.width, currentSpeed, currentRound, enemySpeed));
                 enemyCount--;  
 
