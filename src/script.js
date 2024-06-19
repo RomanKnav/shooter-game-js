@@ -478,7 +478,7 @@ let nadeQueue = [];
 // let state = "MENU";
 let state = "LOADING";
 
-let loadingTime = [5000, 6000][Math.floor(Math.random() * 2)];
+let loadingTime = [4000, 5000][Math.floor(Math.random() * 2)];
 
 // FUNCTIONS:
 
@@ -565,8 +565,8 @@ user explicitly interacts with the page. To work around this, add a "play" butto
 var music = {
     dramatic: new Howl({
         src: [
-        "src/assets/music/prey's stand.mp3"
-        // "src/assets/music/astro_race.mp3"
+        // "src/assets/music/prey's stand.mp3"
+        "src/assets/music/astro_race.mp3"
         ], 
         loop: true,
         volume: 5.5,
