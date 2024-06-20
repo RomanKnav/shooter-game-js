@@ -478,7 +478,8 @@ let nadeQueue = [];
 // let state = "MENU";
 let state = "LOADING";
 
-let loadingTime = [4000, 5000][Math.floor(Math.random() * 2)];
+// let loadingTime = [4000, 5000][Math.floor(Math.random() * 2)];
+let loadingTime = 2000;
 
 // FUNCTIONS:
 
@@ -514,7 +515,6 @@ var sfx = {
         ],
         //loop: false,
     }),
-
     // PICKUP SFX:
     arReload: new Howl({
         src: [
@@ -565,8 +565,8 @@ user explicitly interacts with the page. To work around this, add a "play" butto
 var music = {
     dramatic: new Howl({
         src: [
-        // "src/assets/music/prey's stand.mp3"
-        "src/assets/music/astro_race.mp3"
+        "src/assets/music/prey's stand.mp3"
+        // "src/assets/music/astro_race.mp3"
         ], 
         loop: true,
         volume: 5.5,
@@ -757,7 +757,8 @@ function handleState(elapsedTime) {
             loadingText.draw(cxt);
                 
             let girly = new Enemy(canvas.width, currentSpeed, currentRound, 15);
-            girly.type = "bomber";
+            girly.type = "sheep";
+
             if (enemyQueue.length < 1) enemyQueue.push(girly);
             handleEnemy();
             // if (enemyQueue.length < 1) pushEnemy();
@@ -1059,7 +1060,8 @@ function cremate() {
     if (enemiesLeft <= 0 || enemiesLeft > 10) {
         enemySpeed--;
         currentRound++;
-        currentSpeed += 0.4;
+        // currentSpeed += 0.4;
+        currentSpeed += 1;
         roundCounts.splice(0, 1);
         enemyCount = enemiesLeft = roundCounts[0];
         winningScore += enemyCount * 10;
@@ -1143,9 +1145,6 @@ function handleNade(arr) {
             current.sound.play();
             // playSound(sfx.boom);
 
-            // THIS IS 299:
-            // console.log(current.x - current.size);
-
             if (current.size <= 100) {
                 current.size += 4;
             }
@@ -1159,14 +1158,12 @@ function handleNade(arr) {
         // REMEMBER TO UNCOMMENT:
         for (let y = 0; y <= arr.length; y++) { 
             let currOrc = arr[y];
-            // console.log(collision(current, currOrc));
             if (arr.length > 0 && currOrc) {
                 if (nadeCollision(current, currOrc) && current.ready == true) {    
                     currOrc.dead = true;
                 } 
                 // else currOrc.inNadeRange = false;
             }
-            // console.log(currOrc.inNodeRange);
         }
     }
 };
@@ -1285,11 +1282,11 @@ function handleProjectile(arr) {
                 projectiles.splice(i, 1);
                 i--;
 
-                if (snack.type == "health" && playerHealth.number < 6) {
+                if (snack.type == "health" && playerHealth.number < 5) {
                     playerHealth.number++;
                 }
-                else if (snack.type == "health" && playerHealth.number < 6) {
-                    playerHealth.number++;
+                else if (snack.type == "wall" && wallHealth.number < 5) {
+                    wallHealth.number++;
                 }
                 else if (snack.type == "grenade" && grenades.number < 6) {
                     grenades.number++;
@@ -1351,7 +1348,7 @@ function handleProjectile(arr) {
     }
 }
 
-// SNACK HANDLING
+// SNACK HANDLING (just makes them drop to the floor)
 function handleSnack() {
     for (let i = 0; i < snackQueue.length; i++) {
         let snack = snackQueue[i];
@@ -1368,8 +1365,6 @@ function handleSnack() {
 function handleEnemy() {
     for (let i = 0; i < enemyQueue.length; i++) {
         let current = enemyQueue[i];
-
-        // console.log(current.framework);
 
         if (!shooter.duck) current.bulletLimit = shooter.x + shooter.width;
         else {
@@ -1620,11 +1615,9 @@ function animate(timestamp) {
     handleProjectile(enemyQueue);
     handleNade(enemyQueue);
 
-    // console.log(elapsedTime % 1 == true);
-    // console.log(deltaGlobal, deltaTime);
-    console.log(slowAssMonitor, arRate);
-
     window.requestAnimationFrame(animate);
+
+    console.log(slowAssMonitor);
 }
 
 window.requestAnimationFrame(animate);  // yes, everyone else seems to use this twice.

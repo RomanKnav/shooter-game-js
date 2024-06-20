@@ -16,8 +16,6 @@ export default class InputHandler {
         // what this do? sets respective keys value to true. "key" is a built-in property of "event" lol
         // won't it add more key-value pairs to object? Yes.
         keys[event.key] = true;
-
-        // console.log(JSON.stringify(keys));
         
         switch (event.key) {
           // this is just for SHOOTING, not look direction

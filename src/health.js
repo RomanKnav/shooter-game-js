@@ -5,11 +5,6 @@ const aid = preloadedImages["aidConcept"];
 const wall = preloadedImages["wall"];
 const grenade = preloadedImages["grenade"];
 
-// ITS FUCKING EMPTY!!!!
-// console.log(ready);
-// NO LONGER FUCKING EMPTY:
-// console.log(preloadedImages);
-
 // this class defines a fucking ROW of items.
 export default class Health {
     constructor(y, type) {

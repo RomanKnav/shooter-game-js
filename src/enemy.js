@@ -3,7 +3,6 @@ import Projectile from "./projectile.js";
 // SHIT TONNA IMAGES TO PRELOAD HERE:
 import { preloadedImages } from './imagePreloader.js';
 
-// console.log(preloadedImages);
 
 
 // OVERHAUL SPEED FUNCTIONALITY:
@@ -52,7 +51,7 @@ export default class Enemy {
 
       this.shooting = false;
 
-      // THIS TIMER DETERMINES FIRERATE:s
+      // THIS TIMER DETERMINES FIRERATE:
       this.timer = 0;
       this.angle = "back";
 
@@ -154,10 +153,19 @@ export default class Enemy {
       this.fireRate = 100;
       // this.openFire = 5;
       // this.fireRate = 5;
+
+      this.storedDeltaTime;
     }
 
     update(elapsedTime, deltaTime) {
       // determine speed of FRAMES:
+      // let deltaTime = 0;
+      // if (deltaTime2 > deltaTime) deltaTime = deltaTime2;
+
+      if (this.storedDeltaTime == undefined && deltaTime > 0) {
+        this.storedDeltaTime = deltaTime;
+      }
+
       if (elapsedTime - this.lastFrameTime >= this.frameInterval) {
           this.lastFrameTime = elapsedTime;
           if (this.frameX < this.maxFrame) {
@@ -188,8 +196,15 @@ export default class Enemy {
       // }
 
       // since deltaTime is more constant, I'd like to use that instead.
-      // const movement = this.speed * elapsedTime / 2;
-      const movement = this.speed * deltaTime * 250;
+
+      // this guarantees potential value is never 0:
+      // why not use Math.ceil?
+      const movement = this.speed * this.storedDeltaTime * 150;
+
+      // what if I just hard code a value like this? nope. Way faster on promotion.
+      // const movement = this.speed * 0.008 * 150;
+
+      console.log(movement);
 
       if (this.isCivie == true) {
         if (this.typeNum <= this.dogOdds) this.type = "crawl"
@@ -198,6 +213,7 @@ export default class Enemy {
       else {
         // SPAWN HEIRARCHY CRAP:
         // 0-2
+
         if (this.typeNum <= this.bossOdds) {
           if (this.round < 6 && this.round > 0) this.type = "ground";
           else if (this.round >= 6 && this.round < 10) this.type = "bomber";
@@ -280,7 +296,7 @@ export default class Enemy {
           this.width = 70;
           this.height = 70;
 
-          this.x -= movement;
+          this.x -= movement / 8;
 
           // THIS IS IN REVERSE LOOOL BUT THAT'S THE WAY IT WORKS (HTMS)
           if (this.isCivie) {
@@ -296,7 +312,6 @@ export default class Enemy {
           this.height = 90;
           this.statica = true;
           if (!this.inPosition) {
-            // this.static.src = "src/assets/images/bomber/bomber-clear.png";
             this.static = preloadedImages["bomber-clear"];
           }
           else {
@@ -324,7 +339,11 @@ export default class Enemy {
       // THIS WORKS. this.shooting is true when enemies get in position.
       // TODO: to create universal speed, I believe all I have to do is multiply this by deltaTime:
       if (!this.shooting) {
-        this.x -= movement;
+        // the fucking issue must be here: this.x is being updated in various parts.
+        if (this.type == "bomber" || this.type == "air") {
+          this.x -= movement / 2;
+        }
+        else this.x -= movement;
       } else {
         this.speed = 0;
 
@@ -332,8 +351,6 @@ export default class Enemy {
         // elapsedTime updates MUCH slower than timer.
         
         this.timer++;
-
-        // console.log(Math.floor(elapsedTime), this.timer);
 
         // this.openFire = 2;
         // this.fireRate = 2;
