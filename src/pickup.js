@@ -20,9 +20,9 @@ export default class Pickup {
             // PICKUP SFX:
             arReload: new Howl({
                 src: [
-
                     "src/assets/sounds/rifleReload.mp3",    // good
                 ],
+                preload: true,
                 volume: 5,
             }),
             nadePin: new Howl({

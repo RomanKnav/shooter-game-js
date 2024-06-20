@@ -14,6 +14,7 @@ export default class Projectile {
         src: [
           "src/assets/sounds/shots/pistol.wav",
         ],
+        preload: true,
         loop: false,
         volume: 0.6
       }),
@@ -21,6 +22,7 @@ export default class Projectile {
         src: [
           "src/assets/sounds/shots/cg1.wav",
         ],
+        preload: true,
         // the "loop" flag is false by default!
         loop: false,
         volume: 0.6
@@ -29,6 +31,7 @@ export default class Projectile {
         src: [
           "src/assets/sounds/laser.mp3",
         ],
+        preload: true,
         // the "loop" flag is false by default!
         loop: false,
         // function to execute as soon as the sound effect ends:
@@ -40,6 +43,7 @@ export default class Projectile {
         src: [
           "src/assets/sounds/shots/rifle.wav",
         ],
+        preload: true,
         // the "loop" flag is false by default!
         loop: false,
         volume: 0.6,
@@ -50,6 +54,7 @@ export default class Projectile {
           "/src/assets/sounds/paco.flac",
         ],
         // the "loop" flag is false by default!
+        preload: true,
         loop: false,
         onend: function() {}
       }), 
@@ -58,12 +63,14 @@ export default class Projectile {
           "src/assets/sounds/ray-beam.mp3",
         ],
         // the "loop" flag is false by default!
+        preload: true,
         loop: false,
       }), 
       laser: new Howl({
         src: [
           "src/assets/sounds/laser-buzz.mp3",
         ],
+        preload: true,
         // the "loop" flag is false by default!
         loop: false,
       }), 

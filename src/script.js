@@ -491,6 +491,7 @@ var sfx = {
         src: [
             "src/assets/sounds/animals_dog_yelp_med_large.mp3",
         ],
+        preload: true,
         loop: false,
         volume: 6,
     }),
@@ -498,6 +499,7 @@ var sfx = {
       src: [
         "src/assets/sounds/paco.flac",
       ],
+      preload: true,
       loop: false,
     }),
     boom: new Howl({
@@ -506,6 +508,7 @@ var sfx = {
         src: [
           "src/assets/sounds/explosionLoud.mp3",
         ],
+        preload: true,
         loop: true,
     }),
     bloop: new Howl({
@@ -514,34 +517,40 @@ var sfx = {
         src: [
           "src/assets/sounds/q009/glauncher.ogg",
         ],
+        preload: true,
         //loop: false,
     }),
     nadePin: new Howl({
         src: [
             "src/assets/sounds/grenadePin.mp3",
-        ]
+        ],
+        preload: true,
     }),
     flammenReload: new Howl({
         src: [
             "src/assets/sounds/futureReload.mp3",
-        ]
+        ],
+        preload: true,
     }),
     rayBeam: new Howl({
         src: [
             "src/assets/sounds/pulse.wav",
         ],
+        preload: true,
         loop: false,
     }),
     squeal: new Howl({
         src: [
             "src/assets/sounds/pig-squeal.mp3",
         ], 
+        preload: true,
         loop: false,
     }),
     crowd: new Howl({
         src: [
             "src/assets/sounds/crowd2.mp3",
         ], 
+        preload: true,
         loop: false,
         volume: 3,
     }),
@@ -550,6 +559,7 @@ var sfx = {
         src: [
             "src/assets/sounds/squelch.mp3",
         ], 
+        preload: true,
         loop: false,
         volume: 3,
     }),
@@ -563,6 +573,7 @@ var music = {
         "src/assets/music/prey's stand.mp3"
         // "src/assets/music/astro_race.mp3"
         ], 
+        preload: true,
         loop: true,
         volume: 5.5,
     }),
@@ -570,6 +581,7 @@ var music = {
         src: [
         "src/assets/music/hit-back.mp3"
         ], 
+        preload: true,
         loop: false,
         volume: 5.5,
     }),
@@ -726,7 +738,7 @@ function musicToggler() {
     else {
         music.dramatic.stop();
         if (!shooter.toggleMusic) {
-            playSound(music.hit_back);
+            playSound2(music.hit_back);
         } else music.hit_back.pause();
     }
 }
@@ -847,6 +859,7 @@ function handleState(elapsedTime) {
                 if (enemiesLeft <= 50) currentSpeed = 8;
             }
 
+            // remains true only if there's 5 or less enemies
             if (specialRound == true) {
                 playSound2(sfx.crowd);
             };
@@ -906,7 +919,7 @@ function handleState(elapsedTime) {
             // enemy speed on final round is 5.1.
 
             let specRounds = {4: "SPECIAL", 6: "NATURAL", 7: "RELIEF", 9: "BOSS", 10: "END"};
-            // let specRounds = {1: "SPECIAL", 6: "NATURAL", 7: "RELIEF", 8: "BOSS", 10: "END"};
+            // let specRounds = {4: "SPECIAL", 6: "NATURAL", 7: "RELIEF", 1: "BOSS", 10: "END"};
 
             if (Object.keys(specRounds).includes(currentRound.toString())) {
                 state = specRounds[currentRound];
@@ -1056,8 +1069,6 @@ function cremate() {
         winningScore += enemyCount * 10;
         resetBaddies();
     }
-    
-    // if (state != "BOSS" && state != "QUIET")
 }
 
 // NEED AN ALT TO NADEQUEUE
@@ -1069,7 +1080,6 @@ function handleShooter() {
     if (secondShooter) shooter2.draw(cxt2);
 
     if ((state != "MENU" || state != "LOSE")) {
-        // if (state != "LOSE" ) {
         shooter.update(cxt2, deltaGlobal);
         if (secondShooter) {
             shooter2.update(cxt2, deltaGlobal);
@@ -1460,7 +1470,7 @@ function pushEnemy(elapsedTime) {
 
         nextSpawnTime = elapsedTime + randomIntervals[Math.floor(Math.random() * randomIntervals.length)];
 
-        if (specialRound == true && enemiesLeft <= 0) {
+        if (specialRound == true && enemiesLeft <= 3) {
             specialRound = false;
             endSpecRound = true;
         }

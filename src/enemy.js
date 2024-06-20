@@ -149,10 +149,8 @@ export default class Enemy {
       this.lastFrameTime = 0;
       this.frameInterval = 0.13; // in milli/seconds?
 
-      this.openFire = 100;
-      this.fireRate = 100;
-      // this.openFire = 5;
-      // this.fireRate = 5;
+      this.openFire = 50;
+      this.fireRate = 50;
 
       this.storedDeltaTime;
     }
@@ -199,7 +197,7 @@ export default class Enemy {
 
       // this guarantees potential value is never 0:
       // why not use Math.ceil?
-      const movement = this.speed * this.storedDeltaTime * 150;
+      const movement = this.speed * this.storedDeltaTime * 200;
 
       // what if I just hard code a value like this? nope. Way faster on promotion.
       // const movement = this.speed * 0.008 * 150;
@@ -306,7 +304,7 @@ export default class Enemy {
         
         // OPENFIRE BY DEFAULT IS 
         case "bomber":
-          this.openFire = 150;
+          this.openFire = 100;
           this.fireRate = 15;
           this.width = 90;
           this.height = 90;
@@ -322,7 +320,6 @@ export default class Enemy {
 
         case "sheep":
           this.sound = "laser-gun";
-          this.openFire = 150;
           this.fireRate = 15;
           this.width = 70;
           this.height = 58;
@@ -351,9 +348,6 @@ export default class Enemy {
         // elapsedTime updates MUCH slower than timer.
         
         this.timer++;
-
-        // this.openFire = 2;
-        // this.fireRate = 2;
       }
 
       if (this.pickupNum <= this.pickupOdds && this.round >= 3) {
