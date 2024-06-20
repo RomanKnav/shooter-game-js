@@ -82,7 +82,31 @@ const imageUrls = [
     "src/assets/images/sprites/exp2FirstFramesPixel.png",
 ];
 
-// Preload images
-const preloadedImages = imagePreloader(Object.values(imageUrls));
+const soundUrls = [
+    "src/assets/music/prey's stand.mp3",
+    "src/assets/music/hit-back.mp3",
+    "src/assets/sounds/rifleReload.mp3",
+    "src/assets/sounds/grenadePin.mp3",
+    "src/assets/sounds/futureReload.mp3",
+    "src/assets/sounds/3 heal spells/healspell1.mp3",
+    "src/assets/sounds/3 heal spells/healspell2.mp3",
+    "src/assets/sounds/shots/pistol.wav",
+    "src/assets/sounds/shots/cg1.wav",
+    "src/assets/sounds/laser.mp3",
+    "src/assets/sounds/shots/rifle.wav",
+    "/src/assets/sounds/paco.flac",
+    "src/assets/sounds/ray-beam.mp3",
+    "src/assets/sounds/laser-buzz.mp3",
+    "src/assets/sounds/animals_dog_yelp_med_large.mp3",
+    "src/assets/sounds/paco.flac",
+    "src/assets/sounds/explosionLoud.mp3",
+    "src/assets/sounds/q009/glauncher.ogg",
+    "src/assets/sounds/pulse.wav",
+    "src/assets/sounds/crowd2.mp3"
+];
 
-export { preloadedImages };
+// Preloaded assets:
+const preloadedImages = imagePreloader(Object.values(imageUrls));
+const preloadedSounds = imagePreloader(Object.values(soundUrls));
+
+export { preloadedImages, preloadedSounds };

@@ -1,4 +1,4 @@
-import { preloadedImages } from './imagePreloader.js';
+import { preloadedImages, preloadedSounds } from './imagePreloader.js';
 
 // KEEP IN MIND: NEED TO PRELOAD SOUND EFFECTS TOO
 
@@ -20,32 +20,41 @@ export default class Pickup {
             // PICKUP SFX:
             arReload: new Howl({
                 src: [
+
                     "src/assets/sounds/rifleReload.mp3",    // good
                 ],
                 volume: 5,
             }),
             nadePin: new Howl({
                 src: [
+
                     "src/assets/sounds/grenadePin.mp3",     // good
                 ],
+                preload: true,
                 volume: 5,
             }),
             flammenReload: new Howl({
                 src: [
+
                     "src/assets/sounds/futureReload.mp3",   // good
                 ],
+                preload: true,
                 volume: 5,
             }),
             health: new Howl({
                 src: [
+
                     "src/assets/sounds/3 heal spells/healspell1.mp3",
                 ],
+                preload: true,
                 loop: false,
             }),
             wall: new Howl({
                 src: [
+
                     "src/assets/sounds/3 heal spells/healspell2.mp3",
                 ], 
+                preload: true,
                 loop: false,
             }),
         }

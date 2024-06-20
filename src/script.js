@@ -10,7 +10,7 @@ import TextWall from "./textWall.js";
 import Health from "./health.js";
 import Grenade from "./grenade.js";
 
-import { preloadedImages } from './imagePreloader.js';
+import { preloadedImages, preloadedSounds } from './imagePreloader.js';
 
 window.onload = () => {
 console.log("ALL ASSETS LOADED");
@@ -476,6 +476,7 @@ let snackQueue = [];
 let nadeQueue = [];
 
 // let state = "MENU";
+// let state = "BOSS";
 let state = "LOADING";
 
 // let loadingTime = [4000, 5000][Math.floor(Math.random() * 2)];
@@ -514,12 +515,6 @@ var sfx = {
           "src/assets/sounds/q009/glauncher.ogg",
         ],
         //loop: false,
-    }),
-    // PICKUP SFX:
-    arReload: new Howl({
-        src: [
-            "src/assets/sounds/explosionLoud.mp3",
-        ]
     }),
     nadePin: new Howl({
         src: [
@@ -579,12 +574,6 @@ var music = {
         volume: 5.5,
     }),
 };
-
-// function playSound(sound) {
-//     if (!sound.playing()) {
-//         sound.play();
-//     } 
-// }
 
 // this seems to have stopped the shitty ass audio:
 let soundLastPlayed = 0;
