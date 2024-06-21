@@ -103,8 +103,6 @@ export default class Projectile {
   update(deltaTime) {
     const movement = 7 * (Math.floor(this.speed * deltaTime * 30));
 
-    // console.log(movement);
-
     switch (this.weapon) {
       case "pistol":
         // this.speed *= movement;

@@ -17,12 +17,19 @@ export default class Grenade {
 
         this.size = 10;
 
-        this.sound = new Audio();
-        this.sound.src = "src/assets/sounds/explosionLoud.mp3";
+        this.sound = new Howl({
+            src: ["src/assets/sounds/explosionLoud.mp3"],
+            preload: true,
+            volume: 1.0
+        });
 
         this.bloopPlayed = false;
-        this.bloop = new Audio();
-        this.bloop.src = "src/assets/sounds/q009/glauncher.ogg";
+
+        this.bloop = new Howl({
+            src: ["src/assets/sounds/q009/glauncher.ogg"],
+            preload: true,
+            volume: 1.0
+        });
 
         this.image = new Image();
         // this.image.src = "src/assets/images/sprites/exp2FirstFramesPixel.png";

@@ -120,18 +120,6 @@ export default class Enemy {
       this.statica = false;          // determine if enemy is static throughout (plane, bomber)
       this.animation = false;
 
-      // YES, both paths are correct.
-      // this.civy_frameworks = ["src/assets/images/civy/new-frames/spritesheet.png", 
-      //                         "src/assets/images/civy/new-frames/spritesheet2.png"];
-
-      // this.civy_frames = this.civy_frameworks[Math.floor(Math.random() * 2)];
-      // this.dog_frames = "src/assets/images/dog/dog-frames/spritesheet.png";
-      // this.civy_type;
-
-      // THIS needs to change to use preloaded images:
-      this.civy_frameworks2 = ["src/assets/images/civy/new-frames/civysheet.png", 
-                              "src/assets/images/civy/new-frames/civysheet2.png"];
-
       // these indices are good:
       // ISSUE LIES HERE:                      
       this.civy_frameworks = [preloadedImages["civysheet"], preloadedImages["civysheet2"]];                                                                
@@ -141,8 +129,11 @@ export default class Enemy {
       this.civy_type;
 
       // FOR CRAWL ENEMY ONLY:
-      this.growl = new Audio();
-      this.growl.src = "src/assets/sounds/paco.flac";
+      this.growl = new Howl({
+        src: ["src/assets/sounds/paco.flac"],
+        preload: true,
+        volume: 1.0
+      });
 
       // NEW DELTATIME SHIT:
       this.frameTime = 0;
@@ -202,7 +193,7 @@ export default class Enemy {
       // what if I just hard code a value like this? nope. Way faster on promotion.
       // const movement = this.speed * 0.008 * 150;
 
-      console.log(movement);
+      // (movement);
 
       if (this.isCivie == true) {
         if (this.typeNum <= this.dogOdds) this.type = "crawl"

@@ -10,11 +10,11 @@ import TextWall from "./textWall.js";
 import Health from "./health.js";
 import Grenade from "./grenade.js";
 
-import { preloadedImages, preloadedSounds } from './imagePreloader.js';
+import { preloadedImages } from './imagePreloader.js';
 
 window.onload = () => {
-console.log("ALL ASSETS LOADED");
-console.log(preloadedImages);
+// console.log("ALL ASSETS LOADED");
+// console.log(preloadedImages);
 
 // for static shit (background and floor, which don't require any updating)
 var canvas0 = document.getElementById("canvas0");
@@ -495,13 +495,6 @@ var sfx = {
         loop: false,
         volume: 6,
     }),
-    growl: new Howl({
-      src: [
-        "src/assets/sounds/paco.flac",
-      ],
-      preload: true,
-      loop: false,
-    }),
     boom: new Howl({
         /* accepts multiple versions of the same audio! (automatically selects the best one for the 
         current web browser */
@@ -549,15 +542,6 @@ var sfx = {
     crowd: new Howl({
         src: [
             "src/assets/sounds/crowd2.mp3",
-        ], 
-        preload: true,
-        loop: false,
-        volume: 3,
-    }),
-    // shit squish:
-    asshole: new Howl({
-        src: [
-            "src/assets/sounds/squelch.mp3",
         ], 
         preload: true,
         loop: false,
@@ -1102,7 +1086,6 @@ function handleShooter() {
             nadeQueue.push(new Grenade(canvas.width / 1.2, shooter, canvas));
             playSound(sfx.bloop);
         }
-    
         shooter.throwBoom = false;
         grenades.number--;
     }
@@ -1118,14 +1101,13 @@ function handleShooter() {
 function handleNade(arr) {
     for (let i = 0; i < nadeQueue.length; i++) {
         let current = nadeQueue[i];
-        // current.bloop.play();
 
         if (current.dudY > 0) {
             current.drawDud(cxt);
             current.updateDud(deltaGlobal);
         }
 
-        if (!current.bloopPlayed) {
+        if (!current.bloopPlayed && !current.bloop.playing()) {
             current.bloop.play();
             current.bloopPlayed = false;
         }
@@ -1141,8 +1123,11 @@ function handleNade(arr) {
 
             // why is this used? with playSound it doesn't work.
             // No, this does NOT use howler, just the raw sound:
-            current.sound.play();
-            // playSound(sfx.boom);
+            // current.sound.play();
+
+            if (!current.sound.playing()) {
+                current.sound.play();
+            }
 
             if (current.size <= 100) {
                 current.size += 4;
@@ -1453,9 +1438,9 @@ function handleEnemy() {
             // }
 
             if (current.type == "crawl" && current.shooting) {
-                // playSound(sfx.growl);
-                current.growl.play();
-                // current.sound.play();
+                if (!current.growl.playing()) {
+                    current.growl.play();
+                }
             }
         }
     }
@@ -1615,8 +1600,6 @@ function animate(timestamp) {
     handleNade(enemyQueue);
 
     window.requestAnimationFrame(animate);
-
-    console.log(slowAssMonitor);
 }
 
 window.requestAnimationFrame(animate);  // yes, everyone else seems to use this twice.

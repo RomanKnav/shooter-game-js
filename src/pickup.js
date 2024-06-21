@@ -1,4 +1,4 @@
-import { preloadedImages, preloadedSounds } from './imagePreloader.js';
+import { preloadedImages } from './imagePreloader.js';
 
 // KEEP IN MIND: NEED TO PRELOAD SOUND EFFECTS TOO
 
