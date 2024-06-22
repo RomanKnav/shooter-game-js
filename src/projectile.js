@@ -3,7 +3,7 @@
 // NOTHING TO DO WITH FIRERATE HERE:
 export default class Projectile {
   // "dead" used as determinant for playing sounds
-  constructor(x, y, direction, weapon, dead, isSecond, ) {
+  constructor(x, y, direction, weapon, dead, isSecond) {
     this.isSecond = isSecond;
 
     // NEW HOWLER CRAP (sound fx "bucket"):
@@ -106,7 +106,7 @@ export default class Projectile {
     switch (this.weapon) {
       case "pistol":
         // this.speed *= movement;
-        this.playSound(this.sfx.pistol);
+        if (!this.isSecond) this.playSound(this.sfx.pistol);
         break;
 
       // FOR GROUND FORCES:
@@ -122,7 +122,7 @@ export default class Projectile {
       case "ar":
         this.size = 2;
         // this.speed = 12;
-        this.playSound(this.sfx.ar);
+        if (!this.isSecond) this.playSound(this.sfx.ar);
         break;
 
       case "flammen":

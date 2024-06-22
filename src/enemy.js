@@ -166,7 +166,7 @@ export default class Enemy {
 
       // NEW
       if (this.timer >= this.openFire && this.timer % this.fireRate === 0) { 
-        this.projectiles.push(new Projectile(this.x + this.bulletX, this.y + this.bulletY, this.angle, this.sound, this.dead, "shotty"));
+        this.projectiles.push(new Projectile(this.x + this.bulletX, this.y + this.bulletY, this.angle, this.sound, this.dead, false, this.type));
         if (this.type == "bomber") {
           this.beamActive = true;
         }
@@ -249,7 +249,6 @@ export default class Enemy {
           break;
 
         case "ground":
-          // this.x + this.width - 20, this.y + 5
           this.bulletX = this.width - 20;
           this.bulletY = 5; 
           this.sound = "shotty";
@@ -388,9 +387,7 @@ export default class Enemy {
 
       context.textAlign = "center";
       context.textBaseline = "middle";
-
-      // context.fillText(`${this.type}`, this.x + (this.width / 2), this.y - 10);
-    } // projectiles
+    }
 
     // GOOD. Determine delay before UFO beam is drawn:
     renderBeam(context) {

@@ -480,7 +480,7 @@ let nadeQueue = [];
 let state = "LOADING";
 
 // let loadingTime = [4000, 5000][Math.floor(Math.random() * 2)];
-let loadingTime = 2000;
+let loadingTime = 5000;
 
 // FUNCTIONS:
 
@@ -740,9 +740,12 @@ function handleState(elapsedTime) {
         // THE VERY FIRST STATE THAT APPEARS.
         case "LOADING":
             loadingText.draw(cxt);
-                
-            let girly = new Enemy(canvas.width, currentSpeed, currentRound, 15);
-            girly.type = "sheep";
+            
+            // how about we just fucking get rid of this on good monitors?
+            let girly = new Enemy(canvas.width, 0, currentRound, 15);
+            girly.type = "bomber";
+
+            console.log(girly.round);
 
             if (enemyQueue.length < 1) enemyQueue.push(girly);
             handleEnemy();
@@ -1350,6 +1353,8 @@ function handleEnemy() {
     for (let i = 0; i < enemyQueue.length; i++) {
         let current = enemyQueue[i];
 
+        if (currentRound == 0) current.type = "bomber";
+
         if (!shooter.duck) current.bulletLimit = shooter.x + shooter.width;
         else {
             // WHEN DUCKING:
@@ -1579,9 +1584,9 @@ function animate(timestamp) {
     if (deltaTime > 0.01) {
         // deltaTime = deltaTime - 0.01;
         deltaTime = deltaGlobal = deltaTime - 0.0084; 
-        slowAssMonitor = true;  // I'm pretty sure this'll just update it indefinitely.  
         // this makes both mediums MUCH closer in terms of deltaTime.
     }
+
 
     bullet_cxt.clearRect(0, 0, bullet_canvas.width, bullet_canvas.height);
 
