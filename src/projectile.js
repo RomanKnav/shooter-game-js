@@ -121,7 +121,7 @@ export default class Projectile {
         break;
       case "ar":
         this.size = 2;
-        // this.speed = 12;
+        this.speed = 12;
         if (!this.isSecond) this.playSound(this.sfx.ar);
         break;
 

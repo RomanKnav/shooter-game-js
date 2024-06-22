@@ -655,8 +655,8 @@ function greatReset() {
     // shooter.fireRate = 0;       // THIS MAKES PISTOL SEMI AUTO:
     // shooter.specialAmmo = 0;
 
-    // shooter.weapon = "flammen";
-    // shooter.fireRate = 3;
+    shooter.weapon = "ar";
+    shooter.fireRate = 8;
 
     // if (slowAssMonitor) {
     //     shooter.fireRate = 8;
