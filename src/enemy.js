@@ -172,20 +172,6 @@ export default class Enemy {
         }
       } 
 
-      // FRAME SHIT
-      // the same kind of frame shit used in script is used here:
-
-      // if (this.frama <= 100) this.frama++;
-      // else this.frama = 0;
-
-      // if (this.frama % this.pigFrame === 0 && this.pigFrame > 0) {
-      //   if (this.frameX < this.maxFrame)
-      //     this.frameX++;
-      //   else this.frameX = this.minFrame;
-      // }
-
-      // since deltaTime is more constant, I'd like to use that instead.
-
       // this guarantees potential value is never 0:
       // why not use Math.ceil?
       const movement = this.speed * this.storedDeltaTime * 200;

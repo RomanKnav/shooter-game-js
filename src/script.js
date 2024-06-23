@@ -475,9 +475,9 @@ let currentSpeed = 1.5;
 let snackQueue = [];
 let nadeQueue = [];
 
-// let state = "MENU";
+let state = "MENU";
 // let state = "BOSS";
-let state = "LOADING";
+// let state = "LOADING";
 
 // let loadingTime = [4000, 5000][Math.floor(Math.random() * 2)];
 let loadingTime = 5000;
@@ -607,7 +607,6 @@ let endSpecRound = false;
 function handleStatus() {
     if (state == "RUNNING" || state == "WIN" || state == "QUIET" || state == "RELIEF" || state == "TUTORIAL") {
         roundText.text = currentRound;
-        //enemyText.text = enemyCount;
         enemyText.text = enemiesLeft;
         enemyText.draw(cxt2);
         roundText.draw(cxt2);
@@ -656,7 +655,7 @@ function greatReset() {
     // shooter.specialAmmo = 0;
 
     shooter.weapon = "ar";
-    shooter.fireRate = 8;
+    shooter.fireRate = 5;
 
     // if (slowAssMonitor) {
     //     shooter.fireRate = 8;
@@ -1285,10 +1284,10 @@ function handleProjectile(arr) {
                         shooter.weapon = "ar";
 
                         // AUTOMATIC FIRERATE
-
-                        if (slowAssMonitor) {
-                            shooter.fireRate = 8;
-                        } else shooter.fireRate = 15;  
+                        shooter.fireRate = 8;
+                        // if (slowAssMonitor) {
+                        //     shooter.fireRate = 8;
+                        // } else shooter.fireRate = 15;  
 
                         shooter.specialAmmo = 50;
 
@@ -1561,6 +1560,8 @@ let lastTime = 0;
 let elapsedTime = 0; // TOTAL elapsed time in SUPER precise seconds (since starting game)
 let deltaGlobal = 0;    // yes, identical to deltaTime.
 
+let initialDelta = 0;
+
 let slowAssMonitor = false;
 
 let arRate = 15;
@@ -1603,6 +1604,8 @@ function animate(timestamp) {
     handleStatus();
     handleProjectile(enemyQueue);
     handleNade(enemyQueue);
+
+    console.log(shooter.fireRate);
 
     window.requestAnimationFrame(animate);
 }

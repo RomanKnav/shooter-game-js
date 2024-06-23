@@ -84,7 +84,7 @@ export default class Projectile {
 
     this.size = 2;
 
-    this.speed = 10;
+    this.speed = 15;
     this.delete = false;
     this.randomY = [1.7, 2, 2.2, 2.4, 2.6, 2.8, 3];
     // needs to shoot in the same directon (110 y) as randomY values:
@@ -101,17 +101,16 @@ export default class Projectile {
   
   // ONLY SPEED of bullet should be affected, not push-rate.
   update(deltaTime) {
-    const movement = 7 * (Math.floor(this.speed * deltaTime * 30));
+    const movement = deltaTime * this.speed * 100;
 
     switch (this.weapon) {
       case "pistol":
-        // this.speed *= movement;
         if (!this.isSecond) this.playSound(this.sfx.pistol);
         break;
 
       // FOR GROUND FORCES:
       case "shotty":
-        this.speed = 15;
+        this.speed = 100;
         // this.size = 3;
         if (!this.dead) {
           this.playSound(this.sfx.shotty);
@@ -121,7 +120,7 @@ export default class Projectile {
         break;
       case "ar":
         this.size = 2;
-        this.speed = 12;
+        this.speed = 25;
         if (!this.isSecond) this.playSound(this.sfx.ar);
         break;
 
@@ -139,8 +138,6 @@ export default class Projectile {
     // DIRECTION TO SHOOT IN:
     switch (this.direction) {
       case "straight":
-        // this.x += this.speed;
-        // this.x += this.speed * movement;
         this.x += movement;
 
         // this.y += this.speed; <- yup, this works
@@ -154,22 +151,17 @@ export default class Projectile {
         break;
       
       case "diagnal":
-        // this.x += this.speed;
-        // this.y -= this.speed / this.randomY[Math.floor(Math.random() * this.randomY.length)];
         this.x += movement;
         this.y -= movement / this.randomY[Math.floor(Math.random() * this.randomY.length)];
         
         break;
       
       case "diagnal-duck":
-        // this.x += this.speed;
-        // this.y -= this.speed / this.randomY_duck[Math.floor(Math.random() * this.randomY_duck.length)];
         this.x += movement;
         this.y -= movement / this.randomY[Math.floor(Math.random() * this.randomY.length)];
         break;
 
       case "down":
-        // this.x += this.speed;
         this.x += movement;
         break;
 

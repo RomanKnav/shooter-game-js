@@ -416,12 +416,9 @@ export default class Shooter {
         context.fillStyle = "black";
         context.textAlign = "center";
         context.textBaseline = "middle";
-
-        // TEXT:
-        // context.fillText(`${this.weapon}`, this.x + (this.width / 2), this.y - 100);
     }
 
-    update(context) { 
+    update(context, deltaTime) { 
         this.y = canvas.height - (canvas.height * (1/4)) - this.height;
 
         switch (this.angle) {
@@ -451,7 +448,6 @@ export default class Shooter {
             // 44×36
             // FIRE: 44x39
             case "up":
-                // this.y = canvas.height - (canvas.height * (1/4)) - this.height;
                 this.bulletX = 19;
                 break;
 
@@ -459,7 +455,6 @@ export default class Shooter {
             // FIRE: 50×33
             case "down-up":
                 this.bulletX = 23;
-                // this.y = canvas.height - (canvas.height * (1/4)) - this.height;
                 break;
 
             // 50x28
@@ -533,16 +528,17 @@ export default class Shooter {
 
         // code doesn't work. fireRate not set.    
         if (this.shooting && !this.disabled) {
-            this.timer++;
+            // this.timer++;
+            this.timer += deltaTime;
 
-            // 201 standing 
-            // 232 down
+            const fireInterval = 1 / (this.fireRate * 10);
+            // const fireInterval = 1 / 3;
 
-            // DELTATIME SHIT NEEDS TO BE IMPLEMENTED HERE (pushing projectiles):
+            // DELTATIME NEEDS TO BE IMPLEMENTED HERE (pushing projectiles):
             
             // FIRERATE FOR RIFLE IS 15. FOR FLAMMEN IT'S TEN.
             // At 60 hertz, this value will have to be lowered.
-            if (this.timer % this.fireRate === 0  || this.timer == 1) {
+            if (this.timer >= fireInterval || this.timer === deltaTime) {
             // that 1st part is needed to make automatic fire possible:
             // if (this.timer % this.fireRate === 0  || this.timer == 1) {
                 this.projectiles.push(new Projectile(this.x + this.bulletX, this.y + this.bulletY, this.angle, this.weapon, this.delete, false));
@@ -558,6 +554,8 @@ export default class Shooter {
                     this.fireRate = 0;
                     this.specialAmmo = 0;
                 }
+
+                this.timer -= fireInterval;
             }
         }
         else {
