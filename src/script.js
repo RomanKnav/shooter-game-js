@@ -475,12 +475,12 @@ let currentSpeed = 1.5;
 let snackQueue = [];
 let nadeQueue = [];
 
-let state = "MENU";
+// let state = "MENU";
 // let state = "BOSS";
-// let state = "LOADING";
+let state = "LOADING";
 
 // let loadingTime = [4000, 5000][Math.floor(Math.random() * 2)];
-let loadingTime = 5000;
+let loadingTime = 6000;
 
 // FUNCTIONS:
 
@@ -1412,7 +1412,7 @@ function handleEnemy() {
 
         if (current.type == "bomber" && current.inPosition == true) {
             current.renderBeam(cxt);
-            if (!current.dead && current.timer >= current.openFire) playSound(sfx.rayBeam);
+            if (!current.dead && current.timer >= current.openFire && currentRound > 1) playSound(sfx.rayBeam);
             // else sfx.rayBeam.stop();
         };
 

@@ -189,9 +189,10 @@ export default class Enemy {
         // SPAWN HEIRARCHY CRAP:
         // 0-2
 
-        if (this.typeNum <= this.bossOdds) {
-          if (this.round < 6 && this.round > 0) this.type = "ground";
+        if (this.typeNum <= this.bossOdds && this.round > 0) {
+          if (this.round < 6) this.type = "ground";
           else if (this.round >= 6 && this.round < 10) this.type = "bomber";
+          // here's what we get when we're "supposedly" at round 10:
           else this.type = this.bossType;   // <- if round 10
         }
         // 3-6
