@@ -116,12 +116,6 @@ export default class InputHandler {
               else entity.angle = "straight";
             }
             break;
-
-          // TOGGLE MUSIC ON OR OFF (should only be possible during/after):
-          case 'm':
-            // AYO: NEW DISCOVERY: here is how to perfectly toggle between true/false:
-            entity.toggleMusic = !(entity.toggleMusic);
-            break;
       }
     }
     });

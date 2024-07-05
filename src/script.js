@@ -477,7 +477,8 @@ let nadeQueue = [];
 
 // let state = "MENU";
 // let state = "BOSS";
-let state = "LOADING";
+// let state = "LOADING";
+let state = "PLAY";
 
 // let loadingTime = [4000, 5000][Math.floor(Math.random() * 2)];
 let loadingTime = 6000;
@@ -573,11 +574,11 @@ var music = {
 
 // this seems to have stopped the shitty ass audio:
 let soundLastPlayed = 0;
-const soundCooldown = 100000; // 100 second "cooldown"
+const soundCooldown = 150000; // 150 second "cooldown"
 
 function playSound(sound) {
-    const now = Date.now();
-    if (now - soundLastPlayed > soundCooldown) {
+    const now = Date.now();     // number of millisecs since the "epoch"
+    if (now - soundLastPlayed > soundCooldown || soundLastPlayed == 0) {
         sound.play();
         soundLastPlayed = now;
     }
@@ -650,12 +651,12 @@ function greatReset() {
     currentRound = 1;
 
     // second shooter gets this hard-coded crap:
-    // shooter.weapon = "pistol";
-    // shooter.fireRate = 0;       // THIS MAKES PISTOL SEMI AUTO:
-    // shooter.specialAmmo = 0;
+    shooter.weapon = "pistol";
+    shooter.fireRate = 0;       // THIS MAKES PISTOL SEMI AUTO:
+    shooter.specialAmmo = 0;
 
-    shooter.weapon = "ar";
-    shooter.fireRate = 5;
+    // shooter.weapon = "ar";
+    // shooter.fireRate = 5;
 
     // if (slowAssMonitor) {
     //     shooter.fireRate = 8;
@@ -743,8 +744,6 @@ function handleState(elapsedTime) {
             // how about we just fucking get rid of this on good monitors?
             let girly = new Enemy(canvas.width, 0, currentRound, 15);
             girly.type = "bomber";
-
-            console.log(girly.round);
 
             if (enemyQueue.length < 1) enemyQueue.push(girly);
             handleEnemy();
@@ -1412,7 +1411,9 @@ function handleEnemy() {
 
         if (current.type == "bomber" && current.inPosition == true) {
             current.renderBeam(cxt);
-            if (!current.dead && current.timer >= current.openFire && currentRound > 1) playSound(sfx.rayBeam);
+            if (!current.dead && current.timer >= current.openFire && currentRound > 1) {
+                playSound(sfx.rayBeam);
+            }
             // else sfx.rayBeam.stop();
         };
 
@@ -1605,7 +1606,7 @@ function animate(timestamp) {
     handleProjectile(enemyQueue);
     handleNade(enemyQueue);
 
-    console.log(shooter.fireRate);
+    console.log(shooter.toggleMusic, soundLastPlayed);
 
     window.requestAnimationFrame(animate);
 }

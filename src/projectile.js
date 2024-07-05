@@ -117,7 +117,7 @@ export default class Projectile {
         } else {
           this.sfx.shotty.stop();
         } 
-        break;
+        break;  
       case "ar":
         this.size = 2;
         this.speed = 25;
