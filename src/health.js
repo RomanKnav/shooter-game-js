@@ -14,7 +14,6 @@ export default class Health {
         this.number = 3;
         this.type = type;
 
-        // this.image = new Image();
         this.image;
     }
     update() {
@@ -26,15 +25,12 @@ export default class Health {
         for (let i = 0; i < this.number; i++) {
             switch (this.type) {
                 case "health":
-                    // this.image.src = "src/assets/images/pickups/clears/grenade.png";
                     this.image = aid;
                     break;
                 case "wall":
-                    // this.image.src = "src/assets/images/pickups/clears/grenade.png";
                     this.image = wall;
                     break;
                 case "nade":
-                    // this.image.src = "src/assets/images/pickups/clears/grenade.png";
                     this.image = grenade;
                     break;
             }

@@ -52,16 +52,6 @@ export default class Grenade {
 
     // JUST FOR THE EXPLOSION FRAMES:
     update(elapsedTime) {
-        // if (this.frama <= 100) this.frama++;
-        // else this.frama = 0;
-
-        // if (this.frama % 15 === 0) {
-        //     if (this.boomFrameX < this.boomMaxFrame) {
-        //     this.boomFrameX++;
-        //     } else this.boomFrameX = this.minFrame;
-        // }
-        // only updates the frames you shithead 
-
         // NEW DELTATIME SHIT (what determines the speed?)
         if (elapsedTime - this.lastFrameTime >= this.frameInterval) {
             this.lastFrameTime = elapsedTime;
@@ -71,15 +61,6 @@ export default class Grenade {
                 this.boomFrameX = this.minFrame;
             }
         }
-
-        // if (elapsedTime - this.lastFrameTime >= this.frameInterval) {
-        //     this.lastFrameTime = elapsedTime;
-        //     if (this.frameX < this.maxFrame) {
-        //         this.frameX++;
-        //     } else {
-        //         this.frameX = this.minFrame;
-        //     }
-        // }
     }
 
     // draws the explosion
