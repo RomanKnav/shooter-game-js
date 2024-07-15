@@ -1,21 +1,54 @@
 // honestly, I don't see how this actually helps
 
 // takes image url array, dict to store preloaded images in, and callback func:
-function imagePreloader(imageUrls) {
-    const preloadedImages = {};
+// function imagePreloader(imageUrls) {
+//     const preloadedImages = {};
   
-    // create new image obj for each URL:
-    imageUrls.forEach((url) => {
-        const image = new Image();
-        image.src = url;
+//     // create new image obj for each URL:
+//     imageUrls.forEach((url) => {
+//         const image = new Image();
+//         image.src = url;
 
-        // gets name to set as key (word that comes after last "/" and before last "."):
-        const name = url.substring(url.lastIndexOf('/') + 1, url.lastIndexOf('.'));
-        // key: name, value: image object:
-        preloadedImages[name] = image; 
+//         // gets name to set as key (word that comes after last "/" and before last "."):
+//         const name = url.substring(url.lastIndexOf('/') + 1, url.lastIndexOf('.'));
+//         // key: name, value: image object:
+//         preloadedImages[name] = image; 
+//     });
+
+//     return preloadedImages;
+// };
+
+// new version (too handle "too many requests"):
+
+// returns a new "preloadedImages" object if resolved.
+function imagePreloader(imageUrls) {
+    return new Promise((resolve, reject) => {
+        const preloadedImages = {};
+        let loadedImagesCount = 0;
+
+        imageUrls.forEach((url) => {
+            const image = new Image();
+            image.src = url;
+
+            // Get the name to set as key (word that comes after last "/" and before last ".")
+            const name = url.substring(url.lastIndexOf('/') + 1, url.lastIndexOf('.'));
+
+            image.onload = () => {
+                preloadedImages[name] = image;
+                loadedImagesCount++;
+
+                // If all images are loaded, resolve the promise
+                if (loadedImagesCount === imageUrls.length) {
+                    resolve(preloadedImages);
+                }
+            };
+
+            image.onerror = () => {
+                reject(new Error(`Failed to load image: ${url}`));
+            };
+        });
     });
-    return preloadedImages;
-};
+}
 
 const imageUrls = [
     // HEALTH ICONS/PICKUPS
@@ -83,8 +116,8 @@ const imageUrls = [
 
 // Preloaded assets:
 // const preloadedImages = imagePreloader(Object.values(imageUrls));
-const preloadedImages = imagePreloader(imageUrls);
+const preloadedImagesPromise = imagePreloader(imageUrls);
 
-console.log(preloadedImages);
+// console.log(preloadedImages);
 
-export { preloadedImages };
+export { preloadedImagesPromise };

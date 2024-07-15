@@ -1,5 +1,3 @@
-// would be super useful if I can import "flora" in here.
-
 import { preloadedImages } from './imagePreloader.js';
 
 import Projectile from "./projectile.js";
