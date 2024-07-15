@@ -1,15 +1,15 @@
-import { preloadedImages } from './imagePreloader.js';
-
 import Projectile from "./projectile.js";
 var canvas = document.getElementById("canvas1");
 
 // why is mouse stuff here? so that it can be used as "entity.mouse" in inputHandler.js
 export default class Shooter {
     // constructor(x) { 
-    constructor(x, y) { 
+    constructor(x, images) { 
         this.width = 44;
         this.height = 34;
-        this.y = y;
+        this.y;
+
+        this.images = images;
 
         this.bulletY;   // this to be added to the y. Standing: 5, Duck: 10
         this.bulletX = 19;
@@ -73,138 +73,138 @@ export default class Shooter {
 
         // IMAGES:
         // 44×40
-        this.grenade_stand = preloadedImages["nade_stand"];
+        this.grenade_stand = this.images["nade_stand"];
         // this.grenade_stand = new Image();
         // this.grenade_stand.src = "src/assets/images/CLEARS/nade/nade_stand.png";
 
-        this.grenade_crouch = preloadedImages["sheep-nade-crouch"];
+        this.grenade_crouch = this.images["sheep-nade-crouch"];
         // this.grenade_crouch = new Image();
         // this.grenade_crouch.src = "src/assets/images/CLEARS/nade/sheep-nade-crouch.png";
 
-        this.dead_warren = preloadedImages["dead-warren-clear"];
+        this.dead_warren = this.images["dead-warren-clear"];
         // this.dead_warren = new Image();
         // this.dead_warren.src = "src/assets/images/CLEARS/dead-warren/dead-warren-clear.png";
 
         // FIX THIS CRAP:
-        this.pistol_stand = preloadedImages["sheep-pistol-clear-elevate"];
+        this.pistol_stand = this.images["sheep-pistol-clear-elevate"];
         // this.pistol_stand = new Image();
         // this.pistol_stand.src = "src/assets/images/CLEARS/pistol/sheep-pistol-clear-elevate.png";
         
         // 43x36, diagnal
         // FIRE: 43×40
-        this.pistol_stand_up = preloadedImages["sheep-pistol-lookup-clear"];
+        this.pistol_stand_up = this.images["sheep-pistol-lookup-clear"];
         // this.pistol_stand_up.src = "src/assets/images/CLEARS/pistol/sheep-pistol-lookup-clear.png";
 
         // 44x36
         // FIRE: 44x36
-        this.pistol_stand_top = preloadedImages["sheep-pistol-top-clear"];
+        this.pistol_stand_top = this.images["sheep-pistol-top-clear"];
         // this.pistol_stand_top.src = "src/assets/images/CLEARS/pistol/sheep-pistol-top-clear.png";
 
         // 50x28
         // FIRE: 50×28
-        this.pistol_crouch = preloadedImages["sheep-pistol-crouch-clear-new"];
+        this.pistol_crouch = this.images["sheep-pistol-crouch-clear-new"];
         // this.pistol_crouch.src = "src/assets/images/CLEARS/pistol/sheep-pistol-crouch-clear-new.png";
 
         // 49x30
         // FIRE: 49x34
-        this.pistol_crouch_up = preloadedImages["sheep-pistol-lookup-crouch-clear"];
+        this.pistol_crouch_up = this.images["sheep-pistol-lookup-crouch-clear"];
         // this.pistol_crouch_up.src = "src/assets/images/CLEARS/pistol/sheep-pistol-lookup-crouch-clear.png";
 
         // 50x30
         // FIRE: 50×33
-        this.pistol_crouch_top = preloadedImages["sheep-pistol-crouch-top-clear"];
+        this.pistol_crouch_top = this.images["sheep-pistol-crouch-top-clear"];
         // this.pistol_crouch_top.src = "src/assets/images/CLEARS/pistol/sheep-pistol-crouch-top-clear.png";
 
         //rifle:
         // 44x40
-        this.rifle_stand = preloadedImages["sheep-rifle-clear-elevate"];
+        this.rifle_stand = this.images["sheep-rifle-clear-elevate"];
         // this.rifle_stand.src = "src/assets/images/CLEARS/rifle/sheep-rifle-clear-elevate.png";
 
         // 43x38
-        this.rifle_stand_up = preloadedImages["sheep-rifle-up-clear"];
+        this.rifle_stand_up = this.images["sheep-rifle-up-clear"];
         // this.rifle_stand_up.src = "src/assets/images/CLEARS/rifle/sheep-rifle-up-clear.png";
 
         // 44x37
-        this.rifle_stand_top = preloadedImages["sheep-rifle-top-clear"];
+        this.rifle_stand_top = this.images["sheep-rifle-top-clear"];
         // this.rifle_stand_top.src = "src/assets/images/CLEARS/rifle/sheep-rifle-top-clear.png";
 
         // 50x34
-        this.rifle_crouch = preloadedImages["sheep-rifle-crouch-clear"];
+        this.rifle_crouch = this.images["sheep-rifle-crouch-clear"];
         // this.rifle_crouch.src = "src/assets/images/CLEARS/rifle/sheep-rifle-crouch-clear.png";
 
         // 49x32
-        this.rifle_crouch_up = preloadedImages["sheep-rifle-up-crouch-clear"];
+        this.rifle_crouch_up = this.images["sheep-rifle-up-crouch-clear"];
         // this.rifle_crouch_up.src = "src/assets/images/CLEARS/rifle/sheep-rifle-up-crouch-clear.png";
 
         // 50x31
-        this.rifle_crouch_top = preloadedImages["sheep-rifle-top-crouch-clear"];
+        this.rifle_crouch_top = this.images["sheep-rifle-top-crouch-clear"];
         // this.rifle_crouch_top.src = "src/assets/images/CLEARS/rifle/sheep-rifle-top-crouch-clear.png";
 
         //flammen
         // 44x39
-        this.flammen_stand = preloadedImages["flammen-stand"];
+        this.flammen_stand = this.images["flammen-stand"];
         // this.flammen_stand.src = "src/assets/images/CLEARS/flammen/flammen-stand.png";
 
         // 43x40
-        this.flammen_stand_up = preloadedImages["flammen-stand-up"];
+        this.flammen_stand_up = this.images["flammen-stand-up"];
         // this.flammen_stand_up.src = "src/assets/images/CLEARS/flammen/flammen-stand-up.png";
 
         // 50x33
-        this.flammen_crouch = preloadedImages["flammen-crouch"];
+        this.flammen_crouch = this.images["flammen-crouch"];
         // this.flammen_crouch.src = "src/assets/images/CLEARS/flammen/flammen-crouch.png";
 
         // 49x34
-        this.flammen_crouch_up = preloadedImages["flammen-crouch-up"];
+        this.flammen_crouch_up = this.images["flammen-crouch-up"];
         // this.flammen_crouch_up.src = "src/assets/images/CLEARS/flammen/flammen-crouch-up.png";
 
         // 44x39
-        this.flammen_top = preloadedImages["flammen-top"];
+        this.flammen_top = this.images["flammen-top"];
         // this.flammen_top.src = "src/assets/images/CLEARS/flammen/flammen-top.png";
 
         // 50x33
-        this.flammen_crouch_top = preloadedImages["flammen-crouch-top"];
+        this.flammen_crouch_top = this.images["flammen-crouch-top"];
         // this.flammen_crouch_top.src = "src/assets/images/CLEARS/flammen/flammen-crouch-top.png";
 
         // PISTOL FIRE IMAGES:  
-        this.pistol_fire = preloadedImages["sheep-pistol-clear-elevate-fire"];
+        this.pistol_fire = this.images["sheep-pistol-clear-elevate-fire"];
         // this.pistol_fire.src = "src/assets/images/fires/pistol/sheep-pistol-clear-elevate-fire.png";
 
-        this.pistol_up_fire = preloadedImages["sheep-pistol-lookup3"];
+        this.pistol_up_fire = this.images["sheep-pistol-lookup3"];
         // this.pistol_up_fire.src = "src/assets/images/fires/pistol/sheep-pistol-lookup3.png";
 
-        this.pistol_top_fire = preloadedImages["sheep-pistol-top3"];
+        this.pistol_top_fire = this.images["sheep-pistol-top3"];
         // this.pistol_top_fire.src = "src/assets/images/fires/pistol/sheep-pistol-top3.png";
 
-        this.pistol_crouch_fire = preloadedImages["sheep-pistol-crouch-new"];
+        this.pistol_crouch_fire = this.images["sheep-pistol-crouch-new"];
         // this.pistol_crouch_fire.src = "src/assets/images/fires/pistol/sheep-pistol-crouch-new.png";
 
-        this.pistol_crouch_up_fire = preloadedImages["sheep-pistol-lookup-crouch3"];
+        this.pistol_crouch_up_fire = this.images["sheep-pistol-lookup-crouch3"];
         // this.pistol_crouch_up_fire.src = "src/assets/images/fires/pistol/sheep-pistol-lookup-crouch3.png";
 
-        this.pistol_crouch_top_fire = preloadedImages["pistol-crouch-top3"];
+        this.pistol_crouch_top_fire = this.images["pistol-crouch-top3"];
         // this.pistol_crouch_top_fire.src = "src/assets/images/fires/pistol/pistol-crouch-top3.png";
 
         // RIFLE FIRE IMAGES:
-        this.rifle_fire = preloadedImages["rifle-stand3-elevate"];
+        this.rifle_fire = this.images["rifle-stand3-elevate"];
         // this.rifle_fire.src = "src/assets/images/fires/rifle/rifle-stand3-elevate.png";
 
-        this.rifle_up_fire = preloadedImages["rifle-stand-up"];
+        this.rifle_up_fire = this.images["rifle-stand-up"];
         // this.rifle_up_fire.src = "src/assets/images/fires/rifle/rifle-stand-up.png";
 
         // done
-        this.rifle_top_fire = preloadedImages["rifle-stand-top"];
+        this.rifle_top_fire = this.images["rifle-stand-top"];
         // this.rifle_top_fire.src = "src/assets/images/fires/rifle/rifle-stand-top.png";
 
         // done
-        this.rifle_crouch_fire = preloadedImages["rifle-crouch-new"];
+        this.rifle_crouch_fire = this.images["rifle-crouch-new"];
         // this.rifle_crouch_fire.src = "src/assets/images/fires/rifle/rifle-crouch-new.png";
 
         // done
-        this.rifle_crouch_up_fire = preloadedImages["rifle-crouch-lookup3"];
+        this.rifle_crouch_up_fire = this.images["rifle-crouch-lookup3"];
         // this.rifle_crouch_up_fire.src = "src/assets/images/fires/rifle/rifle-crouch-lookup3.png";
 
         // done
-        this.rifle_crouch_top_fire = preloadedImages["rifle-crouch-top2"];
+        this.rifle_crouch_top_fire = this.images["rifle-crouch-top2"];
         // this.rifle_crouch_top_fire.src = "src/assets/images/fires/rifle/rifle-crouch-top2.png";
         
         this.images = {

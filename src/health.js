@@ -1,18 +1,12 @@
-import { preloadedImages } from './imagePreloader.js';
-
-// yes, these are in fact image objects:
-const aid = preloadedImages["aidConcept"];
-const wall = preloadedImages["wall"];
-const grenade = preloadedImages["grenade"];
-
 // this class defines a fucking ROW of items.
 export default class Health {
-    constructor(y, type) {
+    constructor(y, type, images) {
         this.x = 0;
         this.y = y;
         this.hurt = false; 
         this.number = 3;
         this.type = type;
+        this.images = images;
 
         this.image;
     }
@@ -25,13 +19,13 @@ export default class Health {
         for (let i = 0; i < this.number; i++) {
             switch (this.type) {
                 case "health":
-                    this.image = aid;
+                    this.image = this.images["aidConcept"];
                     break;
                 case "wall":
-                    this.image = wall;
+                    this.image = this.images["wall"];
                     break;
                 case "nade":
-                    this.image = grenade;
+                    this.image = this.images["grenade"];
                     break;
             }
             context.drawImage(this.image, i * 30, this.y);

@@ -1,10 +1,5 @@
 import Projectile from "./projectile.js";
 
-// SHIT TONNA IMAGES TO PRELOAD HERE:
-import { preloadedImages } from './imagePreloader.js';
-
-
-
 // OVERHAUL SPEED FUNCTIONALITY:
 export default class Enemy {
     // what's the speed parameter for again? to increase speed globally as rounds progress :)
@@ -12,9 +7,10 @@ export default class Enemy {
     // constructor(x, speed, round, frameSpeed) {
 
     // (actual) speed is initially 1.5, increases by 0.4 every round:
-    constructor(x, speed, round, frameSpeed) {
+    constructor(x, speed, round, frameSpeed, images) {
       // NEW SHIT:
-      // cxt
+
+      this.images = images;
 
       // cycles through frames 0-100 and back:
       this.frama = 0;
@@ -122,10 +118,10 @@ export default class Enemy {
 
       // these indices are good:
       // ISSUE LIES HERE:                      
-      this.civy_frameworks = [preloadedImages["civysheet"], preloadedImages["civysheet2"]];                                                                
+      this.civy_frameworks = [this.images["civysheet"], this.images["civysheet2"]];                                                                
       this.civy_frames = this.civy_frameworks[Math.floor(Math.random() * 2)];
 
-      this.dog_frames = preloadedImages["dogsheet"];
+      this.dog_frames = this.images["dogsheet"];
       this.civy_type;
 
       // FOR CRAWL ENEMY ONLY:
@@ -219,7 +215,7 @@ export default class Enemy {
             this.spriteHeight = 30;
 
             // this.framework.src = this.dog_frames;
-            this.framework = preloadedImages["dogsheet"];
+            this.framework = this.images["dogsheet"];
           }
           else {
             this.width = 60;
@@ -230,8 +226,8 @@ export default class Enemy {
 
             // this SHOULD BE PRELOADED:
             // this.framework.src = "src/assets/images/maggot/spritesheet/maggotsheet.png";
-            // this.framework.src = preloadedImages["maggotsheet"];
-            this.framework = preloadedImages["maggotsheet"];
+            // this.framework.src = this.images["maggotsheet"];
+            this.framework = this.images["maggotsheet"];
           }
           break;
 
@@ -246,15 +242,15 @@ export default class Enemy {
             this.maxFrame = 4;
             this.spriteWidth = 63;
             this.spriteHeight = 41;
-            // this.framework = preloadedImages["civysheet2"];
+            // this.framework = this.images["civysheet2"];
             this.framework = this.civy_frames;
           }
           // else this.framework.src = "src/assets/images/assault-pig/pig-walk-clear/pigFrames.png";
-          else this.framework = preloadedImages["pigFrames"];
+          else this.framework = this.images["pigFrames"];
 
           // FIRE IMAGE DOESN'T SHOW IN NEWGROUNDS:
-          if (!this.animation) this.static = preloadedImages["pig-stand-clear"];
-          else this.static = preloadedImages["pig-stand-fire"];
+          if (!this.animation) this.static = this.images["pig-stand-clear"];
+          else this.static = this.images["pig-stand-fire"];
 
           break;
 
@@ -264,7 +260,7 @@ export default class Enemy {
           this.statica = true;
           this.sound = "shotty";
           // this.static.src = "src/assets/images/pig-plane-clear.png";
-          this.static = preloadedImages["pig-plane-clear"];
+          this.static = this.images["pig-plane-clear"];
 
           this.fireRate = 100;
           this.health = 1;
@@ -287,11 +283,11 @@ export default class Enemy {
           this.height = 90;
           this.statica = true;
           if (!this.inPosition) {
-            this.static = preloadedImages["bomber-clear"];
+            this.static = this.images["bomber-clear"];
           }
           else {
             // this.static.src = "src/assets/images/bomber/bomber-fire.png";
-            this.static = preloadedImages["bomber-fire"];
+            this.static = this.images["bomber-fire"];
           }
           break;
 
@@ -305,8 +301,8 @@ export default class Enemy {
           this.frameSpeed = 5; 
           this.maxFrame = 5;
 
-          this.framework = preloadedImages["girlsheet"];
-          this.static = preloadedImages["girl-sheep-clear"];
+          this.framework = this.images["girlsheet"];
+          this.static = this.images["girl-sheep-clear"];
           break;  
       }
 

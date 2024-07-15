@@ -1,9 +1,7 @@
-import { preloadedImages } from './imagePreloader.js';
-
 // KEEP IN MIND: NEED TO PRELOAD SOUND EFFECTS TOO
 
 export default class Pickup {
-    constructor(x, y, round) {
+    constructor(x, y, round, images) {
 
         // this.width = this.height = 25;
         this.width = this.height = 20;
@@ -15,6 +13,8 @@ export default class Pickup {
         // this.sound;
         this.sound;
         this.round = round;
+
+        this.images = images;
 
         this.sfx = {
             // PICKUP SFX:
@@ -103,27 +103,27 @@ export default class Pickup {
             case "flammen":
                 this.sound = this.sfx.flammenReload;
                 // this.image.src = "src/assets/images/pickups/clears/flammen copy.png";
-                this.image = preloadedImages["flammen"];
+                this.image = this.images["flammen"];
                 break;
             case "ar":
                 this.sound = this.sfx.arReload;
                 // this.image.src = "src/assets/images/pickups/clears/rifle copy.png";
-                this.image = preloadedImages["rifle"];
+                this.image = this.images["rifle"];
                 break;
             case "grenade":
                 this.sound = this.sfx.nadePin;
                 // this.image.src = "src/assets/images/pickups/clears/grenade copy.png";
-                this.image = preloadedImages["grenade"];
+                this.image = this.images["grenade"];
                 break;
             case "health":
                 this.sound = this.sfx.health;
                 // this.image.src = "src/assets/images/pickups/clears/aidConcept copy.png";
-                this.image = preloadedImages["aidConcept"];
+                this.image = this.images["aidConcept"];
                 break;
             case "wall":
                 this.sound = this.sfx.wall;
                 // this.image.src = "src/assets/images/pickups/clears/wall copy.png";
-                this.image = preloadedImages["wall"];
+                this.image = this.images["wall"];
                 break;
         }
     }

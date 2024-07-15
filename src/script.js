@@ -18,13 +18,27 @@ window.onload = () => {
         let background = preloadedImages["background-working3"];    // this is an Image object.
         document.getElementById('canvas0').style.backgroundImage=`url(${background.src})`; // specify the image path here
 
-        initializeGame();
+        initializeGame(preloadedImages);
     });
 
 // console.log("ALL ASSETS LOADED");
 // console.log(preloadedImages);
 
-function initializeGame() {
+/*
+        handleShooter();                // USES IMAGES
+        handleSnack();                  // USES IMAGES
+        handleState(elapsedTime);                               --DONE
+        handleStatus();                                         --DONE
+        handleProjectile(enemyQueue);                           --DONE
+        handleNade(enemyQueue);         // USES IMAGES          --DONE
+
+        // ALSO:
+        // pickup.js        (in handleProjectile())             --DONE
+        // health.js        (in HandleStatus())                 --DONE
+        // enemy.js                                             --DONE
+*/
+
+function initializeGame(images) {
     // for static shit (background and floor, which don't require any updating)
     var canvas0 = document.getElementById("canvas0");
 
@@ -73,12 +87,14 @@ function initializeGame() {
     // objects
     // flora, drawn on static canvas:
     const flora = new Floor(canvas0);
-    const shooter = new Shooter(100);
+    const shooter = new Shooter(100, images);
 
 
     //  NEEDS TO START OFF SCREEN, then walk over to position 200:
     // const shooter2 = new Shooter(200, flora.y - 50);
-    const shooter2 = new Shooter(0 - shooter.width, flora.y - 34);
+    // const shooter2 = new Shooter(0 - shooter.width, flora.y - 34);
+    const shooter2 = new Shooter(100, images);
+
     shooter2.isSecond = true;
     //shooter2.weapon = shooter.weapon;
 
@@ -202,9 +218,9 @@ function initializeGame() {
     const playText = new TextWall(``, Math.floor(canvas.height / 5), canvas);
 
     // HEALTH:
-    let playerHealth = new Health(30, "health");
-    let wallHealth = new Health(60, "wall");
-    let grenades = new Health(90, "nade");
+    let playerHealth = new Health(30, "health", images);
+    let wallHealth = new Health(60, "wall", images);
+    let grenades = new Health(90, "nade", images);
 
     // TODO: USE SECONDS INSTEAD OF FRAMES:
     // let randomIntervals = [1, 3, 5, 8, 11]; // intervals in seconds
@@ -244,8 +260,8 @@ function initializeGame() {
 
     // let state = "MENU";
     // let state = "BOSS";
-    let state = "LOADING";
-    // let state = "PLAY";
+    // let state = "LOADING";
+    let state = "PLAY";
 
     // let loadingTime = [4000, 5000][Math.floor(Math.random() * 2)];
     let loadingTime = 6000;
@@ -509,7 +525,7 @@ function initializeGame() {
                 loadingText.draw(cxt);
                 
                 // how about we just fucking get rid of this on good monitors? NOPE. 
-                let girly = new Enemy(canvas.width, 0, currentRound, 15);
+                let girly = new Enemy(canvas.width, 0, currentRound, 15, images);
                 girly.type = "bomber";
 
                 if (enemyQueue.length < 1) enemyQueue.push(girly);
@@ -649,7 +665,6 @@ function initializeGame() {
                 if (playerHealth.number <= 0 || wallHealth.number <= 0) {
                     state = "LOSE";
                 }
-
                 break;
             
             // what state is this?
@@ -847,10 +862,10 @@ function initializeGame() {
 
             // THIS IS NECESSARY:
             if (shooter.secondNade == false) {
-                nadeQueue.push(new Grenade(canvas.width / 2, shooter, canvas));
+                nadeQueue.push(new Grenade(canvas.width / 2, shooter, canvas, images));
                 playSound(sfx.bloop);
             } else {
-                nadeQueue.push(new Grenade(canvas.width / 1.2, shooter, canvas));
+                nadeQueue.push(new Grenade(canvas.width / 1.2, shooter, canvas, images));
                 playSound(sfx.bloop);
             }
             shooter.throwBoom = false;
@@ -1007,7 +1022,7 @@ function initializeGame() {
                         // scoreText.text = score;
 
                         if (currentEnemy.pickup && currentRound >= 3) {
-                            snackQueue.push(new Pickup(currentEnemy.x, flora.y - 150, currentRound));
+                            snackQueue.push(new Pickup(currentEnemy.x, flora.y - 150, currentRound, images));
                         }
 
                         // what is position again? initially 0. Changes to respective number once in position (1-6)
@@ -1236,12 +1251,12 @@ function initializeGame() {
                     // DO NOT REVERT. NEED TO MAKE WAY FOR DIFFERENT SPEEDS:
                     // NORMAL ENEMY SPAWNS:
                     // currentSpeed is ACTUAL SPEED. EnemySpeed is for the frames:
-                    enemyQueue.push(new Enemy(canvas.width, currentSpeed, currentRound, enemySpeed));
+                    enemyQueue.push(new Enemy(canvas.width, currentSpeed, currentRound, enemySpeed, images));
                     enemyCount--;  
 
                     // SPAWN CIVIES IN LATTER PART OF FINAL ROUND:
                     if (finalRound && enemyCount % 3 == 0 && (enemyCount < 20 && enemyCount > 10)) {
-                        enemyQueue.push(new Enemy(-42, -currentSpeed, currentRound, enemySpeed));
+                        enemyQueue.push(new Enemy(-42, -currentSpeed, currentRound, enemySpeed, images));
                         enemyCount--; 
                     }
                 }  
@@ -1250,7 +1265,7 @@ function initializeGame() {
                     // DOESN'T ACTUALLY SPAWN CIVIES. Just normal enemies at coord -50 lol:
                     // REMEMBER: enemyCount only refers to num. of enemies to push to array :)
                     if (!endSpecRound) {
-                        enemyQueue.push(new Enemy(-42, -currentSpeed, currentRound, enemySpeed));
+                        enemyQueue.push(new Enemy(-42, -currentSpeed, currentRound, enemySpeed, images));
                         enemyCount--; 
                     }
                 }
@@ -1365,14 +1380,17 @@ function initializeGame() {
         cxt2.clearRect(0, 0, canvas2.width, canvas2.height);
 
         // what's handleShooter? shit relating to nades and states. No input handling.
-        handleShooter();
-        handleSnack();
-        handleState(elapsedTime);
+        handleShooter();                // USES IMAGES
+        handleSnack();                  // USES IMAGES
+        handleState(elapsedTime);       
         handleStatus();
         handleProjectile(enemyQueue);
-        handleNade(enemyQueue);
+        handleNade(enemyQueue);         // USES IMAGES
 
-        console.log(shooter.toggleMusic, soundLastPlayed);
+        // ALSO:
+        // pickup.js        (in handleProjectile())        
+        // health.js        (in HandleStatus())             
+        // handleEnemy()
 
         window.requestAnimationFrame(animate);
     }
@@ -1381,3 +1399,6 @@ function initializeGame() {
 
     };  // remember: this is for the window.onload at the very top of file.
 }
+
+// How is initializeGame running when it's not even called?
+// CALLED IN WINDOW.ONLOAD()!
