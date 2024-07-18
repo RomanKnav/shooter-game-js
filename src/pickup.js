@@ -23,7 +23,7 @@ export default class Pickup {
                     "src/assets/sounds/rifleReload.mp3",    // good
                 ],
                 preload: true,
-                volume: 5,
+                volume: 1,
             }),
             nadePin: new Howl({
                 src: [
@@ -31,7 +31,7 @@ export default class Pickup {
                     "src/assets/sounds/grenadePin.mp3",     // good
                 ],
                 preload: true,
-                volume: 5,
+                volume: 1,
             }),
             flammenReload: new Howl({
                 src: [
@@ -39,7 +39,7 @@ export default class Pickup {
                     "src/assets/sounds/futureReload.mp3",   // good
                 ],
                 preload: true,
-                volume: 5,
+                volume: 1,
             }),
             health: new Howl({
                 src: [
@@ -56,6 +56,7 @@ export default class Pickup {
                 ], 
                 preload: true,
                 loop: false,
+                volume: 1
             }),
         }
 

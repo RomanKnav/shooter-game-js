@@ -127,8 +127,8 @@ export default class Enemy {
       // FOR CRAWL ENEMY ONLY:
       this.growl = new Howl({
         src: ["src/assets/sounds/paco.flac"],
-        preload: true,
-        volume: 1.0
+        volume: 1.0,
+        preload: true
       });
 
       // NEW DELTATIME SHIT:
@@ -267,7 +267,7 @@ export default class Enemy {
           this.width = 70;
           this.height = 70;
 
-          this.x -= movement / 8;
+          // this.x -= movement / 8;
 
           // THIS IS IN REVERSE LOOOL BUT THAT'S THE WAY IT WORKS (HTMS)
           if (this.isCivie) {
@@ -310,10 +310,11 @@ export default class Enemy {
       // TODO: to create universal speed, I believe all I have to do is multiply this by deltaTime:
       if (!this.shooting) {
         // the fucking issue must be here: this.x is being updated in various parts.
-        if (this.type == "bomber" || this.type == "air") {
-          this.x -= movement / 2;
-        }
-        else this.x -= movement;
+        // if (this.type == "bomber" || this.type == "air") {
+        //   this.x -= movement / 2;
+        // }
+        // else this.x -= movement;
+        this.x -= movement;
       } else {
         this.speed = 0;
 
@@ -332,7 +333,6 @@ export default class Enemy {
       // context.imageSmoothingEnabled = false;
 
       // NEW SHIT:  
-      // this.statica is air and bomber (don't have animation)
       if (this.statica == false) {
 
         if (!this.inPosition || (this.type == "crawl" && this.inPosition)) {

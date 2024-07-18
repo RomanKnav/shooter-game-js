@@ -16,7 +16,7 @@ export default class Projectile {
         ],
         preload: true,
         loop: false,
-        volume: 0.6
+        volume: 0.1
       }),
       ar: new Howl({
         src: [
@@ -25,7 +25,7 @@ export default class Projectile {
         preload: true,
         // the "loop" flag is false by default!
         loop: false,
-        volume: 0.6
+        volume: 0.2
       }), 
       flammen: new Howl({
         src: [
@@ -37,7 +37,8 @@ export default class Projectile {
         // function to execute as soon as the sound effect ends:
         // good use case: when there is an intro to a song. Play the intro first, then use "onend" 
         // to play the song without having to worry about the intro repeating. 
-        onend: function() {}
+        onend: function() {},
+        volume: 0.2
       }), 
       shotty: new Howl({
         src: [
@@ -47,7 +48,8 @@ export default class Projectile {
         // the "loop" flag is false by default!
         loop: false,
         volume: 0.6,
-        onend: function() {}
+        onend: function() {},
+        volume: 0.2
       }), 
       growl: new Howl({
         src: [
@@ -56,7 +58,8 @@ export default class Projectile {
         // the "loop" flag is false by default!
         preload: true,
         loop: false,
-        onend: function() {}
+        onend: function() {},
+        volume: 0.2
       }), 
       bomber: new Howl({
         src: [
@@ -65,6 +68,7 @@ export default class Projectile {
         // the "loop" flag is false by default!
         preload: true,
         loop: false,
+        volume: 0.4
       }), 
       laser: new Howl({
         src: [

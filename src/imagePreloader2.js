@@ -1,25 +1,5 @@
 // honestly, I don't see how this actually helps
 
-// takes image url array, dict to store preloaded images in, and callback func:
-// function imagePreloader(imageUrls) {
-//     const preloadedImages = {};
-  
-//     // create new image obj for each URL:
-//     imageUrls.forEach((url) => {
-//         const image = new Image();
-//         image.src = url;
-
-//         // gets name to set as key (word that comes after last "/" and before last "."):
-//         const name = url.substring(url.lastIndexOf('/') + 1, url.lastIndexOf('.'));
-//         // key: name, value: image object:
-//         preloadedImages[name] = image; 
-//     });
-
-//     return preloadedImages;
-// };
-
-// new version (too handle "too many requests"):
-
 // returns a new "preloadedImages" object if resolved.
 function imagePreloader(imageUrls) {
     return new Promise((resolve, reject) => {

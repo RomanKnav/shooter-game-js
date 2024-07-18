@@ -20,7 +20,7 @@ export default class Grenade {
         this.sound = new Howl({
             src: ["src/assets/sounds/explosionLoud.mp3"],
             preload: true,
-            volume: 1.0
+            volume: 0.2
         });
 
         this.bloopPlayed = false;
@@ -28,7 +28,7 @@ export default class Grenade {
         this.bloop = new Howl({
             src: ["src/assets/sounds/q009/glauncher.ogg"],
             preload: true,
-            volume: 1.0
+            volume: 0.2
         });
 
         this.image = new Image();

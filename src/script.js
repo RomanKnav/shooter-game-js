@@ -279,24 +279,7 @@ function initializeGame(images) {
             loop: false,
             volume: 6,
         }),
-        boom: new Howl({
-            /* accepts multiple versions of the same audio! (automatically selects the best one for the 
-            current web browser */
-            src: [
-            "src/assets/sounds/explosionLoud.mp3",
-            ],
-            preload: true,
-            loop: true,
-        }),
-        bloop: new Howl({
-            /* accepts multiple versions of the same audio! (automatically selects the best one for the 
-            current web browser */
-            src: [
-            "src/assets/sounds/q009/glauncher.ogg",
-            ],
-            preload: true,
-            //loop: false,
-        }),
+        // it seems we're not even using these:
         nadePin: new Howl({
             src: [
                 "src/assets/sounds/grenadePin.mp3",
@@ -329,12 +312,14 @@ function initializeGame(images) {
             ], 
             preload: true,
             loop: false,
-            volume: 3,
+            volume: 1,
         }),
     };
 
     /* there is a stupid security measure in some browsers where no sound is allowed to play unless the 
     user explicitly interacts with the page. To work around this, add a "play" button that has to be clicked */
+
+    // REMEMBER: volume accepts value from 0.1 - 1
     var music = {
         dramatic: new Howl({
             src: [
@@ -343,7 +328,7 @@ function initializeGame(images) {
             ], 
             preload: true,
             loop: true,
-            volume: 5.5,
+            volume: 1
         }),
         hit_back: new Howl({
             src: [
@@ -351,7 +336,7 @@ function initializeGame(images) {
             ], 
             preload: true,
             loop: false,
-            volume: 5.5,
+            volume: 1
         }),
     };
 
@@ -861,12 +846,13 @@ function initializeGame(images) {
             }
 
             // THIS IS NECESSARY:
+            // BLOOP AND BOOM ARE EXTREMELY LOUD:
             if (shooter.secondNade == false) {
                 nadeQueue.push(new Grenade(canvas.width / 2, shooter, canvas, images));
-                playSound(sfx.bloop);
+                // playSound(sfx.bloop);
             } else {
                 nadeQueue.push(new Grenade(canvas.width / 1.2, shooter, canvas, images));
-                playSound(sfx.bloop);
+                // playSound(sfx.bloop);
             }
             shooter.throwBoom = false;
             grenades.number--;
@@ -890,6 +876,7 @@ function initializeGame(images) {
             }
 
             if (!current.bloopPlayed && !current.bloop.playing()) {
+                current.bloop.volume = 0.5;
                 current.bloop.play();
                 current.bloopPlayed = false;
             }
@@ -908,6 +895,7 @@ function initializeGame(images) {
                 // current.sound.play();
 
                 if (!current.sound.playing()) {
+                    current.sound.volume = 0.5;
                     current.sound.play();
                 }
 
