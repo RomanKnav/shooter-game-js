@@ -277,7 +277,7 @@ function initializeGame(images) {
             ],
             preload: true,
             loop: false,
-            volume: 6,
+            volume: 1,
         }),
         // it seems we're not even using these:
         nadePin: new Howl({
@@ -314,6 +314,15 @@ function initializeGame(images) {
             loop: false,
             volume: 1,
         }),
+        growl: new Howl({
+            src: [
+              "/src/assets/sounds/paco.flac",
+            ],
+            // the "loop" flag is false by default!
+            preload: true,
+            // loop: true,
+            volume: 0.4
+          }), 
     };
 
     /* there is a stupid security measure in some browsers where no sound is allowed to play unless the 

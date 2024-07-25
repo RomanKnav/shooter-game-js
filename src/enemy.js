@@ -127,7 +127,7 @@ export default class Enemy {
       // FOR CRAWL ENEMY ONLY:
       this.growl = new Howl({
         src: ["src/assets/sounds/paco.flac"],
-        volume: 1.0,
+        volume: 0.5,
         preload: true
       });
 
@@ -204,7 +204,7 @@ export default class Enemy {
       // NEW:
       switch(this.type) {
         case "crawl":
-          this.sound = "growl";
+          // this.sound = "growl";
           this.health = 1;
 
           if (this.isCivie == true) {

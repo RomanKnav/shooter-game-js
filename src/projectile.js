@@ -51,16 +51,6 @@ export default class Projectile {
         onend: function() {},
         volume: 0.2
       }), 
-      growl: new Howl({
-        src: [
-          "/src/assets/sounds/paco.flac",
-        ],
-        // the "loop" flag is false by default!
-        preload: true,
-        loop: false,
-        onend: function() {},
-        volume: 0.2
-      }), 
       bomber: new Howl({
         src: [
           "src/assets/sounds/ray-beam.mp3",
@@ -77,6 +67,15 @@ export default class Projectile {
         preload: true,
         // the "loop" flag is false by default!
         loop: false,
+      }), 
+      growl: new Howl({
+        src: [
+          "/src/assets/sounds/paco.flac",
+        ],
+        // the "loop" flag is false by default!
+        preload: true,
+        loop: true,
+        volume: 0.4
       }), 
     }
 
