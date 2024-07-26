@@ -260,8 +260,8 @@ function initializeGame(images) {
 
     // let state = "MENU";
     // let state = "BOSS";
-    // let state = "LOADING";
-    let state = "PLAY";
+    let state = "LOADING";
+    // let state = "PLAY";
 
     // let loadingTime = [4000, 5000][Math.floor(Math.random() * 2)];
     let loadingTime = 6000;
@@ -299,13 +299,6 @@ function initializeGame(images) {
             preload: true,
             loop: false,
         }),
-        squeal: new Howl({
-            src: [
-                "src/assets/sounds/pig-squeal.mp3",
-            ], 
-            preload: true,
-            loop: false,
-        }),
         crowd: new Howl({
             src: [
                 "src/assets/sounds/crowd2.mp3",
@@ -313,16 +306,7 @@ function initializeGame(images) {
             preload: true,
             loop: false,
             volume: 1,
-        }),
-        growl: new Howl({
-            src: [
-              "/src/assets/sounds/paco.flac",
-            ],
-            // the "loop" flag is false by default!
-            preload: true,
-            // loop: true,
-            volume: 0.4
-          }), 
+        })
     };
 
     /* there is a stupid security measure in some browsers where no sound is allowed to play unless the 
@@ -337,7 +321,10 @@ function initializeGame(images) {
             ], 
             preload: true,
             loop: true,
-            volume: 1
+            volume: 1,
+            onplayerror: function() {
+                console.error('Error playing dramatic music.');
+            }
         }),
         hit_back: new Howl({
             src: [
@@ -345,7 +332,10 @@ function initializeGame(images) {
             ], 
             preload: true,
             loop: false,
-            volume: 1
+            volume: 1,
+            onplayerror: function() {
+                console.error('Error playing hit back music.');
+            },
         }),
     };
 
@@ -492,15 +482,13 @@ function initializeGame(images) {
     function musicToggler() {
         // 10
         if (!finalRound) {
-            if (!shooter.toggleMusic) {
-                playSound(music.dramatic);
-            } else music.dramatic.pause();
+            playSound2(music.dramatic);
         } 
         else {
             music.dramatic.stop();
-            if (!shooter.toggleMusic) {
-                playSound2(music.hit_back);
-            } else music.hit_back.pause();
+            
+            // why do we use playSound2?
+            playSound2(music.hit_back);
         }
     }
 
@@ -902,7 +890,6 @@ function initializeGame(images) {
                 // why is this used? with playSound it doesn't work.
                 // No, this does NOT use howler, just the raw sound:
                 // current.sound.play();
-
                 if (!current.sound.playing()) {
                     current.sound.volume = 0.5;
                     current.sound.play();

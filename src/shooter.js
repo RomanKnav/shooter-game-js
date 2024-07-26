@@ -69,8 +69,6 @@ export default class Shooter {
         this.bloop = new Audio();
         this.bloop.src = "src/assets/sounds/q009/glauncher.ogg";
 
-        this.toggleMusic = false;   // will play music on false.
-
         // IMAGES:
         // 44×40
         this.grenade_stand = this.images["nade_stand"];
