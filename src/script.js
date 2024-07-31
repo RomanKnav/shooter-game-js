@@ -485,7 +485,7 @@ function initializeGame(images) {
         // 10
         if (!finalRound) {
             playSound2(music.dramatic);
-            // music.dramatic.play();     
+            // music.dramatic.play();     // causes endless looping every frame
         } 
         else {
             music.dramatic.stop();
@@ -848,10 +848,8 @@ function initializeGame(images) {
             // BLOOP AND BOOM ARE EXTREMELY LOUD:
             if (shooter.secondNade == false) {
                 nadeQueue.push(new Grenade(canvas.width / 2, shooter, canvas, images));
-                // playSound(sfx.bloop);
             } else {
                 nadeQueue.push(new Grenade(canvas.width / 1.2, shooter, canvas, images));
-                // playSound(sfx.bloop);
             }
             shooter.throwBoom = false;
             grenades.number--;
@@ -1203,11 +1201,6 @@ function initializeGame(images) {
                         current.position = i.toString();
                         current.inPosition = true;
                 }
-
-                // there should be no problem with using frame here if it comes to it.
-                // if (current.type == "crawl" && current.shooting) {
-                //     playSound(sfx.growl);
-                // }
 
                 if (current.type == "crawl" && current.shooting) {
                     if (!current.growl.playing()) {
