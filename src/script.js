@@ -322,6 +322,7 @@ function initializeGame(images) {
             preload: true,
             loop: true,
             volume: 1,
+            html5: true, // forces the use of the HTML5 Audio API (useful for large files)
             onplayerror: function() {
                 console.error('Error playing dramatic music.');
             }
@@ -333,6 +334,7 @@ function initializeGame(images) {
             preload: true,
             loop: false,
             volume: 1,
+            html5: true, // forces the use of the HTML5 Audio API (useful for large files)
             onplayerror: function() {
                 console.error('Error playing hit back music.');
             },
@@ -483,12 +485,12 @@ function initializeGame(images) {
         // 10
         if (!finalRound) {
             playSound2(music.dramatic);
+            // music.dramatic.play();     
         } 
         else {
             music.dramatic.stop();
-            
-            // why do we use playSound2?
             playSound2(music.hit_back);
+            // music.hit_back.play();
         }
     }
 
@@ -1326,12 +1328,7 @@ function initializeGame(images) {
     let elapsedTime = 0; // TOTAL elapsed time in SUPER precise seconds (since starting game)
     let deltaGlobal = 0;    // yes, identical to deltaTime.
 
-    let initialDelta = 0;
-
     let slowAssMonitor = false;
-
-    let arRate = 15;
-    let flammenRate = 10;
 
     // what's difference between elapsedTime and timestamp?
     // timestamp is just elapsedTime but in MILLISECONDS.
@@ -1351,7 +1348,6 @@ function initializeGame(images) {
         if (deltaTime > 0.01) {
             // deltaTime = deltaTime - 0.01;
             deltaTime = deltaGlobal = deltaTime - 0.0084; 
-            // this makes both mediums MUCH closer in terms of deltaTime.
         }
 
 
@@ -1370,11 +1366,6 @@ function initializeGame(images) {
         handleStatus();
         handleProjectile(enemyQueue);
         handleNade(enemyQueue);         // USES IMAGES
-
-        // ALSO:
-        // pickup.js        (in handleProjectile())        
-        // health.js        (in HandleStatus())             
-        // handleEnemy()
 
         window.requestAnimationFrame(animate);
     }

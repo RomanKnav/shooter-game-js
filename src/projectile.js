@@ -68,15 +68,6 @@ export default class Projectile {
         // the "loop" flag is false by default!
         loop: false,
       }), 
-      growl: new Howl({
-        src: [
-          "/src/assets/sounds/paco.flac",
-        ],
-        // the "loop" flag is false by default!
-        preload: true,
-        loop: true,
-        volume: 0.4
-      }), 
     }
 
     this.x = x;
