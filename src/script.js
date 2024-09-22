@@ -277,7 +277,7 @@ function initializeGame(images) {
             ],
             preload: true,
             loop: false,
-            volume: 1,
+            volume: 0.5,
         }),
         // it seems we're not even using these:
         nadePin: new Howl({
