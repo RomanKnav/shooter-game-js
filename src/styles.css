@@ -1,7 +1,24 @@
-body {
+/* body {
     margin-top: 0;
     margin-left: 0;
     background-color: "#fff";
     image-rendering: pixelated;
-}; 
+};  */
 
+#game-container {
+  position: relative;
+  width: 800px;
+  height: 300px;
+
+  transform: scale(1.5);
+  transform-origin: top left;
+
+  margin-top: 2em;
+  margin-left: 2em;
+}
+
+canvas {
+  position: absolute;
+  left: 0;
+  top: 0;
+}

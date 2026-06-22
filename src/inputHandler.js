@@ -82,7 +82,6 @@ export default class InputHandler {
             if (entity.weapon == "flammen") {
               flammen.pause();
             }
-            // flammen.pause();
             break;
 
           case 's':
@@ -92,7 +91,6 @@ export default class InputHandler {
             else entity.angle = "straight";
             break;
 
-            // NEEDS WORK HERE:
           case 'a':
             if (entity.angle == "diagnal-back") entity.angle = "up";
             else if (entity.angle == "down-back" || entity.angle == "down") entity.angle = "down";

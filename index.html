@@ -23,28 +23,30 @@
   </head>
 
   <body>
-    <!-- BACKGROUND MUST HAVE IT'S OWN CANVAS, since it won't be updated. -->
-    <canvas id="canvas0" width="800" height="300"
-      style="position:absolute; z-index: 1;">
-    </canvas>
+    <div id="game-container">
+      <!-- BACKGROUND MUST HAVE IT'S OWN CANVAS, since it won't be updated. -->
+      <canvas id="canvas0" width="800" height="300"
+        style="position:absolute; z-index: 1;">
+      </canvas>
 
-    <!-- UI, SHOOTER, FLOOR -->
-    <canvas id="canvas2" width="800" height="300" 
-      style="position:absolute; z-index: 2;">
-    </canvas>
+      <!-- UI, SHOOTER, FLOOR -->
+      <canvas id="canvas2" width="800" height="300" 
+        style="position:absolute; z-index: 2;">
+      </canvas>
 
-    <!-- BULLETS -->
-    <canvas id="bullet-canvas" width="800" height="300" 
-      style="position:absolute; z-index: 3;">
-    </canvas>
+      <!-- BULLETS -->
+      <canvas id="bullet-canvas" width="800" height="300" 
+        style="position:absolute; z-index: 3;">
+      </canvas>
 
-    <!-- FOR ENEMIES AND TEXT -->
-    <canvas id="canvas1" width="800" height="300" 
-      style="position:absolute; z-index: 4;">
-    </canvas>
+      <!-- FOR ENEMIES AND TEXT -->
+      <canvas id="canvas1" width="800" height="300" 
+        style="position:absolute; z-index: 4;">
+      </canvas>
 
-    <!-- <script type="module" src="src/health.js"></script> -->
-    <script type="module" src="src/script.js"></script>
-    <!-- if I have more than one script, how will both be executed? From top to bottom -->
+      <!-- <script type="module" src="src/health.js"></script> -->
+      <script type="module" src="src/script.js"></script>
+      <!-- if I have more than one script, how will both be executed? From top to bottom -->
+    </div>
   </body>
 </html>
